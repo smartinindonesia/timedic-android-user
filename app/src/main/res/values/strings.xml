@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">HomecareTiMedic</string>
+    <string name="act_homecare">Homecare</string>
+    <string name="act_medical_record">Medical Record</string>
+    <string name="act_heatlh_calculator">Health Calculator</string>
+    <string name="act_health_product">Health Product</string>
+    <string name="act_health_video">Health Video</string>
+    <string name="act_medicine_reminder">Medicine Reminder</string>
+
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <!--Main message-->
+    <string name="login_failed">Maaf, username atau password salah!</string>
+
+
+    <!-- screen first layout-->
+    <string name="first_msg">TiMedic meberikan kemudahan dalam jasa pelayanan kesehatan di rumah anda</string>
+    <string name="second_msg">Akses mudah melihat data-data kesehatan anda</string>
+    <string name="third_msg">Dapatkan alat-alat kesehatan yang anda butuhkan dengan mudah, aman dan berkualitas</string>
+    <string name="fourth_msg">Gunakan tools menarik disini seperti pengingat obat dan kalkulator kesehatan </string>
+    <string name="fifth_msg">Tonton video menarik mengenai tips dan trik dalam dunia kesehatan</string>
+
+    <string name="order_notif_msg">Pemesanan hanya dapat dilakukan maksimal 2 hari sebelum tanggal pelayanan</string>
+    <string name="thanks_page_msg1">Terima kasih Telah Mengisi Form,
+	Kami akan mengirim Perawat untuk melakukan home visit dengan membawa kebutuhan yang anda perlukan dan melakukan Pengengecekan kembali atas kebutuhan klien, bila ternyata klien memiliki pemenuhan kebutuhan tambahan maka perawat akan memberikan harga tambahan sesuai persetujuan klien dan sebaliknya bila klien memilih untuk pengurangan dalam tindakan maka klien berhak mendapatkan pengurangan biaya.
+	Untuk proses selanjutnya anda harus membayar terlebih dahulu biaya kunjungan sebesar.
+    </string>
+    <string name="thanks_page_price">Rp.......,- </string>
+
+    <string name="thanks_page_msg2">  dan sesegara mungkin akan kami jadwalkan seseuai waktu yang anda miliki untuk dilakukan kunjungan ke rumah anda.
+    </string>
+
+    <string name="term_of_agreement">I agree with the term of service agreement</string>
+
+</resources>

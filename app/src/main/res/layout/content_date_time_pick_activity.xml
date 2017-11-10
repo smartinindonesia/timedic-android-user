@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="?attr/actionBarSize"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingLeft="30dp"
+    android:paddingRight="30dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/textColorPrimary"
+            android:backgroundTint="@color/textColorPrimary"
+            android:layout_weight="8.5">
+
+            <EditText
+                android:id="@+id/datePick"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Pilih Tanggal"
+                android:enabled="false"
+                android:textColorHighlight="@color/textColorPrimary"
+                android:backgroundTint="@color/textColorPrimary"
+                android:foregroundTint="@color/textColorPrimary"
+                android:textColorHint="@color/textColorPrimary"
+                android:textColor="@color/textColorPrimary" />
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/btnChooseDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:background="@drawable/sign_in_selector_bg"
+            android:foreground="@drawable/ic_click_date" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Jam Layanan"
+        android:textColor="@color/textColorPrimary" />
+
+    <LinearLayout
+        android:id="@+id/btnLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"></LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+
+    <Button
+        android:id="@+id/gotoNext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/sign_in_selector_bg"
+        android:text="Assestment"
+        android:textColor="@color/sign_in_selector_fg" />
+
+</LinearLayout>

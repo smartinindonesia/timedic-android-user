@@ -1,0 +1,45 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="?attr/actionBarSize"
+    android:orientation="vertical"
+    android:padding="4dp">
+
+    <Button
+        android:id="@+id/btnBBI"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#ffffffff"
+        android:backgroundTint="#B0000000"
+        android:backgroundTintMode="src_over"
+        android:text="Berat Badan Ideal"/>
+
+    <Button
+        android:id="@+id/btnTaksirHamil"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#ffffffff"
+        android:backgroundTint="#B0000000"
+        android:backgroundTintMode="src_over"
+        android:text="Taksiran Kehamilan"/>
+
+    <Button
+        android:id="@+id/btnKebCairan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#ffffffff"
+        android:backgroundTint="#B0000000"
+        android:backgroundTintMode="src_over"
+        android:text="Kebutuhan Cairan"/>
+
+    <Button
+        android:id="@+id/btnKebKalori"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#ffffffff"
+        android:backgroundTint="#B0000000"
+        android:backgroundTintMode="src_over"
+        android:text="Kebutuhan Kalori"/>
+
+</LinearLayout>

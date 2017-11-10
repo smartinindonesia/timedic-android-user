@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="?attr/selectableItemBackground"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    android:paddingLeft="6dp"
+    android:paddingRight="6dp"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/jenisObat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Jenis Obat"/>
+    <TextView
+        android:id="@+id/dosis"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Dosis"/>
+    <TextView
+        android:id="@+id/remindMe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Remind me"/>
+</LinearLayout>

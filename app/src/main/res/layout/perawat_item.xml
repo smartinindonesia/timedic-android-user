@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/medicResItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="2dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/profPic"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:scaleType="fitCenter"
+                android:src="@mipmap/ic_launcher" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/namaPerawat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Nama Perawat" />
+
+                <TextView
+                    android:id="@+id/kategoriPerawat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Kategori Perawat" />
+
+                <TextView
+                    android:id="@+id/agamaPerawat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Agama" />
+
+                <TextView
+                    android:id="@+id/skillPerawat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Skill" />
+
+                <TextView
+                    android:id="@+id/pendidikanPerawat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Pendidikan" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btnDetail"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/sign_up_selector_bg"
+                        android:textColor="@color/sign_up_selector_fg"
+                        android:text="detail"
+                        android:layout_weight="1"/>
+
+                    <Button
+                        android:id="@+id/btnPesan"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/sign_up_selector_bg"
+                        android:textColor="@color/sign_up_selector_fg"
+                        android:text="pesan"
+                        android:layout_weight="1"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>

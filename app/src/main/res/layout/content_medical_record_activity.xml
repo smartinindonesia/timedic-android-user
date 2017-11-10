@@ -1,0 +1,142 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="?attr/actionBarSize"
+    android:orientation="vertical"
+    android:background="@drawable/background"
+    android:padding="4dp">
+
+    <!-- layout untuk login medical record-->
+    <LinearLayout
+        android:id="@+id/loginLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="5"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/rekmed" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_login_bg"
+                android:orientation="vertical"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:drawableLeft="@drawable/ic_login_email"
+                    android:layout_marginTop="6dp"
+                    android:hint="Email address"
+                    android:inputType="textEmailAddress" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1.5dp"
+                    android:layout_marginTop="6dp"
+                    android:background="@color/black_overlay"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="6dp"
+                    android:drawableLeft="@drawable/ic_login_pass"
+                    android:hint="Password"
+                    android:inputType="textPassword" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
+
+            <Button
+                android:id="@+id/btnSignIn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/sign_in_selector_bg"
+                android:textColor="@color/sign_in_selector_fg"
+                android:text="SIGN IN"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- layout untuk konten opsi service medical record-->
+    <LinearLayout
+        android:id="@+id/contentServiceLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btnRiwayatSakit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#ffffffff"
+            android:backgroundTint="#B0000000"
+            android:backgroundTintMode="src_over"
+            android:text="Riwayat Penyakit"/>
+
+        <Button
+            android:id="@+id/btnRiwayatPengobatan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#ffffffff"
+            android:backgroundTint="#B0000000"
+            android:backgroundTintMode="src_over"
+            android:text="Riwayat Pengobatan"/>
+
+        <Button
+            android:id="@+id/btnAlergi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#ffffffff"
+            android:backgroundTint="#B0000000"
+            android:backgroundTintMode="src_over"
+            android:text="Alergi"/>
+
+        <Button
+            android:id="@+id/btnRontgent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#ffffffff"
+            android:backgroundTint="#B0000000"
+            android:backgroundTintMode="src_over"
+            android:text="Hasil Rontgent"/>
+
+        <Button
+            android:id="@+id/btnHasilLab"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#ffffffff"
+            android:backgroundTint="#B0000000"
+            android:backgroundTintMode="src_over"
+            android:text="Hasil Lab"/>
+
+    </LinearLayout>
+
+</LinearLayout>

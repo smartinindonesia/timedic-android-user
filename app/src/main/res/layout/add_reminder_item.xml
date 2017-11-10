@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/linear_layout_bg1"
+    android:clickable="true"
+    android:focusable="true"
+    android:padding="10dip"
+    android:orientation="vertical">
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/medicineType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="tipe obat..." />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/dosis"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="dosis..." />
+    </android.support.design.widget.TextInputLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="7">
+
+            <EditText
+                android:id="@+id/time_reminder"
+                android:enabled="false"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="ingatkan saya..." />
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/addReminder"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@mipmap/ic_select_time"/>
+    </LinearLayout>
+</LinearLayout>
