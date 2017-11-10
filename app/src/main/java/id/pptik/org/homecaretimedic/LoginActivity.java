@@ -46,6 +46,8 @@ public class LoginActivity extends AppCompatActivity {
     EditText password;
     @BindView(R.id.mainLayout)
     CoordinatorLayout mainLayout;
+    @BindView(R.id.btnSignup)
+    Button signUp;
 
     private HomecareSessionManager homecareSessionManager;
     private User user;
@@ -71,6 +73,13 @@ public class LoginActivity extends AppCompatActivity {
                 Log.e(TAG, "Sudah pencet tombol sign in");
                 gotoMainPage(user);
                 //doLogin();
+            }
+        });
+        signUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent newinten = new Intent(LoginActivity.this, SignUpActivity.class);
+                startActivity(newinten);
             }
         });
         setPermission();
