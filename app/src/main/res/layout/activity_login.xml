@@ -10,8 +10,8 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/windowBackground"
         android:scaleType="fitXY"
-        android:src="@drawable/background"
         tools:ignore="ContentDescription" />
 
     <include layout="@layout/content_activity_login"/>

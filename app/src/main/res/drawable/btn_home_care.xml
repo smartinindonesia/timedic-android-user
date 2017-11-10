@@ -2,16 +2,16 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:state_enabled="false"
-        android:drawable="@drawable/button_home_care_off" />
+        android:drawable="@drawable/button_homecare_off" />
     <item
         android:state_pressed="true"
         android:state_enabled="true"
-        android:drawable="@drawable/button_home_care_on" />
+        android:drawable="@drawable/button_homecare_on" />
     <item
         android:state_focused="true"
         android:state_enabled="true"
-        android:drawable="@drawable/button_home_care_off" />
+        android:drawable="@drawable/button_homecare_off" />
     <item
         android:state_enabled="true"
-        android:drawable="@drawable/button_home_care_off" />
+        android:drawable="@drawable/button_homecare_off" />
 </selector>

@@ -11,6 +11,13 @@
         android:background="@drawable/background"/>
 
     <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+        android:src="@drawable/slider_logo"/>
+
+    <ImageView
         android:id="@+id/screenLogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
