@@ -44,6 +44,10 @@ public class ScreenSlideActivity extends FragmentActivity {
 
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
+        ParallaxPageTransformer pageTransformer = new ParallaxPageTransformer()
+                .addViewToParallax(new ParallaxPageTransformer.ParallaxTransformInformation(R.id.screenMessage, 1.5f, 0.5f))
+                .addViewToParallax(new ParallaxPageTransformer.ParallaxTransformInformation(R.id.screenLogo, 2f, 2f));
+        mPager.setPageTransformer(true, pageTransformer);
         mPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
