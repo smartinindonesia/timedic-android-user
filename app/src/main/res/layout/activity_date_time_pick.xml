@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
-    tools:context="id.pptik.org.homecaretimedic.DateTimePickActivity">
+    android:background="@color/colorPrimary"
+    tools:context="id.smartin.org.homecaretimedic.DateTimePickActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBar"

@@ -4,5 +4,6 @@
     <dimen name="global_act_padding">4dp</dimen>
     <dimen name="global_page_padding">5dp</dimen>
     <dimen name="global_page_small_pad">40dp</dimen>
+    <dimen name="fab_margin">5dp</dimen>
     <dimen name="icn_sz">80dp</dimen>
 </resources>

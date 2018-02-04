@@ -3,43 +3,140 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
-    android:padding="@dimen/global_page_small_pad"
+    android:gravity="top"
+    android:showDividers="middle"
+    android:divider="@drawable/divider_horizontal"
+    android:weightSum="1"
     android:layout_marginTop="?attr/actionBarSize">
 
-    <Button
-        android:id="@+id/btnPerawat"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/btn_home_care_padding"
-        android:textColor="@color/textColorPrimary"
-        android:textColorHint="@color/textColorPrimary"
-        android:background="@drawable/sign_up_selector_bg"
-        android:drawableLeft="@drawable/perawat_icon_wrapper"
-        android:hint="Perawat"/>
+        android:layout_height="0dp"
+        android:layout_weight="0.3"
+        android:showDividers="middle"
+        android:background="@color/windowBackground"
+        android:divider="@drawable/divider_vertical"
+        android:orientation="horizontal">
 
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:padding="30dp"
+            android:orientation="vertical">
 
+            <ImageButton
+                android:id="@+id/btnPerawat"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.8"
+                android:padding="10dp"
+                android:scaleType="fitCenter"
+                android:background="#00FFFFFF"
+                android:src="@drawable/btn_perawat" />
 
-    <Button
-        android:id="@+id/btnFisioterapis"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="0.2"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:text="Perawat"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:padding="30dp"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/btnCeklab"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.8"
+                android:scaleType="fitCenter"
+                android:padding="10dp"
+                android:background="#00FFFFFF"
+                android:src="@drawable/btn_laboratorium"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="0.2"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:text="Cek Laboratorium"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/btn_home_care_padding"
-        android:textColor="@color/textColorPrimary"
-        android:backgroundTint="#B0000000"
-        android:visibility="gone"
-        android:backgroundTintMode="src_over"
-        android:text="Fisioterapis"/>
+        android:layout_height="0dp"
+        android:layout_weight="0.3"
+        android:showDividers="middle"
+        android:background="@color/windowBackground"
+        android:divider="@drawable/divider_vertical"
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/btnLabAnalisis"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/btn_home_care_padding"
-        android:textColor="@color/textColorPrimary"
-        android:textColorHint="@color/textColorPrimary"
-        android:background="@drawable/sign_up_selector_bg"
-        android:drawableLeft="@drawable/ceklab_icon_wrapper"
-        android:hint="Lab Analisis"/>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:padding="30dp"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/btnBidan"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.8"
+                android:scaleType="fitCenter"
+                android:padding="10dp"
+                android:background="#00FFFFFF"
+                android:src="@drawable/btn_bidan"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="0.2"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:text="Bidan"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:padding="30dp"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/btnFisioterapis"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.8"
+                android:scaleType="fitCenter"
+                android:padding="10dp"
+                android:background="#00FFFFFF"
+                android:src="@drawable/btn_fisioterapi"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="0.2"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:text="Fisioterapi"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>

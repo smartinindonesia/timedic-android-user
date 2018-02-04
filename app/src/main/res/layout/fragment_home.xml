@@ -3,48 +3,114 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:showDividers="middle"
+    android:divider="@drawable/divider_horizontal"
+    android:weightSum="1">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.4">
+
+        <android.support.v4.view.ViewPager
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <ImageView
+            android:id="@+id/rollerView"
+            android:layout_width="128dp"
+            android:layout_height="9.7dp"
+            android:layout_alignParentBottom= "true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"/>
+
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.4"
-        android:orientation="vertical">
-
-        <ImageButton
-            android:id="@+id/btnHomecare"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.5"
-            android:layout_gravity="center"
-            android:background="#FFFFFFFF"
-            android:layout_margin="3dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/homecarebtn" />
-
-        <ImageButton
-            android:id="@+id/btnHealthProduct"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.5"
-            android:layout_gravity="center"
-            android:background="#FFFFFFFF"
-            android:layout_margin="3dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/healthproductbtn" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.25"
+        android:layout_weight="0.35"
+        android:divider="@drawable/divider_vertical"
+        android:showDividers="middle"
         android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:orientation="vertical"
+            android:padding="@dimen/btn_home_care_padding">
+
+            <ImageButton
+                android:id="@+id/btnHomecare"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_margin="3dp"
+                android:layout_weight="0.7"
+                android:background="#00FFFFFF"
+                android:scaleType="fitCenter"
+                android:src="@drawable/btn_home_care" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.2"
+                android:gravity="center"
+                android:text="Homecare"
+                android:textAlignment="center" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:orientation="vertical"
+            android:padding="@dimen/btn_home_care_padding">
+
+            <ImageButton
+                android:id="@+id/btnHealthProduct"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_margin="3dp"
+                android:layout_weight="0.7"
+                android:background="#00FFFFFF"
+                android:scaleType="fitCenter"
+                android:src="@drawable/btn_health_product" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.2"
+                android:text="Health Product"
+                android:gravity="center"
+                android:textAlignment="center" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.2"
+        android:divider="@drawable/divider_vertical"
+        android:showDividers="middle"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
             android:orientation="vertical"
             android:padding="@dimen/btn_home_care_padding">
 
@@ -53,7 +119,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_gravity="center"
-                android:layout_weight="0.8"
+                android:layout_weight="0.6"
                 android:background="#00FFFFFF"
                 android:scaleType="fitCenter"
                 android:src="@drawable/btn_health_video" />
@@ -61,8 +127,9 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.2"
+                android:layout_weight="0.4"
                 android:text="Health Video"
+                android:gravity="center"
                 android:textAlignment="center" />
 
         </LinearLayout>
@@ -72,6 +139,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
+            android:background="@color/colorPrimary"
             android:padding="@dimen/btn_home_care_padding">
 
             <ImageButton
@@ -79,7 +147,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_gravity="center"
-                android:layout_weight="0.8"
+                android:layout_weight="0.6"
                 android:background="#00FFFFFF"
                 android:scaleType="fitCenter"
                 android:src="@drawable/btn_medical_record" />
@@ -88,25 +156,18 @@
                 android:id="@+id/medrecTxt"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.2"
+                android:layout_weight="0.4"
                 android:text="Medical Record"
+                android:gravity="center"
                 android:textAlignment="center" />
-
         </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.25"
-        android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
+            android:background="@color/colorPrimary"
             android:padding="@dimen/btn_home_care_padding">
 
             <ImageButton
@@ -114,7 +175,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_gravity="center"
-                android:layout_weight="0.8"
+                android:layout_weight="0.6"
                 android:background="#00FFFFFF"
                 android:scaleType="fitCenter"
                 android:src="@drawable/btn_health_calculator" />
@@ -122,19 +183,18 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.2"
+                android:layout_weight="0.4"
                 android:text="Health Calculator"
+                android:gravity="center"
                 android:textAlignment="center" />
-
         </LinearLayout>
-
-
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
+            android:background="@color/colorPrimary"
             android:padding="@dimen/btn_home_care_padding">
 
             <ImageButton
@@ -142,7 +202,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_gravity="center"
-                android:layout_weight="0.8"
+                android:layout_weight="0.6"
                 android:background="#00FFFFFF"
                 android:scaleType="fitCenter"
                 android:src="@drawable/btn_health_reminder" />
@@ -150,13 +210,12 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.2"
+                android:layout_weight="0.4"
                 android:text="Medicine Reminder"
+                android:gravity="center"
                 android:textAlignment="center" />
-
         </LinearLayout>
 
     </LinearLayout>
-
 </LinearLayout>
 

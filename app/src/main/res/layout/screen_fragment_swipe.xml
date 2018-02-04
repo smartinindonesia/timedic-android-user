@@ -1,38 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/background"/>
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="15dp"
-        android:src="@drawable/slider_logo"/>
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/logo_intro" />
 
     <ImageView
         android:id="@+id/screenLogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/lineDivider"
+        android:layout_centerHorizontal="true"
+        android:src="@mipmap/ic_launcher_round" />
+
+    <View
+        android:id="@+id/lineDivider"
+        android:layout_height="4dp"
+        android:layout_above="@+id/screenMessage"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="50dp"
-        android:src="@mipmap/ic_launcher_round"
-        android:layout_above="@+id/screenMessage"/>
+        android:background="#F4F4F4"
+        app:layout_widthPercent="90%" />
 
     <TextView
         android:id="@+id/screenMessage"
-        app:layout_widthPercent="70%"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="200dp"
         android:text="messages"
-        android:layout_centerInParent="true"
-        android:textAlignment="center"
-        android:textColor="#FFFFFF"/>
+        android:textAlignment="textEnd"
+        android:textColor="#000000"
+        app:layout_widthPercent="80%"
+        tools:ignore="RtlCompat" />
 
 </android.support.percent.PercentRelativeLayout>
