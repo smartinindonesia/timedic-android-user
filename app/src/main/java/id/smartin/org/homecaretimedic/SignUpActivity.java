@@ -1,14 +1,18 @@
 package id.smartin.org.homecaretimedic;
 
+import android.annotation.SuppressLint;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -18,6 +22,13 @@ import java.io.UnsupportedEncodingException;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.smartin.org.homecaretimedic.model.parammodel.RegisterParam;
+import id.smartin.org.homecaretimedic.model.responsemodel.LoginResponse;
+import id.smartin.org.homecaretimedic.tools.restservice.APIClient;
+import id.smartin.org.homecaretimedic.tools.restservice.UserAPIInterface;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SignUpActivity extends AppCompatActivity {
     public static final String TAG = "[SignUpActivity]";
@@ -40,7 +51,10 @@ public class SignUpActivity extends AppCompatActivity {
     Button signUP;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.mainLayout)
+    RelativeLayout mainLayout;
 
+    private UserAPIInterface userAPIInterface;
     private Gson g = new Gson();
 
     @Override
@@ -48,6 +62,7 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         ButterKnife.bind(this);
+        userAPIInterface = APIClient.getClient().create(UserAPIInterface.class);
         setSupportActionBar(toolbar);
         createTitleBar();
         signUP.setOnClickListener(new View.OnClickListener() {
@@ -58,6 +73,7 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
+    @SuppressLint("RestrictedApi")
     public void createTitleBar() {
         ActionBar mActionbar = getSupportActionBar();
         mActionbar.setDisplayHomeAsUpEnabled(false);
@@ -95,6 +111,24 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void postData(RegisterParam registerParam) throws UnsupportedEncodingException {
+        final Call<ResponseBody> resp = userAPIInterface.registerUser(registerParam);
+        resp.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.i(TAG, response.code() + " Error");
+                if (response.code() == 201) {
+                    Toast.makeText(getApplicationContext(), "Pendaftaran user baru berhasil dilakukan! Silahkan login untuk melanjutkan", Toast.LENGTH_LONG).show();
+                    finish();
+                } else {
+                    Snackbar.make(mainLayout, "Pendaftaran user baru gagal!", Snackbar.LENGTH_LONG).show();
+                }
+            }
 
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.i(TAG, "Failed");
+                call.cancel();
+            }
+        });
     }
 }

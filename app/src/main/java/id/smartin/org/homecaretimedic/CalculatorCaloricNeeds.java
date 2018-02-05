@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
@@ -18,7 +19,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import id.smartin.org.homecaretimedic.adapter.GenderSpinnerAdapter;
 import id.smartin.org.homecaretimedic.model.AlphaCalcActivity;
+import id.smartin.org.homecaretimedic.model.GenderOption;
 import id.smartin.org.homecaretimedic.tools.CalculatorUtility;
 
 public class CalculatorCaloricNeeds extends AppCompatActivity {
@@ -29,9 +32,9 @@ public class CalculatorCaloricNeeds extends AppCompatActivity {
     @BindView(R.id.mainLayout)
     RelativeLayout mainLayout;
     @BindView(R.id.btnReset)
-    Button btnReset;
+    LinearLayout btnReset;
     @BindView(R.id.btnCalculate)
-    Button btnCalculate;
+    LinearLayout btnCalculate;
     @BindView(R.id.genderSpin)
     Spinner genderSpin;
     @BindView(R.id.activitySpin)
@@ -43,9 +46,10 @@ public class CalculatorCaloricNeeds extends AppCompatActivity {
     @BindView(R.id.ageTex)
     EditText ageTex;
 
-    ArrayAdapter<CharSequence> adapterGender;
+    GenderSpinnerAdapter adapterGender;
     ArrayAdapter<AlphaCalcActivity> adapterActivity;
     List<AlphaCalcActivity> alphaCalcActivities = new ArrayList<>();
+    List<GenderOption> genderOptions;
     SweetAlertDialog sweetAlertDialog;
 
     @Override
@@ -54,8 +58,10 @@ public class CalculatorCaloricNeeds extends AppCompatActivity {
         setContentView(R.layout.activity_calculator_caloric_needs);
         ButterKnife.bind(this);
 
-        adapterGender = ArrayAdapter.createFromResource(this, R.array.gender, android.R.layout.simple_spinner_item);
-        adapterGender.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        genderOptions = new ArrayList<>();
+        genderOptions.add(new GenderOption(R.drawable.btn_laki_laki, "Laki-laki"));
+        genderOptions.add(new GenderOption(R.drawable.btn__perempuan, "Perempuan"));
+        adapterGender = new GenderSpinnerAdapter(this, genderOptions);
         genderSpin.setAdapter(adapterGender);
 
         initAlphaCalc();

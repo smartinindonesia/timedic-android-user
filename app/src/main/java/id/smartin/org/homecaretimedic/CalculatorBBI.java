@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
@@ -27,9 +28,9 @@ public class CalculatorBBI extends AppCompatActivity {
     @BindView(R.id.genderSpin)
     Spinner genderSpinner;
     @BindView(R.id.btnCalculateBBI)
-    Button btnCalculateBBI;
+    LinearLayout btnCalculateBBI;
     @BindView(R.id.btnReset)
-    Button btnReset;
+    LinearLayout btnReset;
     @BindView(R.id.mainLayout)
     RelativeLayout mainLayout;
 

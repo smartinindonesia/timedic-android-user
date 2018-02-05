@@ -18,4 +18,14 @@
     <color name="btn_orange_color_off">#AA3232</color>
     <color name="btn_on_text">#FEFEFE</color>
     <color name="btn_off_text">#826161</color>
+    <color name="theme_blue">#27A6AF</color>
+    <color name="theme_orange">#F29C46</color>
+    <color name="theme_orange_alpha">#50F29C46</color>
+    <color name="theme_red">#EB0E15</color>
+    <color name="theme_green">#21A63A</color>
+    <color name="theme_green_alpha">#5021A63A</color>
+    <color name="theme_lightgreen">#A2DB74</color>
+    <color name="theme_pink">#ED3571</color>
+    <color name="theme_gray">#EEEEEE</color>
+    <color name="theme_black">#373435</color>
 </resources>
