@@ -16,9 +16,13 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.smartin.org.homecaretimedic.customuicompt.ParallaxPageTransformer;
+import id.smartin.org.homecaretimedic.model.uimodel.Slider;
 import id.smartin.org.homecaretimedic.screenslidefragment.ScreenSlidePageFragment;
 
 public class ScreenSlideActivity extends FragmentActivity {
@@ -30,7 +34,7 @@ public class ScreenSlideActivity extends FragmentActivity {
     ViewPager mPager;
     @BindView(R.id.tabDots)
     TabLayout tabLayout;
-    private static final int NUM_PAGES = 3;
+
     private PagerAdapter mPagerAdapter;
 
     @Override
@@ -42,7 +46,12 @@ public class ScreenSlideActivity extends FragmentActivity {
         setContentView(R.layout.activity_screen_slide);
         ButterKnife.bind(this);
 
-        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+        ArrayList<Slider> sliders = new ArrayList<>();
+        sliders.add(new Slider(R.drawable.slide_intro_01,"<html><b>Selamat datang di TiMedic</b><br>Kami rawat di rumah Anda</html>"));
+        sliders.add(new Slider(R.drawable.slide_intro_02,"<html>Nikmati layanan <b>homecare perawat,<br>bidan </b>dan <b>check laboratorium</b><br>dengan nyaman di rumah anda</html>"));
+        sliders.add(new Slider(R.drawable.slide_intro_03,"<html>Gunakan fitur <b>Health Calculator</b> dari <b>TiMedic</b><br>untuk mengetahui kondisi kesehatan tubuh anda</html>"));
+
+        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager(), sliders);
         mPager.setAdapter(mPagerAdapter);
         ParallaxPageTransformer pageTransformer = new ParallaxPageTransformer()
                 .addViewToParallax(new ParallaxPageTransformer.ParallaxTransformInformation(R.id.screenMessage, 1.5f, 0.5f))
@@ -69,14 +78,17 @@ public class ScreenSlideActivity extends FragmentActivity {
     }
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
-        public ScreenSlidePagerAdapter(FragmentManager fm) {
+        private List<Slider> sliders;
+
+        public ScreenSlidePagerAdapter(FragmentManager fm, List<Slider> sliders) {
             super(fm);
+            this.sliders = sliders;
         }
 
         @Override
         public Fragment getItem(int position) {
             Bundle bundle = new Bundle();
-            bundle.putInt("view_code", position);
+            bundle.putSerializable("view_code", sliders.get(position));
             Fragment afragment = new ScreenSlidePageFragment();
             afragment.setArguments(bundle);
             Log.i(TAG, "" + position);
@@ -85,7 +97,7 @@ public class ScreenSlideActivity extends FragmentActivity {
 
         @Override
         public int getCount() {
-            return NUM_PAGES;
+            return sliders.size();
         }
     }
 

@@ -15,27 +15,23 @@ import id.smartin.org.homecaretimedic.R;
 import id.smartin.org.homecaretimedic.model.uimodel.Slider;
 
 /**
- * Created by Hafid on 8/21/2017.
+ * Created by Hafid on 2/9/2018.
  */
 
-public class ScreenSlidePageFragment extends Fragment {
-    public static String TAG = "[ScreenSlidePageFg]";
+public class ScreenSlideHomeFragment extends Fragment {
+    public static String TAG = "[ScreenSlideHomeFg]";
 
-    @BindView(R.id.screenLogo)
-    ImageView screenLogo;
-    @BindView(R.id.screenMessage)
-    TextView screenMessage;
+    @BindView(R.id.bannerImage)
+    ImageView bannerImage;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(
-                R.layout.screen_fragment_swipe, container, false);
-        ButterKnife.bind(this, rootView);
+                R.layout.banner_fragment_swipe, container, false);
+        ButterKnife.bind(this,rootView);
         Slider code = (Slider) this.getArguments().getSerializable("view_code");
-        screenLogo.setImageResource(code.getImage_source_id());
-        screenMessage.setText(Html.fromHtml(code.getDescription()));
+        bannerImage.setImageResource(code.getImage_source_id());
         return rootView;
     }
-
 }

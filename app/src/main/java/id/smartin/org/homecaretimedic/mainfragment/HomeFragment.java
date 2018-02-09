@@ -2,6 +2,7 @@ package id.smartin.org.homecaretimedic.mainfragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -13,6 +14,9 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.smartin.org.homecaretimedic.HealthCalculatorActivity;
@@ -22,6 +26,8 @@ import id.smartin.org.homecaretimedic.HomecareActivity;
 import id.smartin.org.homecaretimedic.MedicalRecordActivity;
 import id.smartin.org.homecaretimedic.MedicineReminderActivity;
 import id.smartin.org.homecaretimedic.R;
+import id.smartin.org.homecaretimedic.model.uimodel.Slider;
+import id.smartin.org.homecaretimedic.screenslidefragment.ScreenSlideHomeFragment;
 import id.smartin.org.homecaretimedic.screenslidefragment.ScreenSlidePageFragment;
 
 /**
@@ -44,11 +50,10 @@ public class HomeFragment extends Fragment {
     ImageButton btnMedicineRemind;
     @BindView(R.id.pager)
     ViewPager viewPager;
-    @BindView(R.id.rollerView)
-    ImageView roller;
+    @BindView(R.id.tabDots)
+    TabLayout tabLayout;
 
     private PagerAdapter mPagerAdapter;
-    private int NUM_PAGES = 5;
 
     public HomeFragment() {
     }
@@ -63,18 +68,24 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View vwInflater = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, vwInflater);
-        mPagerAdapter = new HomeFragment.ScreenSlidePagerAdapter(getChildFragmentManager());
+        List<Slider> sliders = new ArrayList<>();
+        sliders.add(new Slider(R.drawable.ads_01,""));
+        sliders.add(new Slider(R.drawable.ads_02,""));
+        sliders.add(new Slider(R.drawable.ads_03,""));
+        sliders.add(new Slider(R.drawable.ads_04,""));
+        sliders.add(new Slider(R.drawable.ads_05,""));
+        mPagerAdapter = new HomeFragment.ScreenSlidePagerAdapter(getChildFragmentManager(), sliders);
         viewPager.setAdapter(mPagerAdapter);
         viewPager.canScrollHorizontally(1);
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                changeRollerView(position);
+
             }
 
             @Override
             public void onPageSelected(int position) {
-                changeRollerView(position);
+
             }
 
             @Override
@@ -82,6 +93,7 @@ public class HomeFragment extends Fragment {
 
             }
         });
+        tabLayout.setupWithViewPager(viewPager, true);
         btnMedicalRec.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -129,45 +141,25 @@ public class HomeFragment extends Fragment {
     }
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
-        public ScreenSlidePagerAdapter(FragmentManager fm) {
+        private List<Slider> sliderList;
+
+        public ScreenSlidePagerAdapter(FragmentManager fm, List<Slider> sliders) {
             super(fm);
+            this.sliderList = sliders;
         }
 
         @Override
         public Fragment getItem(int position) {
             Bundle bundle = new Bundle();
-            bundle.putInt("view_code",position);
-            Fragment afragment = new ScreenSlidePageFragment();
+            bundle.putSerializable("view_code", sliderList.get(position));
+            Fragment afragment = new ScreenSlideHomeFragment();
             afragment.setArguments(bundle);
             return afragment;
         }
 
         @Override
         public int getCount() {
-            return NUM_PAGES;
-        }
-    }
-
-    public void changeRollerView(final int position){
-        switch (position){
-            case 0:
-                roller.setImageResource(R.drawable.dot_cnt_first);
-                break;
-            case 1:
-                roller.setImageResource(R.drawable.dot_cnt_second);
-                break;
-            case 2:
-                roller.setImageResource(R.drawable.dot_cnt_third);
-                break;
-            case 3:
-                roller.setImageResource(R.drawable.dot_cnt_fourth);
-                break;
-            case 4:
-                roller.setImageResource(R.drawable.dot_cnt_fifth);
-                break;
-            default:
-                roller.setImageResource(R.drawable.dot_cnt_fifth);
-                break;
+            return sliderList.size();
         }
     }
 

@@ -9,7 +9,8 @@ public class Constants {
     public static final String actionPosition = "device_pos";
 
     //RestApi constants
-    public static final String BASE_URL = "https://timedic.id:8443";
+    //public static final String BASE_URL = "https://timedic.id:8443";
+    public static final String BASE_URL = "http://192.168.1.4:8080";
 
     //USER
     public static final String ROUTE_LOGIN = "/authenticate/user?";
