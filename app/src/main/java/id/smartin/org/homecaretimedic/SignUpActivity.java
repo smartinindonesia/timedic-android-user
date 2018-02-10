@@ -1,6 +1,8 @@
 package id.smartin.org.homecaretimedic;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -15,11 +17,14 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.google.common.hash.Hashing;
 import com.google.gson.Gson;
 
-import org.mindrot.jbcrypt.BCrypt;
+import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -93,8 +98,9 @@ public class SignUpActivity extends AppCompatActivity {
         registerParam.setFirstname(firstName.getText().toString());
         registerParam.setLastname(lastName.getText().toString());
         registerParam.setMiddlename(middleName.getText().toString());
+        String shahex = new String(Hex.encodeHex(DigestUtils.sha(password.getText().toString())));
         String bcryptedPass = password.getText().toString();// BCrypt.hashpw(password.getText().toString(), BCrypt.gensalt());
-        registerParam.setPassword(bcryptedPass);
+        registerParam.setPassword(shahex);
         registerParam.setUsername(username.getText().toString());
         registerParam.setPhone(phone.getText().toString());
 

@@ -19,6 +19,9 @@ import android.widget.EditText;
 
 import com.google.gson.Gson;
 
+import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.codec.digest.DigestUtils;
+
 import java.io.UnsupportedEncodingException;
 
 import butterknife.BindView;
@@ -112,7 +115,8 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setContentText("Proses Login!");
         progressDialog.setCanceledOnTouchOutside(true);
         progressDialog.show();
-        Call<LoginResponse> responseCall = userAPIInterface.loginUser(username.getText().toString(), password.getText().toString());
+        String shahex = new String(Hex.encodeHex(DigestUtils.sha(password.getText().toString())));
+        Call<LoginResponse> responseCall = userAPIInterface.loginUser(username.getText().toString(), shahex);
         responseCall.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
