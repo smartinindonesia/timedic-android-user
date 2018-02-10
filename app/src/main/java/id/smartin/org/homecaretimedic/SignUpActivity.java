@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import java.io.UnsupportedEncodingException;
 
 import butterknife.BindView;
@@ -91,7 +93,8 @@ public class SignUpActivity extends AppCompatActivity {
         registerParam.setFirstname(firstName.getText().toString());
         registerParam.setLastname(lastName.getText().toString());
         registerParam.setMiddlename(middleName.getText().toString());
-        registerParam.setPassword(password.getText().toString());
+        String bcryptedPass = password.getText().toString();// BCrypt.hashpw(password.getText().toString(), BCrypt.gensalt());
+        registerParam.setPassword(bcryptedPass);
         registerParam.setUsername(username.getText().toString());
         registerParam.setPhone(phone.getText().toString());
 

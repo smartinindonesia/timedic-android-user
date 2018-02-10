@@ -27,7 +27,7 @@
             android:layout_alignParentBottom= "true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="5dp"
-            app:tabBackground="@drawable/tab_selector"
+            app:tabBackground="@drawable/tab_selector_home"
             app:tabGravity="center"
             app:tabIndicatorHeight="0dp"/>
 
