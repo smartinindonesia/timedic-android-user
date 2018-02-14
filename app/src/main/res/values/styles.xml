@@ -37,6 +37,16 @@
         <item name="android:background">@color/black_overlay</item>
     </style>
 
+    <style name="DefaultTiMedicActionBarStyle" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:homeAsUpIndicator">@drawable/btn_back_selector</item>
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:textColor">@color/theme_black</item>
+    </style>
+
+    <style name="DefaultToolbarStyle" parent="@style/ThemeOverlay.AppCompat.Light">
+        <item name="android:textColor">@color/theme_black</item>
+    </style>
+
     <!--tab style-->
     <style name="AppTheme.Base.TabLayout" parent="Widget.Design.TabLayout">
         <item name="tabIndicatorColor">@color/textColorPrimary</item>
