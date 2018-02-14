@@ -2,16 +2,16 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:state_enabled="false"
-        android:drawable="@drawable/button_medical_record_off" />
+        android:drawable="@drawable/btn_medical_record_02" />
     <item
         android:state_pressed="true"
         android:state_enabled="true"
-        android:drawable="@drawable/button_medical_record_on" />
+        android:drawable="@drawable/btn_medical_record_02" />
     <item
         android:state_focused="true"
         android:state_enabled="true"
-        android:drawable="@drawable/button_medical_record_off" />
+        android:drawable="@drawable/btn_medical_record_01" />
     <item
         android:state_enabled="true"
-        android:drawable="@drawable/button_medical_record_off" />
+        android:drawable="@drawable/btn_medical_record_01" />
 </selector>

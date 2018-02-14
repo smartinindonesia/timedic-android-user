@@ -2,16 +2,19 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:state_enabled="false"
-        android:drawable="@drawable/button_health_calculator_off" />
+        android:drawable="@drawable/btn_health_calculator_02" />
     <item
         android:state_pressed="true"
         android:state_enabled="true"
-        android:drawable="@drawable/button_health_calculator_on" />
+        android:drawable="@drawable/btn_health_calculator_02" />
     <item
         android:state_focused="true"
         android:state_enabled="true"
-        android:drawable="@drawable/button_health_calculator_off" />
+        android:drawable="@drawable/btn_health_calculator_01" />
     <item
         android:state_enabled="true"
-        android:drawable="@drawable/button_health_calculator_off" />
+        android:drawable="@drawable/btn_health_calculator_01" />
+    <item
+        android:state_enabled="false"
+        android:drawable="@drawable/btn_health_calculator_02" />
 </selector>

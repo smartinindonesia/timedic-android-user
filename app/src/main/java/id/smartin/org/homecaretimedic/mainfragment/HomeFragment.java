@@ -101,6 +101,7 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        btnMedicalRec.setEnabled(false);
         btnHomecare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,6 +123,7 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        btnHealthProd.setEnabled(false);
         btnHealthVid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -129,6 +131,7 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        btnHealthVid.setEnabled(false);
         btnMedicineRemind.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -136,6 +139,7 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        btnMedicineRemind.setEnabled(false);
         // Inflate the layout for this fragment
         return vwInflater;
     }
