@@ -24,8 +24,10 @@
             style="@style/AppTheme.Base.TabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
             app:tabGravity="fill"
             app:tabMode="fixed"
+            app:tabSelectedTextColor="@color/textColorPrimary"
             app:tabTextAppearance="@style/AppTheme.Base.TextAppearance" />
     </android.support.design.widget.AppBarLayout>
 
