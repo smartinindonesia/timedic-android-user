@@ -1,28 +1,30 @@
 package id.smartin.org.homecaretimedic;
 
+import android.annotation.SuppressLint;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import id.smartin.org.homecaretimedic.adapter.AlphaCalcSpinnerAdapter;
 import id.smartin.org.homecaretimedic.adapter.GenderSpinnerAdapter;
 import id.smartin.org.homecaretimedic.model.AlphaCalcActivity;
 import id.smartin.org.homecaretimedic.model.GenderOption;
 import id.smartin.org.homecaretimedic.tools.CalculatorUtility;
+import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
 
 public class CalculatorCaloricNeeds extends AppCompatActivity {
     public static final String TAG = "[CalculatorCaloricNeeds]";
@@ -47,9 +49,11 @@ public class CalculatorCaloricNeeds extends AppCompatActivity {
     EditText ageTex;
 
     GenderSpinnerAdapter adapterGender;
-    ArrayAdapter<AlphaCalcActivity> adapterActivity;
-    List<AlphaCalcActivity> alphaCalcActivities = new ArrayList<>();
     List<GenderOption> genderOptions;
+
+    AlphaCalcSpinnerAdapter adapterActivity;
+    List<AlphaCalcActivity> alphaCalcActivities = new ArrayList<>();
+
     SweetAlertDialog sweetAlertDialog;
 
     @Override
@@ -57,6 +61,7 @@ public class CalculatorCaloricNeeds extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calculator_caloric_needs);
         ButterKnife.bind(this);
+        createTitleBar();
 
         genderOptions = new ArrayList<>();
         genderOptions.add(new GenderOption(R.drawable.btn_laki_laki, "Laki-laki"));
@@ -65,8 +70,7 @@ public class CalculatorCaloricNeeds extends AppCompatActivity {
         genderSpin.setAdapter(adapterGender);
 
         initAlphaCalc();
-        adapterActivity = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_spinner_item, alphaCalcActivities);
-        adapterActivity.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapterActivity = new AlphaCalcSpinnerAdapter(this, alphaCalcActivities);
         activitySpin.setAdapter(adapterActivity);
 
         btnCalculate.setOnClickListener(new View.OnClickListener() {
@@ -106,11 +110,11 @@ public class CalculatorCaloricNeeds extends AppCompatActivity {
 
     private void initAlphaCalc() {
         alphaCalcActivities.clear();
-        AlphaCalcActivity tidakAktif = new AlphaCalcActivity("Tidak Aktif", 1.2f);
-        AlphaCalcActivity aktivitasRingan = new AlphaCalcActivity("Aktivitas Ringan", 1.375f);
-        AlphaCalcActivity aktivitasSedang = new AlphaCalcActivity("Aktivitas Sedang", 1.55f);
-        AlphaCalcActivity aktivitasBerat = new AlphaCalcActivity("Aktivitas Berat", 1.725f);
-        AlphaCalcActivity aktivitasSgtBerat = new AlphaCalcActivity("Aktivitas Sangat Berat", 1.9f);
+        AlphaCalcActivity tidakAktif = new AlphaCalcActivity(0, "Tidak Aktif", 1.2f, R.drawable.btn_aktivitas);
+        AlphaCalcActivity aktivitasRingan = new AlphaCalcActivity(1, "Aktivitas Ringan", 1.375f, R.drawable.btn_aktivitas);
+        AlphaCalcActivity aktivitasSedang = new AlphaCalcActivity(2, "Aktivitas Sedang", 1.55f, R.drawable.btn_aktivitas);
+        AlphaCalcActivity aktivitasBerat = new AlphaCalcActivity(3, "Aktivitas Berat", 1.725f, R.drawable.btn_aktivitas);
+        AlphaCalcActivity aktivitasSgtBerat = new AlphaCalcActivity(4, "Aktivitas Sangat Berat", 1.9f, R.drawable.btn_aktivitas);
         alphaCalcActivities.add(tidakAktif);
         alphaCalcActivities.add(aktivitasRingan);
         alphaCalcActivities.add(aktivitasBerat);
@@ -122,5 +126,24 @@ public class CalculatorCaloricNeeds extends AppCompatActivity {
         heightTex.setText("");
         weightTex.setText("");
         ageTex.setText("");
+    }
+
+    @SuppressLint("RestrictedApi")
+    public void createTitleBar() {
+        setSupportActionBar(toolbar);
+        ViewFaceUtility.changeToolbarFont(toolbar, this, "fonts/Dosis-Bold.otf", R.color.theme_black);
+        ActionBar mActionbar = getSupportActionBar();
+        mActionbar.setDisplayHomeAsUpEnabled(true);
+        mActionbar.setDefaultDisplayHomeAsUpEnabled(true);
+        mActionbar.setDisplayShowHomeEnabled(true);
+        mActionbar.setDisplayShowTitleEnabled(true);
+        mActionbar.setDisplayShowCustomEnabled(true);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        onBackPressed();
+        return true;
     }
 }

@@ -11,46 +11,46 @@ import android.widget.TextView;
 import java.util.List;
 
 import id.smartin.org.homecaretimedic.R;
-import id.smartin.org.homecaretimedic.model.GenderOption;
+import id.smartin.org.homecaretimedic.model.AlphaCalcActivity;
 
 /**
- * Created by Hafid on 2/5/2018.
+ * Created by Hafid on 2/15/2018.
  */
 
-public class GenderSpinnerAdapter extends BaseAdapter {
+public class AlphaCalcSpinnerAdapter extends BaseAdapter {
     Context context;
-    List<GenderOption> genderOptionList;
+    List<AlphaCalcActivity> alphaCalcActivities;
     LayoutInflater inflter;
 
-    public GenderSpinnerAdapter(Context applicationContext, List<GenderOption> genderOptions) {
+    public AlphaCalcSpinnerAdapter (Context applicationContext, List<AlphaCalcActivity> alphaCalcActivities) {
         this.context = applicationContext;
-        this.genderOptionList = genderOptions;
+        this.alphaCalcActivities = alphaCalcActivities;
         inflter = (LayoutInflater.from(applicationContext));
     }
 
     @Override
     public int getCount() {
-        return genderOptionList.size();
+        return alphaCalcActivities.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return genderOptionList.get(i);
+        return alphaCalcActivities.get(i);
     }
 
     @Override
     public long getItemId(int i) {
-        return genderOptionList.get(i).getIconId();
+        return alphaCalcActivities.get(i).getId();
     }
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        GenderOption genderOption = genderOptionList.get(i);
-        view = inflter.inflate(R.layout.item_spinner_icon_blue, null);
+        AlphaCalcActivity activity = alphaCalcActivities.get(i);
+        view = inflter.inflate(R.layout.item_spinner_icon_red, null);
         ImageView icon = (ImageView) view.findViewById(R.id.spinnerIcon);
         TextView names = (TextView) view.findViewById(R.id.spinnerText);
-        icon.setImageResource(genderOption.getIconId());
-        names.setText(genderOption.getGender());
+        icon.setImageResource(activity.getResourceId());
+        names.setText(activity.getActname());
         return view;
     }
 }

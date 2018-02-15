@@ -143,9 +143,9 @@
         <Spinner
             android:id="@+id/activitySpin"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/calculator_input_height"
+            android:background="@drawable/bg_red_rounded_field"
             android:layout_weight="0.5">
-
         </Spinner>
 
     </LinearLayout>

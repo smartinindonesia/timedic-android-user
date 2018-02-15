@@ -1,6 +1,8 @@
 package id.smartin.org.homecaretimedic;
 
+import android.annotation.SuppressLint;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -8,14 +10,20 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.pedant.SweetAlert.SweetAlertDialog;
-import id.smartin.org.homecaretimedic.model.AlphaCalcActivity;
+import id.smartin.org.homecaretimedic.adapter.GenderSpinnerAdapter;
+import id.smartin.org.homecaretimedic.model.GenderOption;
 import id.smartin.org.homecaretimedic.tools.CalculatorUtility;
+import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
 
 public class CalculatorIMT extends AppCompatActivity {
     public static final String TAG = "[CalculatorIMT]";
@@ -25,9 +33,9 @@ public class CalculatorIMT extends AppCompatActivity {
     @BindView(R.id.mainLayout)
     RelativeLayout mainLayout;
     @BindView(R.id.btnReset)
-    Button btnReset;
+    LinearLayout btnReset;
     @BindView(R.id.btnCalculate)
-    Button btnCalculate;
+    LinearLayout btnCalculate;
 
     @BindView(R.id.genderSpin)
     Spinner genderSpin;
@@ -38,7 +46,9 @@ public class CalculatorIMT extends AppCompatActivity {
     @BindView(R.id.ageTex)
     EditText ageTex;
 
-    ArrayAdapter<CharSequence> adapterGender;
+    GenderSpinnerAdapter adapterGender;
+    List<GenderOption> genderOptions;
+
     SweetAlertDialog sweetAlertDialog;
 
     @Override
@@ -46,9 +56,12 @@ public class CalculatorIMT extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calculator_imt);
         ButterKnife.bind(this);
+        createTitleBar();
 
-        adapterGender = ArrayAdapter.createFromResource(this, R.array.gender, android.R.layout.simple_spinner_item);
-        adapterGender.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        genderOptions = new ArrayList<>();
+        genderOptions.add(new GenderOption(R.drawable.btn_laki_laki, "Laki-laki"));
+        genderOptions.add(new GenderOption(R.drawable.btn__perempuan, "Perempuan"));
+        adapterGender = new GenderSpinnerAdapter(this, genderOptions);
         genderSpin.setAdapter(adapterGender);
 
         btnCalculate.setOnClickListener(new View.OnClickListener() {
@@ -89,6 +102,25 @@ public class CalculatorIMT extends AppCompatActivity {
         heightTex.setText("");
         weightTex.setText("");
         ageTex.setText("");
+    }
+
+    @SuppressLint("RestrictedApi")
+    public void createTitleBar() {
+        setSupportActionBar(toolbar);
+        ViewFaceUtility.changeToolbarFont(toolbar, this,"fonts/Dosis-Bold.otf", R.color.theme_black);
+        ActionBar mActionbar = getSupportActionBar();
+        mActionbar.setDisplayHomeAsUpEnabled(true);
+        mActionbar.setDefaultDisplayHomeAsUpEnabled(true);
+        mActionbar.setDisplayShowHomeEnabled(true);
+        mActionbar.setDisplayShowTitleEnabled(true);
+        mActionbar.setDisplayShowCustomEnabled(true);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        onBackPressed();
+        return true;
     }
 
 }

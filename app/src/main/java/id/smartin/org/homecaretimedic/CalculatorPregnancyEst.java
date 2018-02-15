@@ -1,7 +1,9 @@
 package id.smartin.org.homecaretimedic;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -10,6 +12,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import java.text.ParseException;
@@ -19,6 +22,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import id.smartin.org.homecaretimedic.tools.CalculatorUtility;
+import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
 
 public class CalculatorPregnancyEst extends AppCompatActivity {
     public static final String TAG = "[CalculatorPregnancyEst]";
@@ -28,7 +32,7 @@ public class CalculatorPregnancyEst extends AppCompatActivity {
     @BindView(R.id.mainLayout)
     RelativeLayout mainLayout;
     @BindView(R.id.btnCalculate)
-    Button btnCalculate;
+    LinearLayout btnCalculate;
     @BindView(R.id.btnChooseDate)
     ImageButton btnChooseDate;
     @BindView(R.id.selectedDateTex)
@@ -42,6 +46,7 @@ public class CalculatorPregnancyEst extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calculator_pregnancy_est);
         ButterKnife.bind(this);
+        createTitleBar();
         btnChooseDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,5 +93,24 @@ public class CalculatorPregnancyEst extends AppCompatActivity {
 
     private void resetForm() {
         dateTex.setText("");
+    }
+
+    @SuppressLint("RestrictedApi")
+    public void createTitleBar() {
+        setSupportActionBar(toolbar);
+        ViewFaceUtility.changeToolbarFont(toolbar, this,"fonts/Dosis-Bold.otf", R.color.theme_black);
+        ActionBar mActionbar = getSupportActionBar();
+        mActionbar.setDisplayHomeAsUpEnabled(true);
+        mActionbar.setDefaultDisplayHomeAsUpEnabled(true);
+        mActionbar.setDisplayShowHomeEnabled(true);
+        mActionbar.setDisplayShowTitleEnabled(true);
+        mActionbar.setDisplayShowCustomEnabled(true);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        onBackPressed();
+        return true;
     }
 }

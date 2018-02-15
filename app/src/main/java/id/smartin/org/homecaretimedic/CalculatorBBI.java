@@ -1,22 +1,28 @@
 package id.smartin.org.homecaretimedic;
 
+import android.annotation.SuppressLint;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import id.smartin.org.homecaretimedic.adapter.GenderSpinnerAdapter;
+import id.smartin.org.homecaretimedic.model.GenderOption;
 import id.smartin.org.homecaretimedic.tools.CalculatorUtility;
+import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
 
 public class CalculatorBBI extends AppCompatActivity {
     public static final String TAG = "[CalculatorBBI]";
@@ -34,7 +40,9 @@ public class CalculatorBBI extends AppCompatActivity {
     @BindView(R.id.mainLayout)
     RelativeLayout mainLayout;
 
-    ArrayAdapter<CharSequence> adapterGender;
+    GenderSpinnerAdapter adapterGender;
+    List<GenderOption> genderOptions;
+
     SweetAlertDialog sweetAlertDialog;
 
     @Override
@@ -42,9 +50,11 @@ public class CalculatorBBI extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calculator_bbi);
         ButterKnife.bind(this);
-
-        adapterGender = ArrayAdapter.createFromResource(this, R.array.gender, android.R.layout.simple_spinner_item);
-        adapterGender.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        createTitleBar();
+        genderOptions = new ArrayList<>();
+        genderOptions.add(new GenderOption(R.drawable.btn_laki_laki, "Laki-laki"));
+        genderOptions.add(new GenderOption(R.drawable.btn__perempuan, "Perempuan"));
+        adapterGender = new GenderSpinnerAdapter(this, genderOptions);
         genderSpinner.setAdapter(adapterGender);
         btnCalculateBBI.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,5 +87,24 @@ public class CalculatorBBI extends AppCompatActivity {
 
     private void resetForm(){
         heigthText.setText("");
+    }
+
+    @SuppressLint("RestrictedApi")
+    public void createTitleBar() {
+        setSupportActionBar(toolbar);
+        ViewFaceUtility.changeToolbarFont(toolbar, this,"fonts/Dosis-Bold.otf", R.color.theme_black);
+        ActionBar mActionbar = getSupportActionBar();
+        mActionbar.setDisplayHomeAsUpEnabled(true);
+        mActionbar.setDefaultDisplayHomeAsUpEnabled(true);
+        mActionbar.setDisplayShowHomeEnabled(true);
+        mActionbar.setDisplayShowTitleEnabled(true);
+        mActionbar.setDisplayShowCustomEnabled(true);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        onBackPressed();
+        return true;
     }
 }

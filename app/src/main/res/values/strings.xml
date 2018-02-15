@@ -1,8 +1,18 @@
 <resources>
     <string name="app_name">HomecareTiMedic</string>
     <string name="act_homecare">HOMECARE</string>
+    <string name="act_layanan_lokasi">PERAWAT</string>
+    <string name="act_add_patient">Tambahkan Pasien</string>
+
     <string name="act_medical_record">Medical Record</string>
+
     <string name="act_heatlh_calculator">Health Calculator</string>
+    <string name="act_imt">Indeks Masa Tubuh</string>
+    <string name="act_bbi">Berat Badan Ideal</string>
+    <string name="act_preg_cal">Taksiran Kehamilan</string>
+    <string name="act_fluid_req">Kebutuhan Cairan</string>
+    <string name="act_callories_calc">Kebutuhan Kalori</string>
+
     <string name="act_health_product">Health Product</string>
     <string name="act_health_video">Health Video</string>
     <string name="act_medicine_reminder">Medicine Reminder</string>

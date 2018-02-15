@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="?attr/actionBarSize"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="@dimen/calculator_page_padding">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,8 +22,11 @@
             android:id="@+id/weightTex"
             android:inputType="numberDecimal"
             android:layout_width="0dp"
+            android:layout_height="@dimen/calculator_input_height"
             android:layout_weight="0.5"
-            android:layout_height="wrap_content">
+            android:paddingLeft="@dimen/calculator_input_padding"
+            android:paddingRight="@dimen/calculator_input_padding"
+            android:background="@drawable/bg_gray_rounded_textfield">
 
         </EditText>
 
@@ -31,7 +35,9 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="@color/black_overlay"/>
+        android:layout_marginBottom="@dimen/calculator_devider_space"
+        android:layout_marginTop="@dimen/calculator_devider_space"
+        android:background="@color/black_overlay" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -39,19 +45,68 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <Button
+        <LinearLayout
             android:id="@+id/btnCalculate"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="0dp"
-            android:layout_weight="0.5"
             android:layout_height="wrap_content"
-            android:hint="Hitung"/>
+            android:layout_marginRight="5dp"
+            android:layout_weight="0.5"
+            android:background="@drawable/green_selector_button_bg"
+            android:orientation="horizontal"
+            android:textColorHint="#FFFFFF">
 
-        <Button
+            <ImageView
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#0000"
+                android:clickable="false"
+                android:src="@drawable/btn_hitung" />
+
+            <TextView
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#0000"
+                android:clickable="false"
+                android:gravity="start|center_vertical"
+                android:hint="Hitung"
+                android:textAlignment="textStart"
+                android:textColorHint="@color/button_text_color" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/btnReset"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="0dp"
-            android:layout_weight="0.5"
             android:layout_height="wrap_content"
-            android:hint="Reset"/>
+            android:layout_marginRight="5dp"
+            android:layout_weight="0.5"
+            android:background="@drawable/orange_selector_button_bg"
+            android:orientation="horizontal"
+            android:textColorHint="#FFFFFF">
+
+            <ImageView
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#0000"
+                android:clickable="false"
+                android:src="@drawable/btn_reset" />
+
+            <TextView
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#0000"
+                android:clickable="false"
+                android:gravity="start|center_vertical"
+                android:hint="Reset"
+                android:textAlignment="textStart"
+                android:textColorHint="@color/button_text_color" />
+        </LinearLayout>
 
     </LinearLayout>
 

@@ -1,19 +1,22 @@
 package id.smartin.org.homecaretimedic;
 
+import android.annotation.SuppressLint;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.pedant.SweetAlert.SweetAlertDialog;
-import id.smartin.org.homecaretimedic.model.AlphaCalcActivity;
 import id.smartin.org.homecaretimedic.tools.CalculatorUtility;
+import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
 
 public class CalculatorFluidReq extends AppCompatActivity {
     public static final String TAG = "[CalculatorFluidReq]";
@@ -26,9 +29,9 @@ public class CalculatorFluidReq extends AppCompatActivity {
     @BindView(R.id.weightTex)
     EditText weightTex;
     @BindView(R.id.btnReset)
-    Button btnReset;
+    LinearLayout btnReset;
     @BindView(R.id.btnCalculate)
-    Button btnCalculate;
+    LinearLayout btnCalculate;
 
     SweetAlertDialog sweetAlertDialog;
 
@@ -37,6 +40,7 @@ public class CalculatorFluidReq extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calculator_fluid_req);
         ButterKnife.bind(this);
+        createTitleBar();
         btnReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,5 +74,24 @@ public class CalculatorFluidReq extends AppCompatActivity {
 
     private void resetForm() {
         weightTex.setText("");
+    }
+
+    @SuppressLint("RestrictedApi")
+    public void createTitleBar() {
+        setSupportActionBar(toolbar);
+        ViewFaceUtility.changeToolbarFont(toolbar, this,"fonts/Dosis-Bold.otf", R.color.theme_black);
+        ActionBar mActionbar = getSupportActionBar();
+        mActionbar.setDisplayHomeAsUpEnabled(true);
+        mActionbar.setDefaultDisplayHomeAsUpEnabled(true);
+        mActionbar.setDisplayShowHomeEnabled(true);
+        mActionbar.setDisplayShowTitleEnabled(true);
+        mActionbar.setDisplayShowCustomEnabled(true);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        onBackPressed();
+        return true;
     }
 }

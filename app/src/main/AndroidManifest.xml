@@ -87,7 +87,8 @@
         <activity android:name=".HCAssestmentActivity" />
         <activity
             android:name=".LayananLokasiActivity"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden"
+            android:label="@string/act_layanan_lokasi"/>
         <activity android:name=".AcceptanceActivity" />
         <activity android:name=".MedicalResActivity" />
         <activity android:name=".DateTimePickActivity" />
@@ -95,15 +96,21 @@
         <activity
             android:name=".CekLabOptionActivity"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".AddUserCustomerActivity" />
+        <activity android:name=".AddUserCustomerActivity"
+            android:label="@string/act_add_patient"/>
         <activity android:name=".SelectCustomerActivity" />
         <activity android:name=".ProductDetailActivity" />
         <activity android:name=".VideoPlayerActivity" />
-        <activity android:name=".CalculatorBBI" />
-        <activity android:name=".CalculatorFluidReq" />
-        <activity android:name=".CalculatorCaloricNeeds" />
-        <activity android:name=".CalculatorIMT" />
-        <activity android:name=".CalculatorPregnancyEst"></activity>
+        <activity android:name=".CalculatorBBI"
+            android:label="@string/act_bbi"/>
+        <activity android:name=".CalculatorFluidReq"
+            android:label="@string/act_fluid_req"/>
+        <activity android:name=".CalculatorCaloricNeeds"
+            android:label="@string/act_callories_calc"/>
+        <activity android:name=".CalculatorIMT"
+            android:label="@string/act_imt"/>
+        <activity android:name=".CalculatorPregnancyEst"
+            android:label="@string/act_preg_cal"></activity>
     </application>
 
 </manifest>

@@ -23,6 +23,7 @@
             android:id="@+id/genderSpin"
             android:layout_width="0dp"
             android:layout_height="@dimen/calculator_input_height"
+            android:background="@drawable/bg_blue_rounded_field"
             android:layout_weight="0.5">
 
         </Spinner>

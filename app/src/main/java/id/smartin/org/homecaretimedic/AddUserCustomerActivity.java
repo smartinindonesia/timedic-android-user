@@ -1,5 +1,6 @@
 package id.smartin.org.homecaretimedic;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.support.v7.app.ActionBar;
@@ -7,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -15,10 +15,8 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 
 import butterknife.BindView;
@@ -29,6 +27,7 @@ import id.smartin.org.homecaretimedic.model.Patient;
 import id.smartin.org.homecaretimedic.model.parammodel.RegPatientParam;
 import id.smartin.org.homecaretimedic.model.submitmodel.PickedDateTime;
 import id.smartin.org.homecaretimedic.tools.ConverterUtility;
+import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
 import id.smartin.org.homecaretimedic.tools.restservice.APIClient;
 import id.smartin.org.homecaretimedic.tools.restservice.PatientAPIInterface;
 import okhttp3.ResponseBody;
@@ -78,7 +77,6 @@ public class AddUserCustomerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_user_customer);
         ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
         createTitleBar();
 
         homecareSessionManager = new HomecareSessionManager(this, getApplicationContext());
@@ -229,18 +227,6 @@ public class AddUserCustomerActivity extends AppCompatActivity {
         }
     }
 
-    public void createTitleBar() {
-        ActionBar mActionbar = getSupportActionBar();
-        mActionbar.setDisplayHomeAsUpEnabled(false);
-        mActionbar.setDefaultDisplayHomeAsUpEnabled(false);
-        mActionbar.setDisplayShowTitleEnabled(false);
-        mActionbar.setDisplayShowHomeEnabled(false);
-        mActionbar.setDisplayShowCustomEnabled(true);
-        View view = getLayoutInflater().inflate(R.layout.action_bar_layout, null);
-        ActionBar.LayoutParams params = new ActionBar.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT, Gravity.CENTER);
-        mActionbar.setCustomView(view, params);
-    }
-
     public void initProgressDialog(String message){
         progressDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
         progressDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
@@ -258,6 +244,25 @@ public class AddUserCustomerActivity extends AppCompatActivity {
         if (progressDialog.isShowing()){
             progressDialog.dismiss();
         }
+    }
+
+    @SuppressLint("RestrictedApi")
+    public void createTitleBar() {
+        setSupportActionBar(toolbar);
+        ViewFaceUtility.changeToolbarFont(toolbar, this,"fonts/Dosis-Bold.otf", R.color.theme_black);
+        ActionBar mActionbar = getSupportActionBar();
+        mActionbar.setDisplayHomeAsUpEnabled(true);
+        mActionbar.setDefaultDisplayHomeAsUpEnabled(true);
+        mActionbar.setDisplayShowHomeEnabled(true);
+        mActionbar.setDisplayShowTitleEnabled(true);
+        mActionbar.setDisplayShowCustomEnabled(true);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        onBackPressed();
+        return true;
     }
 
 }

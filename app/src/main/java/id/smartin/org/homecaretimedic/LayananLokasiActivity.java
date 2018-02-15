@@ -1,5 +1,6 @@
 package id.smartin.org.homecaretimedic;
 
+import android.annotation.SuppressLint;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -9,7 +10,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -27,9 +27,9 @@ import id.smartin.org.homecaretimedic.manager.HomecareSessionManager;
 import id.smartin.org.homecaretimedic.model.HomecareService;
 import id.smartin.org.homecaretimedic.model.ServicePlace;
 import id.smartin.org.homecaretimedic.model.submitmodel.SubmitInfo;
+import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
 import id.smartin.org.homecaretimedic.tools.restservice.APIClient;
 import id.smartin.org.homecaretimedic.tools.restservice.HomecareServiceAPIInterface;
-import id.smartin.org.homecaretimedic.tools.restservice.UserAPIInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -116,16 +116,22 @@ public class LayananLokasiActivity extends AppCompatActivity {
         populateServicePlaceDummy();
     }
 
+    @SuppressLint("RestrictedApi")
     public void createTitleBar() {
+        ViewFaceUtility.changeToolbarFont(toolbar, this,"fonts/Dosis-Bold.otf", R.color.theme_black);
         ActionBar mActionbar = getSupportActionBar();
-        mActionbar.setDisplayHomeAsUpEnabled(false);
-        mActionbar.setDefaultDisplayHomeAsUpEnabled(false);
-        mActionbar.setDisplayShowTitleEnabled(false);
-        mActionbar.setDisplayShowHomeEnabled(false);
+        mActionbar.setDisplayHomeAsUpEnabled(true);
+        mActionbar.setDefaultDisplayHomeAsUpEnabled(true);
+        mActionbar.setDisplayShowHomeEnabled(true);
+        mActionbar.setDisplayShowTitleEnabled(true);
         mActionbar.setDisplayShowCustomEnabled(true);
-        View view = getLayoutInflater().inflate(R.layout.action_bar_layout, null);
-        ActionBar.LayoutParams params = new ActionBar.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT, Gravity.CENTER);
-        mActionbar.setCustomView(view, params);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        onBackPressed();
+        return true;
     }
 
     public void populateLayanan() {

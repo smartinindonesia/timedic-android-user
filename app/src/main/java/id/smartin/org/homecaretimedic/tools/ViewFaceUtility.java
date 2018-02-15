@@ -12,7 +12,7 @@ import id.smartin.org.homecaretimedic.R;
  * Created by Hafid on 2/15/2018.
  */
 
-public class TitleBarUtility {
+public class ViewFaceUtility {
     public static void changeToolbarFont(Toolbar toolbar, Activity context, String path, int res_color) {
         toolbar.setTitleTextColor(context.getResources().getColor(res_color));
         for (int i = 0; i < toolbar.getChildCount(); i++) {

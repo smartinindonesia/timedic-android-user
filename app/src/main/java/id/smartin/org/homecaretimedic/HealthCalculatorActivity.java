@@ -1,6 +1,8 @@
 package id.smartin.org.homecaretimedic;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -9,6 +11,7 @@ import android.widget.Button;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
 
 public class HealthCalculatorActivity extends AppCompatActivity {
 
@@ -20,6 +23,8 @@ public class HealthCalculatorActivity extends AppCompatActivity {
     Button btnPregnantCalc;
     @BindView(R.id.btnKebCairan)
     Button btnFluidReq;
+    @BindView(R.id.btnIMT)
+    Button btnImt;
     @BindView(R.id.btnKebKalori)
     Button btnCaloryNeed;
 
@@ -28,7 +33,7 @@ public class HealthCalculatorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_health_calculator);
         ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
+        createTitleBar();
         btnBbi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,5 +62,36 @@ public class HealthCalculatorActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        btnImt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HealthCalculatorActivity.this, CalculatorIMT.class);
+                startActivity(intent);
+            }
+        });
+        ViewFaceUtility.applyFont(btnBbi, this, "fonts/Dosis-Regular.otf");
+        ViewFaceUtility.applyFont(btnPregnantCalc, this, "fonts/Dosis-Regular.otf");
+        ViewFaceUtility.applyFont(btnCaloryNeed, this, "fonts/Dosis-Regular.otf");
+        ViewFaceUtility.applyFont(btnFluidReq, this, "fonts/Dosis-Regular.otf");
+        ViewFaceUtility.applyFont(btnImt, this, "fonts/Dosis-Regular.otf");
+    }
+
+    @SuppressLint("RestrictedApi")
+    public void createTitleBar() {
+        setSupportActionBar(toolbar);
+        ViewFaceUtility.changeToolbarFont(toolbar, this,"fonts/Dosis-Bold.otf", R.color.theme_black);
+        ActionBar mActionbar = getSupportActionBar();
+        mActionbar.setDisplayHomeAsUpEnabled(true);
+        mActionbar.setDefaultDisplayHomeAsUpEnabled(true);
+        mActionbar.setDisplayShowHomeEnabled(true);
+        mActionbar.setDisplayShowTitleEnabled(true);
+        mActionbar.setDisplayShowCustomEnabled(true);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        onBackPressed();
+        return true;
     }
 }
