@@ -1,5 +1,6 @@
 package id.smartin.org.homecaretimedic;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +25,7 @@ import id.smartin.org.homecaretimedic.customuicompt.RecyclerTouchListener;
 import id.smartin.org.homecaretimedic.manager.HomecareSessionManager;
 import id.smartin.org.homecaretimedic.model.HomecareService;
 import id.smartin.org.homecaretimedic.model.Patient;
+import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
 import id.smartin.org.homecaretimedic.tools.restservice.APIClient;
 import id.smartin.org.homecaretimedic.tools.restservice.HomecareServiceAPIInterface;
 import id.smartin.org.homecaretimedic.tools.restservice.PatientAPIInterface;
@@ -52,11 +54,10 @@ public class SelectCustomerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_customer);
         ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
         createTitleBar();
 
         homecareSessionManager = new HomecareSessionManager(this, getApplicationContext());
-        patientAPIInterface = APIClient.getClientWithToken(homecareSessionManager.getToken(), getApplicationContext()).create(PatientAPIInterface.class);
+        patientAPIInterface = APIClient.getClientWithToken(homecareSessionManager, getApplicationContext()).create(PatientAPIInterface.class);
 
         patientAdapter = new PatientAdapter(this, patientList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -86,16 +87,16 @@ public class SelectCustomerActivity extends AppCompatActivity {
         });
     }
 
+    @SuppressLint("RestrictedApi")
     public void createTitleBar() {
+        setSupportActionBar(toolbar);
+        ViewFaceUtility.changeToolbarFont(toolbar, this,"fonts/Dosis-Bold.otf", R.color.theme_black);
         ActionBar mActionbar = getSupportActionBar();
-        mActionbar.setDisplayHomeAsUpEnabled(false);
-        mActionbar.setDefaultDisplayHomeAsUpEnabled(false);
-        mActionbar.setDisplayShowTitleEnabled(false);
-        mActionbar.setDisplayShowHomeEnabled(false);
+        mActionbar.setDisplayHomeAsUpEnabled(true);
+        mActionbar.setDefaultDisplayHomeAsUpEnabled(true);
+        mActionbar.setDisplayShowHomeEnabled(true);
+        mActionbar.setDisplayShowTitleEnabled(true);
         mActionbar.setDisplayShowCustomEnabled(true);
-        View view = getLayoutInflater().inflate(R.layout.action_bar_layout, null);
-        ActionBar.LayoutParams params = new ActionBar.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT, Gravity.CENTER);
-        mActionbar.setCustomView(view, params);
     }
 
     private void populatePatientList() {

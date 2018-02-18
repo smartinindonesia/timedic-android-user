@@ -25,7 +25,7 @@ public class Assessment {
     private String answer;
     private String path_file;
     @SerializedName("assessmentType")
-    private AssessmentType assestmentType;
+    private int assestmentType;
 
     public Assessment(){
 
@@ -99,11 +99,11 @@ public class Assessment {
         this.options.clear();
     }
 
-    public AssessmentType getAssestmentType() {
+    public int getAssestmentType() {
         return assestmentType;
     }
 
-    public void setAssestmentType(AssessmentType assestmentType) {
+    public void setAssestmentType(int assestmentType) {
         this.assestmentType = assestmentType;
     }
 

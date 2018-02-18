@@ -2,6 +2,9 @@ package id.smartin.org.homecaretimedic.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +33,7 @@ public class AssestmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public AssestmentAdapter(Context context, List<Assessment> assessmentList) {
         this.assessmentList = assessmentList;
         this.context = context;
+        setHasStableIds(true);
     }
 
     @Override
@@ -37,16 +41,13 @@ public class AssestmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         View itemView;
         switch (viewType) {
             case 1:
-                itemView = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.assestment_item_text, parent, false);
+                itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.assestment_item_text, parent, false);
                 return new AssestmentAdapter.MyViewHolder(itemView);
             case 2:
-            itemView = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.assestment_item_option, parent, false);
+                itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.assestment_item_option, parent, false);
                 return new AssestmentAdapter.MyViewHolderOption(itemView);
             case 3:
-                itemView = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.assestment_item_file, parent, false);
+                itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.assestment_item_file, parent, false);
                 return new AssestmentAdapter.MyViewHolderFile(itemView);
             default:
                 return null;
@@ -54,22 +55,58 @@ public class AssestmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        Assessment assessment = assessmentList.get(position);
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+        final Assessment assessment = assessmentList.get(position);
+        holder.setIsRecyclable(false);
         switch (holder.getItemViewType()) {
             case 1:
                 MyViewHolder viewHolderText = (MyViewHolder) holder;
                 viewHolderText.assessment.setText(assessment.getQuestions());
+                viewHolderText.answer.setText(assessment.getAnswer());
+                viewHolderText.answer.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        assessmentList.get(position).setAnswer(charSequence.toString());
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                });
                 break;
             case 2:
-                MyViewHolderOption viewHolderOption = (MyViewHolderOption) holder;
+                final MyViewHolderOption viewHolderOption = (MyViewHolderOption) holder;
                 viewHolderOption.assessment.setText(assessment.getQuestions());
+
                 for (int i = 0; i < assessment.getOptions().size(); i++) {
-                    RadioButton rdbtn = new RadioButton(context);
+                    RadioButton rdbtn = new RadioButton(AssestmentAdapter.this.context);
                     rdbtn.setId(assessment.getOptions().get(i).getId());
                     rdbtn.setText(assessment.getOptions().get(i).getOption());
+                    rdbtn.setTag(assessment.getOptions().get(i).getOption());
                     viewHolderOption.option.addView(rdbtn);
                 }
+                if (assessment.getId_multiple_choice()>0){
+                    viewHolderOption.option.check(assessment.getId_multiple_choice());
+                }
+                viewHolderOption.option.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                        int result = viewHolderOption.option.getCheckedRadioButtonId();
+                        if (result!=-1){
+                            RadioButton b = (RadioButton) viewHolderOption.itemView.findViewById(result);
+                            assessmentList.get(position).setAnswer(b.getText().toString());
+                            assessmentList.get(position).setId_multiple_choice(result);
+                            Log.i(TAG, "Selected "+assessment.getAnswer());
+                        }
+                    }
+                });
+
                 break;
             case 3:
                 MyViewHolderFile viewHolderFile = (MyViewHolderFile) holder;
@@ -80,11 +117,15 @@ public class AssestmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     }
 
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
 
     @Override
     public int getItemViewType(int position) {
         Assessment assessment = assessmentList.get(position);
-        return (assessment.getAssestmentType().getId());
+        return (assessment.getAssestmentType());
     }
 
     @Override
@@ -92,10 +133,23 @@ public class AssestmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         return assessmentList.size();
     }
 
-    public Assessment getAssestment(int i) {
+    public Assessment getAssessment(int i) {
         if (i > 0 && i < assessmentList.size())
             return assessmentList.get(i);
         else return null;
+    }
+
+    public boolean isAssessmentFullfilled(){
+        for (int i = 0; i < assessmentList.size(); i++){
+            if (assessmentList.get(i).getAnswer()==null){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public List<Assessment> getAssessmentResult(){
+        return assessmentList;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -103,9 +157,10 @@ public class AssestmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         public TextView assessment;
         @BindView(R.id.answer)
         public EditText answer;
+
         public MyViewHolder(View view) {
             super(view);
-            ButterKnife.bind(this,view);
+            ButterKnife.bind(this, view);
         }
     }
 
@@ -124,6 +179,7 @@ public class AssestmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public class MyViewHolderFile extends RecyclerView.ViewHolder {
         @BindView(R.id.question)
         public TextView assessment;
+
         public MyViewHolderFile(View view) {
             super(view);
             ButterKnife.bind(this, view);

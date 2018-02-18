@@ -22,7 +22,7 @@ public class ConverterUtility {
         }
     }
 
-    public static String getTimeStamp(String date, String dateformat) {
+    public static Long getTimeStamp(String date, String dateformat) {
         SimpleDateFormat datetimeFormatter1 = new SimpleDateFormat(
                 dateformat);
         Date lFromDate1 = null;
@@ -34,13 +34,12 @@ public class ConverterUtility {
         }
         System.out.println("gpsdate :" + lFromDate1);
         Timestamp fromTS1 = new Timestamp(lFromDate1.getTime());
-        return fromTS1.toString();
+        return fromTS1.getTime();
     }
 
-    public static String getDateString(String timeStamp){
+    public static String getDateString(Long timeStamp){
         try{
-            Long time = Long.parseLong(timeStamp);
-            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
             Date netDate = (new Date(timeStamp));
             return sdf.format(netDate);
         }

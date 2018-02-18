@@ -1,5 +1,6 @@
 package id.smartin.org.homecaretimedic;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -46,6 +47,7 @@ import id.smartin.org.homecaretimedic.model.ServicePlace;
 import id.smartin.org.homecaretimedic.model.submitmodel.PlaceInfo;
 import id.smartin.org.homecaretimedic.model.submitmodel.SubmitInfo;
 import id.smartin.org.homecaretimedic.service.LocationService;
+import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
 
 public class MapSelectorActivity extends AppCompatActivity implements OnMapReadyCallback {
     public static String TAG = "[MapSelectorActivity]";
@@ -186,16 +188,16 @@ public class MapSelectorActivity extends AppCompatActivity implements OnMapReady
         }
     }
 
+    @SuppressLint("RestrictedApi")
     public void createTitleBar() {
+        setSupportActionBar(toolbar);
+        ViewFaceUtility.changeToolbarFont(toolbar, this,"fonts/Dosis-Bold.otf", R.color.theme_black);
         ActionBar mActionbar = getSupportActionBar();
-        mActionbar.setDisplayHomeAsUpEnabled(false);
-        mActionbar.setDefaultDisplayHomeAsUpEnabled(false);
-        mActionbar.setDisplayShowTitleEnabled(false);
-        mActionbar.setDisplayShowHomeEnabled(false);
+        mActionbar.setDisplayHomeAsUpEnabled(true);
+        mActionbar.setDefaultDisplayHomeAsUpEnabled(true);
+        mActionbar.setDisplayShowHomeEnabled(true);
+        mActionbar.setDisplayShowTitleEnabled(true);
         mActionbar.setDisplayShowCustomEnabled(true);
-        View view = getLayoutInflater().inflate(R.layout.action_bar_layout, null);
-        ActionBar.LayoutParams params = new ActionBar.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT, Gravity.CENTER);
-        mActionbar.setCustomView(view, params);
     }
 
     private void initilizeMap() {

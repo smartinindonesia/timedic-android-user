@@ -63,10 +63,9 @@ public class LayananLokasiActivity extends AppCompatActivity {
         setContentView(R.layout.activity_layanan_lokasi);
         ButterKnife.bind(this);
 
-        setSupportActionBar(toolbar);
         createTitleBar();
         homecareSessionManager = new HomecareSessionManager(this, getApplicationContext());
-        homecareServiceAPIInterface = APIClient.getClientWithToken(homecareSessionManager.getToken(), getApplicationContext()).create(HomecareServiceAPIInterface.class);
+        homecareServiceAPIInterface = APIClient.getClientWithToken(homecareSessionManager, getApplicationContext()).create(HomecareServiceAPIInterface.class);
 
         homecareServiceListHomevisit = new ArrayList<HomecareService>();
         homecareServiceListHomestay = new ArrayList<HomecareService>();
@@ -118,6 +117,7 @@ public class LayananLokasiActivity extends AppCompatActivity {
 
     @SuppressLint("RestrictedApi")
     public void createTitleBar() {
+        setSupportActionBar(toolbar);
         ViewFaceUtility.changeToolbarFont(toolbar, this,"fonts/Dosis-Bold.otf", R.color.theme_black);
         ActionBar mActionbar = getSupportActionBar();
         mActionbar.setDisplayHomeAsUpEnabled(true);

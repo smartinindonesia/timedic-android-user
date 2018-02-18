@@ -2,8 +2,11 @@ package id.smartin.org.homecaretimedic.tools.restservice;
 
 import android.util.Log;
 
+import com.facebook.AccessTokenManager;
+
 import java.io.IOException;
 
+import id.smartin.org.homecaretimedic.manager.HomecareSessionManager;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -14,18 +17,14 @@ import okhttp3.Response;
 
 public class SessionRequestInterceptor implements Interceptor {
     public static final String TAG = "[SessionRequestInter]";
-    private String token;
+    private HomecareSessionManager sessionManager;
 
     public SessionRequestInterceptor() {
 
     }
 
-    public SessionRequestInterceptor(String token) {
-        this.token = token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
+    public SessionRequestInterceptor(HomecareSessionManager sessionManager) {
+        this.sessionManager = sessionManager;
     }
 
     @Override
@@ -33,8 +32,8 @@ public class SessionRequestInterceptor implements Interceptor {
         Request request = chain.request();
         Log.i(TAG, "Interceptor called " + request.headers().toString());
         Request newRequest = request.newBuilder()
-                .header("Authorization", token)
-                .header("Cache-Control", "no-cache")
+                .header("Authorization", sessionManager.getToken())
+                //.header("Cache-Control", "no-cache")
                 .removeHeader("Accept-Encoding")
                 .removeHeader("User-Agent")
                 .removeHeader("Connection")

@@ -2,7 +2,12 @@
     <string name="app_name">HomecareTiMedic</string>
     <string name="act_homecare">HOMECARE</string>
     <string name="act_layanan_lokasi">PERAWAT</string>
+    <string name="act_map_selector">Pilih Lokasi</string>
+    <string name="act_select_patient">Pilih Pasien</string>
+    <string name="act_assessment">Assessment</string>
     <string name="act_add_patient">Tambahkan Pasien</string>
+    <string name="act_date_time_pick">Tanggal dan Waktu</string>
+    <string name="act_resume">Rangkuman</string>
 
     <string name="act_medical_record">Medical Record</string>
 
@@ -27,6 +32,7 @@
     <string name="session_time_out">Session anda telah berakhir. Mohon login ulang!</string>
     <string name="network_problem">Jaringan bermasalah!</string>
     <string name="additional_info_map_selector">ex : RT 01/RW 03 depan masjid Al-Ikhlas</string>
+    <string name="null_assessment">Terdapat asessmen yang belum dilengkapi!</string>
 
     <!-- screen first layout-->
     <string name="first_msg"></string>

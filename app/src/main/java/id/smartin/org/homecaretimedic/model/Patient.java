@@ -24,7 +24,7 @@ public class Patient implements Serializable {
     @SerializedName("weight")
     private double weight;
     @SerializedName("dateOfBirth")
-    private String dateOfBirth;
+    private Long dateOfBirth;
     @SerializedName("placeOfBirth")
     private String placeOfBirth;
     @SerializedName("idAppUser")
@@ -98,11 +98,11 @@ public class Patient implements Serializable {
         this.weight = weight;
     }
 
-    public String getDateOfBirth() {
+    public Long getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(String dateOfBirth) {
+    public void setDateOfBirth(Long dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 

@@ -1,5 +1,6 @@
 package id.smartin.org.homecaretimedic;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Build;
@@ -22,6 +23,7 @@ import butterknife.ButterKnife;
 import id.smartin.org.homecaretimedic.customuicompt.ButtonModel;
 import id.smartin.org.homecaretimedic.model.submitmodel.PickedDateTime;
 import id.smartin.org.homecaretimedic.model.submitmodel.SubmitInfo;
+import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
 
 public class DateTimePickActivity extends AppCompatActivity {
 
@@ -42,8 +44,8 @@ public class DateTimePickActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_date_time_pick);
         ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
         createTitleBar();
+
         createBtnLayout();
 
         btnChooseDate.setOnClickListener(new View.OnClickListener() {
@@ -137,15 +139,22 @@ public class DateTimePickActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("RestrictedApi")
     public void createTitleBar() {
+        setSupportActionBar(toolbar);
+        ViewFaceUtility.changeToolbarFont(toolbar, this, "fonts/Dosis-Bold.otf", R.color.theme_black);
         ActionBar mActionbar = getSupportActionBar();
-        mActionbar.setDisplayHomeAsUpEnabled(false);
-        mActionbar.setDefaultDisplayHomeAsUpEnabled(false);
-        mActionbar.setDisplayShowTitleEnabled(false);
-        mActionbar.setDisplayShowHomeEnabled(false);
+        mActionbar.setDisplayHomeAsUpEnabled(true);
+        mActionbar.setDefaultDisplayHomeAsUpEnabled(true);
+        mActionbar.setDisplayShowHomeEnabled(true);
+        mActionbar.setDisplayShowTitleEnabled(true);
         mActionbar.setDisplayShowCustomEnabled(true);
-        View view = getLayoutInflater().inflate(R.layout.action_bar_layout, null);
-        ActionBar.LayoutParams params = new ActionBar.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT, Gravity.CENTER);
-        mActionbar.setCustomView(view, params);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        onBackPressed();
+        return true;
     }
 }

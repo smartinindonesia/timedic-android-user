@@ -48,6 +48,16 @@ public class SessionManager {
         return jsonInString;
     }
 
+    public void clearToken(String KEY_USER_TOKEN){
+        editor.putString(KEY_USER_TOKEN, "");
+        editor.commit();
+    }
+
+    public boolean hasToken(String KEY_USER_TOKEN){
+        String jsonInString = pref.getString(KEY_USER_TOKEN, "");
+        return !jsonInString.equals("");
+    }
+
     public boolean isLogin(String KEY_IS_LOGIN) {
         return pref.getBoolean(KEY_IS_LOGIN, false);
     }

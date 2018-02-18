@@ -2,6 +2,9 @@ package id.smartin.org.homecaretimedic.model.parammodel;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
+import id.smartin.org.homecaretimedic.model.Assessment;
 import id.smartin.org.homecaretimedic.model.HomecareTransactionStatus;
 import id.smartin.org.homecaretimedic.model.PaymentMethod;
 
@@ -14,6 +17,8 @@ public class HomecareTransParam {
     private Long id;
     @SerializedName("date")
     private String date;
+    @SerializedName("fixedPrice")
+    private double fixedPrice;
     @SerializedName("predictionPrice")
     private double predictionPrice;
     @SerializedName("prepaidPrice")
@@ -28,6 +33,8 @@ public class HomecareTransParam {
     private double locationLongitude;
     @SerializedName("transactionDescription")
     private String transactionDescription;
+    @SerializedName("homecareAssessmentRecordList")
+    private List<AssessmentAnswerParam> assessmentList;
     @SerializedName("transactionStatusId")
     private HomecareTransactionStatus homecareTransactionStatus;
     @SerializedName("paymentMethodId")
@@ -121,26 +128,19 @@ public class HomecareTransParam {
         this.paymentMethod = paymentMethod;
     }
 
-    /**
- * {
- "homecareTransactionCaregiverlistList": [],
- "homecareAssessmentRecordList" :
- [
- {
- "assessmentAnswer": "27 Tahun",
- "filePath": "c://pictures",
- "idAssessment": {"id": 1}
- },
- {
- "assessmentAnswer": "Islam",
- "filePath": "c://pictures",
- "idAssessment": {"id": 4}
- } , and so on .....
- ],
- "transactionStatusId": {"id" : 2}, // 1. Paid, 2. Unpaid, 3. Failed, 4. Cancelled. 5. Expire, 6. Finish, 7. Paid Down Payment
- "homecarePatientId": {"id": 9},
- "paymentMethodId": {"id": 1} // 1. Transfer Bank, 2 Virtual Account Bank, 3. Timedic Pay.
- }
+    public double getFixedPrice() {
+        return fixedPrice;
+    }
 
- */
+    public void setFixedPrice(double fixedPrice) {
+        this.fixedPrice = fixedPrice;
+    }
+
+    public List<AssessmentAnswerParam> getAssessmentList() {
+        return assessmentList;
+    }
+
+    public void setAssessmentList(List<AssessmentAnswerParam> assessmentList) {
+        this.assessmentList = assessmentList;
+    }
 }

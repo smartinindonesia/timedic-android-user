@@ -40,6 +40,14 @@ public class HomecareSessionManager extends SessionManager {
         return super.isLogin(KEY_IS_LOGIN);
     }
 
+    public void clearToken() {
+        super.clearToken(KEY_USER_TOKEN);
+    }
+
+    public void hasToken(){
+        super.hasToken(KEY_USER_TOKEN);
+    }
+
     public void logout() {
         Intent intent = new Intent(getActivity(), LoginActivity.class);
         intent.setFlags(FLAG_ACTIVITY_NEW_TASK);

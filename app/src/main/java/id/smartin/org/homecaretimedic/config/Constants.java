@@ -9,8 +9,9 @@ public class Constants {
     public static final String actionPosition = "device_pos";
 
     //RestApi constants
-    //public static final String BASE_URL = "https://timedic.id:8443";
-    public static final String BASE_URL = "http://192.168.43.104:7778";
+    public static final String BASE_URL = "https://timedic.id:8443";
+    //public static final String BASE_URL = "http://192.168.1.4:8080";
+    //public static final String BASE_URL = "http://192.168.1.5:7778";
 
     //USER
     public static final String ROUTE_LOGIN = "/authenticate/user?";
@@ -36,9 +37,17 @@ public class Constants {
     public static final String ROUTE_HISTORY_ORDER = "/api/history/homecare/";
 
     public static final String ROUTE_ASSESTMENTLIST = "/api/assessments/";
+    public static final String ROUTE_ASSESTMENTS_BY_ID_SERVICES = "/api/assessments/findbyidservices/";
 
     //API managing
     public static final String YOUTUBE_API_KEY = "AIzaSyCs06OoysZqT-UN1-er9Ob7q6cXzVPnViY";
     public static final String YOUTUBE_CHANNEL = "UCjDX29cI6EMpGwAIOER4vvg";
     public static final String YOUTUBE_PROJECT_NAME = "TimedicApps";
+
+    public static final String APP_KEY = "timedictimedic18";
+    public static final String SALT = "dc0da04af8fee58593442bf834b30739";
+    public static final String IV = "dc0da04af8fee58593442bf834b30739";
+    public static final int ITERATION = 1000;
+    public static final int KEY_SIZE = 128;
+
 }

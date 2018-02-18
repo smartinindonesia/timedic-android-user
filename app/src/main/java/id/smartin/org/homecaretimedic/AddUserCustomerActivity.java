@@ -80,7 +80,7 @@ public class AddUserCustomerActivity extends AppCompatActivity {
         createTitleBar();
 
         homecareSessionManager = new HomecareSessionManager(this, getApplicationContext());
-        patientAPIInterface = APIClient.getClientWithToken(homecareSessionManager.getToken(), getApplicationContext()).create(PatientAPIInterface.class);
+        patientAPIInterface = APIClient.getClientWithToken(homecareSessionManager, getApplicationContext()).create(PatientAPIInterface.class);
 
         adapterReligion = ArrayAdapter.createFromResource(this, R.array.religion, android.R.layout.simple_spinner_item);
         adapterReligion.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -130,7 +130,8 @@ public class AddUserCustomerActivity extends AppCompatActivity {
         }
         patient.setHeight(Double.parseDouble(height.getText().toString()));
         patient.setWeight(Double.parseDouble(weight.getText().toString()));
-        patient.setDateOfBirth(dob.getText().toString());
+        Long dobs = ConverterUtility.getTimeStamp(dob.getText().toString(), "dd-MM-yyyy");
+        patient.setDateOfBirth(dobs);
         patient.setGender(genderSpinner.getSelectedItem().toString());
         patient.setIdAppUser(homecareSessionManager.getUserDetail().getId());
         patient.setName(patientsName.getText().toString());
@@ -177,6 +178,7 @@ public class AddUserCustomerActivity extends AppCompatActivity {
         patient.setHeight(Double.parseDouble(height.getText().toString()));
         patient.setWeight(Double.parseDouble(weight.getText().toString()));
         patient.setDateOfBirth(ConverterUtility.getTimeStamp(dob.getText().toString(), "dd-MM-yyyy"));
+        //patient.setDateOfBirth(dob.getText().toString());
         patient.setGender(genderSpinner.getSelectedItem().toString());
         patient.setIdAppUser(homecareSessionManager.getUserDetail().getId());
         patient.setName(patientsName.getText().toString());

@@ -27,10 +27,13 @@ import java.io.UnsupportedEncodingException;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import id.smartin.org.homecaretimedic.config.Constants;
 import id.smartin.org.homecaretimedic.config.PermissionConst;
 import id.smartin.org.homecaretimedic.manager.HomecareSessionManager;
 import id.smartin.org.homecaretimedic.model.User;
 import id.smartin.org.homecaretimedic.model.responsemodel.LoginResponse;
+import id.smartin.org.homecaretimedic.tools.AesUtil;
+import id.smartin.org.homecaretimedic.tools.SecureField;
 import id.smartin.org.homecaretimedic.tools.restservice.APIClient;
 import id.smartin.org.homecaretimedic.tools.restservice.UserAPIInterface;
 import retrofit2.Call;
@@ -115,7 +118,8 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setContentText("Proses Login!");
         progressDialog.setCanceledOnTouchOutside(true);
         progressDialog.show();
-        String shahex = new String(Hex.encodeHex(DigestUtils.sha(password.getText().toString())));
+
+        String shahex = AesUtil.Encrypt(password.getText().toString());
         Call<LoginResponse> responseCall = userAPIInterface.loginUser(username.getText().toString(), shahex);
         responseCall.enqueue(new Callback<LoginResponse>() {
             @Override
@@ -123,6 +127,7 @@ public class LoginActivity extends AppCompatActivity {
                 progressDialog.dismiss();
                 if (response.code() == 200) {
                     Log.i(TAG, response.body().getUser().toString());
+                    Log.i(TAG, "NEW TOKEN "+response.body().getToken());
                     gotoMainPage(response.body().getUser(), response.body().getToken());
                 } else if (response.code() == 401) {
                     Log.i(TAG, response.raw().toString());

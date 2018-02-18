@@ -16,6 +16,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import id.smartin.org.homecaretimedic.config.Constants;
+import id.smartin.org.homecaretimedic.manager.HomecareSessionManager;
 import okhttp3.Authenticator;
 import okhttp3.Cookie;
 import okhttp3.CookieJar;
@@ -53,15 +54,18 @@ public class APIClient {
     }
 
 
-    public static Retrofit getClientWithToken(final String token, Context context) {
+    public static Retrofit getClientWithToken(HomecareSessionManager sessionManager, Context context) {
         CookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(context));
-        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        HttpLoggingInterceptor loggingHeader = new HttpLoggingInterceptor();
+        HttpLoggingInterceptor loggingBody = new HttpLoggingInterceptor();
+        loggingHeader.setLevel(HttpLoggingInterceptor.Level.HEADERS);
+        loggingBody.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder()
                 .cookieJar(cookieJar)
-                .addInterceptor(new SessionRequestInterceptor(token))
-                .addInterceptor(logging)
-                .authenticator(new AuthenticatorSession(token))
+                .addInterceptor(new SessionRequestInterceptor(sessionManager))
+                .authenticator(new AuthenticatorSession(sessionManager))
+                .addInterceptor(loggingHeader)
+                .addInterceptor(loggingBody)
                 .build();
 
         retrofit = new Retrofit.Builder()

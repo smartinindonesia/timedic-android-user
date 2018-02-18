@@ -77,28 +77,33 @@
             android:label="@string/act_medicine_reminder" />
         <activity
             android:name=".MapSelectorActivity"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden"
+            android:label="@string/act_map_selector"/>
 
         <service
             android:name=".service.LocationService"
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".HCAssestmentActivity" />
+        <activity android:name=".HCAssestmentActivity"
+            android:label="@string/act_assessment"/>
         <activity
             android:name=".LayananLokasiActivity"
             android:windowSoftInputMode="stateHidden"
             android:label="@string/act_layanan_lokasi"/>
-        <activity android:name=".AcceptanceActivity" />
+        <activity android:name=".AcceptanceActivity"
+            android:label="@string/act_resume"/>
         <activity android:name=".MedicalResActivity" />
-        <activity android:name=".DateTimePickActivity" />
+        <activity android:name=".DateTimePickActivity"
+            android:label="@string/act_date_time_pick"/>
         <activity android:name=".SignUpActivity" />
         <activity
             android:name=".CekLabOptionActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".AddUserCustomerActivity"
             android:label="@string/act_add_patient"/>
-        <activity android:name=".SelectCustomerActivity" />
+        <activity android:name=".SelectCustomerActivity"
+            android:label="@string/act_select_patient"/>
         <activity android:name=".ProductDetailActivity" />
         <activity android:name=".VideoPlayerActivity" />
         <activity android:name=".CalculatorBBI"

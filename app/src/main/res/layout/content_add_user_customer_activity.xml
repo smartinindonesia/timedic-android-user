@@ -116,7 +116,6 @@
             android:background="@drawable/edittext_border"
             android:drawableLeft="@drawable/ic_click_date"
             android:hint="Tempat Lahir"
-            android:enabled="false"
             android:padding="4dp"
             android:inputType="text"/>
 

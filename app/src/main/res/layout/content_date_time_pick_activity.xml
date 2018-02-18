@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1.5"
             android:background="@drawable/sign_in_selector_bg"
-            android:foreground="@drawable/ic_click_date" />
+            android:foreground="@drawable/ic_select_date_white" />
 
     </LinearLayout>
 

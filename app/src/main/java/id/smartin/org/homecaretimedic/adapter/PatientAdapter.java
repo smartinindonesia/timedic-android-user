@@ -48,7 +48,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.MyViewHo
         this.patientList = patients;
         this.context = context;
         homecareSessionManager = new HomecareSessionManager(context, context.getApplicationContext());
-        patientAPIInterface = APIClient.getClientWithToken(homecareSessionManager.getToken(), context.getApplicationContext()).create(PatientAPIInterface.class);
+        patientAPIInterface = APIClient.getClientWithToken(homecareSessionManager, context.getApplicationContext()).create(PatientAPIInterface.class);
     }
 
     @Override
