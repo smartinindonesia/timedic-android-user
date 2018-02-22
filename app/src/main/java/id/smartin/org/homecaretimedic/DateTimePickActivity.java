@@ -133,7 +133,7 @@ public class DateTimePickActivity extends AppCompatActivity {
                     }
                     buttons[finalI].button.setText("On");
                     buttons[finalI].setOn(true);
-                    pickedDateTime.setTime(""+finalI);
+                    pickedDateTime.setTime(""+finalI+":00");
                 }
             });
         }

@@ -33,6 +33,8 @@
     <string name="network_problem">Jaringan bermasalah!</string>
     <string name="additional_info_map_selector">ex : RT 01/RW 03 depan masjid Al-Ikhlas</string>
     <string name="null_assessment">Terdapat asessmen yang belum dilengkapi!</string>
+    <string name="transaction_success">Proses transaksi berhasil dilakukan. Silahkan tunggu konfirmasi dari kami!</string>
+    <string name="transaction_failed">Proses transaksi gagal dilakukan. Silahkan coba lagi!</string>
 
     <!-- screen first layout-->
     <string name="first_msg"></string>

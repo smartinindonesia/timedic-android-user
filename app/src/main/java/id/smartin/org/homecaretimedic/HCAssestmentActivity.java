@@ -73,7 +73,7 @@ public class HCAssestmentActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (assestmentAdapter.isAssessmentFullfilled()) {
-                    SubmitInfo.assessmentList = assestmentAdapter.getAssessmentResult();
+                    SubmitInfo.assessmentList = assestmentAdapter.getAssesmentAnswerParams();
                     Intent acceptanceIntent = new Intent(HCAssestmentActivity.this, DateTimePickActivity.class);
                     startActivity(acceptanceIntent);
                     finish();

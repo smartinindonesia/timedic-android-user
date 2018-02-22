@@ -9,6 +9,16 @@ import com.google.gson.annotations.SerializedName;
 public class PaymentMethod {
     @SerializedName("id")
     private Long id;
+    private String paymentMethodName;
+
+    public PaymentMethod(Long id) {
+        this.id = id;
+    }
+
+    public PaymentMethod(Long id, String paymentMethodName) {
+        this.id = id;
+        this.paymentMethodName = paymentMethodName;
+    }
 
     public Long getId() {
         return id;
@@ -16,5 +26,13 @@ public class PaymentMethod {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getPaymentMethodName() {
+        return paymentMethodName;
+    }
+
+    public void setPaymentMethodName(String paymentMethodName) {
+        this.paymentMethodName = paymentMethodName;
     }
 }

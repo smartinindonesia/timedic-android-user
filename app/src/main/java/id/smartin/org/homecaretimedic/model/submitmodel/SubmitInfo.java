@@ -9,6 +9,7 @@ import id.smartin.org.homecaretimedic.model.Klinik;
 import id.smartin.org.homecaretimedic.model.Patient;
 import id.smartin.org.homecaretimedic.model.ServicePlace;
 import id.smartin.org.homecaretimedic.model.User;
+import id.smartin.org.homecaretimedic.model.parammodel.AssessmentAnswerParam;
 
 /**
  * Created by Hafid on 10/29/2017.
@@ -32,7 +33,7 @@ public class SubmitInfo {
     public static PickedDateTime selectedDateTime; //Tanggal dan waktu layanan yg dipilih
     public static User selectedCareGiver;
     public static Klinik selectedCareClinic;
-    public static List<Assessment> assessmentList = new ArrayList<>();
+    public static List<AssessmentAnswerParam> assessmentList = new ArrayList<>();
 
     public void clearAllData(){
 

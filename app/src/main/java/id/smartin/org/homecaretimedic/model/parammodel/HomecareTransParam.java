@@ -6,6 +6,7 @@ import java.util.List;
 
 import id.smartin.org.homecaretimedic.model.Assessment;
 import id.smartin.org.homecaretimedic.model.HomecareTransactionStatus;
+import id.smartin.org.homecaretimedic.model.Patient;
 import id.smartin.org.homecaretimedic.model.PaymentMethod;
 
 /**
@@ -16,7 +17,7 @@ public class HomecareTransParam {
     @SerializedName("id")
     private Long id;
     @SerializedName("date")
-    private String date;
+    private Long date;
     @SerializedName("fixedPrice")
     private double fixedPrice;
     @SerializedName("predictionPrice")
@@ -39,6 +40,8 @@ public class HomecareTransParam {
     private HomecareTransactionStatus homecareTransactionStatus;
     @SerializedName("paymentMethodId")
     private PaymentMethod paymentMethod;
+    @SerializedName("homecarePatientId")
+    private Patient homecarePatientId;
 
     public Long getId() {
         return id;
@@ -48,11 +51,11 @@ public class HomecareTransParam {
         this.id = id;
     }
 
-    public String getDate() {
+    public Long getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Long date) {
         this.date = date;
     }
 
@@ -142,5 +145,13 @@ public class HomecareTransParam {
 
     public void setAssessmentList(List<AssessmentAnswerParam> assessmentList) {
         this.assessmentList = assessmentList;
+    }
+
+    public Patient getHomecarePatientId() {
+        return homecarePatientId;
+    }
+
+    public void setHomecarePatientId(Patient homecarePatientId) {
+        this.homecarePatientId = homecarePatientId;
     }
 }

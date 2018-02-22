@@ -7,12 +7,19 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class AssessmentAnswerParam {
+
+    @SerializedName("idAssessment")
+    private IdAssessment idAssessment;
     @SerializedName("assessmentAnswer")
     private String assessmentAnswer;
     @SerializedName("filePath")
     private String filePath;
-    @SerializedName("idAssessment")
-    private IdAssessment idAssessment;
+
+    public AssessmentAnswerParam(IdAssessment idAssessment, String assessmentAnswer, String filePath) {
+        this.idAssessment = idAssessment;
+        this.assessmentAnswer = assessmentAnswer;
+        this.filePath = filePath;
+    }
 
     public String getAssessmentAnswer() {
         return assessmentAnswer;
@@ -38,9 +45,16 @@ public class AssessmentAnswerParam {
         this.idAssessment = idAssessment;
     }
 
-    class IdAssessment {
+    public static class IdAssessment {
         @SerializedName("id")
         private Long id;
+
+        public IdAssessment(Long id) {
+            this.id = id;
+        }
+
+        public IdAssessment() {
+        }
 
         public Long getId() {
             return id;

@@ -13,12 +13,14 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.smartin.org.homecaretimedic.R;
 import id.smartin.org.homecaretimedic.model.Assessment;
+import id.smartin.org.homecaretimedic.model.parammodel.AssessmentAnswerParam;
 
 /**
  * Created by Hafid on 11/2/2017.
@@ -91,18 +93,18 @@ public class AssestmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     rdbtn.setTag(assessment.getOptions().get(i).getOption());
                     viewHolderOption.option.addView(rdbtn);
                 }
-                if (assessment.getId_multiple_choice()>0){
+                if (assessment.getId_multiple_choice() > 0) {
                     viewHolderOption.option.check(assessment.getId_multiple_choice());
                 }
                 viewHolderOption.option.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(RadioGroup radioGroup, int i) {
                         int result = viewHolderOption.option.getCheckedRadioButtonId();
-                        if (result!=-1){
+                        if (result != -1) {
                             RadioButton b = (RadioButton) viewHolderOption.itemView.findViewById(result);
                             assessmentList.get(position).setAnswer(b.getText().toString());
                             assessmentList.get(position).setId_multiple_choice(result);
-                            Log.i(TAG, "Selected "+assessment.getAnswer());
+                            Log.i(TAG, "Selected " + assessment.getAnswer());
                         }
                     }
                 });
@@ -139,17 +141,26 @@ public class AssestmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         else return null;
     }
 
-    public boolean isAssessmentFullfilled(){
-        for (int i = 0; i < assessmentList.size(); i++){
-            if (assessmentList.get(i).getAnswer()==null){
+    public boolean isAssessmentFullfilled() {
+        for (int i = 0; i < assessmentList.size(); i++) {
+            if (assessmentList.get(i).getAnswer() == null) {
                 return false;
             }
         }
         return true;
     }
 
-    public List<Assessment> getAssessmentResult(){
+    public List<Assessment> getAssessmentResult() {
         return assessmentList;
+    }
+
+    public List<AssessmentAnswerParam> getAssesmentAnswerParams() {
+        List<AssessmentAnswerParam> assessmentAnswerParams = new ArrayList<>();
+        for (int i = 0; i < assessmentList.size(); i++) {
+            Assessment assessment = assessmentList.get(i);
+            assessmentAnswerParams.add(new AssessmentAnswerParam(new AssessmentAnswerParam.IdAssessment((long) assessment.getId()), assessment.getAnswer(), assessment.getPath_file()));
+        }
+        return assessmentAnswerParams;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
