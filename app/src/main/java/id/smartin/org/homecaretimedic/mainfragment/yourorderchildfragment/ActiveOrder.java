@@ -24,4 +24,8 @@ public class ActiveOrder extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_active_order, container, false);
     }
+
+    public void getActiveOrder(){
+
+    }
 }

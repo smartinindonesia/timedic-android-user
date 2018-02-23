@@ -9,6 +9,7 @@ import com.google.gson.annotations.SerializedName;
 public class HomecareTransactionStatus {
     @SerializedName("id")
     private Long id;
+    @SerializedName("status")
     private String status;
 
     public HomecareTransactionStatus(Long id) {
