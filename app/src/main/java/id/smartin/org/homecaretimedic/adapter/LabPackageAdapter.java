@@ -4,15 +4,21 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -26,12 +32,13 @@ import id.smartin.org.homecaretimedic.model.LabPackageItem;
  */
 
 public class LabPackageAdapter extends RecyclerView.Adapter<LabPackageAdapter.MyViewHolder> {
+    public static String TAG = "[LabPackageAdapter]";
 
     private List<LabPackageItem> labPackageItems;
     private Context context;
     private Activity activity;
 
-    public LabPackageAdapter(Activity activity, Context context, List<LabPackageItem> labPackageItems){
+    public LabPackageAdapter(Activity activity, Context context, List<LabPackageItem> labPackageItems) {
         this.context = context;
         this.labPackageItems = labPackageItems;
         this.activity = activity;
@@ -45,21 +52,35 @@ public class LabPackageAdapter extends RecyclerView.Adapter<LabPackageAdapter.My
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
-        LabPackageItem labPackageItem = labPackageItems.get(position);
+    public void onBindViewHolder(MyViewHolder holder, final int position) {
+        final LabPackageItem labPackageItem = labPackageItems.get(position);
+        RequestOptions requestOptions = new RequestOptions()
+                .diskCacheStrategy(DiskCacheStrategy.ALL) // because file name is always same
+                .skipMemoryCache(true);
         Glide.with(context).load(labPackageItem.getUrl_icon())
+                .apply(requestOptions)
                 .thumbnail(0.5f)
                 .into(holder.packageIcon);
         holder.packageName.setText(labPackageItem.getName());
         holder.packagePrice.setText(labPackageItem.getPrice());
-        holder.selectItem.setOnClickListener(new View.OnClickListener() {
+        holder.checkBox.setChecked(labPackageItem.isSelected());
+        holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, MapSelectorActivity.class);
-                activity.startActivity(intent);
-                activity.finish();
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                labPackageItems.get(position).setSelected(b);
+                Log.i(TAG, "SET ITEM into " + b);
             }
         });
+    }
+
+    public List<LabPackageItem> getSelectedPackageItems() {
+        List<LabPackageItem> labPackageItemsNew = new ArrayList<>();
+        for (int i = 0; i < labPackageItems.size(); i++) {
+            if (labPackageItems.get(i).isSelected()) {
+                labPackageItemsNew.add(labPackageItems.get(i));
+            }
+        }
+        return labPackageItemsNew;
     }
 
     @Override
@@ -67,23 +88,23 @@ public class LabPackageAdapter extends RecyclerView.Adapter<LabPackageAdapter.My
         return labPackageItems.size();
     }
 
-    public LabPackageItem getItem(int position){
-        return  labPackageItems.get(position);
+    public LabPackageItem getItem(int position) {
+        return labPackageItems.get(position);
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.selectItem)
-        public Button selectItem;
         @BindView(R.id.packageIcon)
         public ImageView packageIcon;
         @BindView(R.id.packageName)
         public TextView packageName;
         @BindView(R.id.packagePrice)
         public TextView packagePrice;
+        @BindView(R.id.selectPackage)
+        CheckBox checkBox;
 
         public MyViewHolder(View view) {
             super(view);
-            ButterKnife.bind(this,view);
+            ButterKnife.bind(this, view);
         }
     }
 }

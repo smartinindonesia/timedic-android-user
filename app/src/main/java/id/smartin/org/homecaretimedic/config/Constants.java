@@ -10,6 +10,7 @@ public class Constants {
 
     //RestApi constants
     public static final String BASE_URL = "https://timedic.id:8443";
+    //public static final String BASE_URL = "http://167.205.7.227:8080";
     //public static final String BASE_URL = "http://192.168.1.4:8080";
     //public static final String BASE_URL = "http://192.168.1.5:7778";
 
@@ -49,5 +50,9 @@ public class Constants {
     public static final String IV = "dc0da04af8fee58593442bf834b30739";
     public static final int ITERATION = 1000;
     public static final int KEY_SIZE = 128;
+    public static final String TRANSFORM = "AES/CBC/PKCS5Padding";
+    public static final String CHARSET_ENC = "UTF-8";
+    public static final String SECRET_KEY_FACTORY = "PBKDF2WithHmacSHA1";
+    public static final String SECURITY_ALGO = "AES";
 
 }

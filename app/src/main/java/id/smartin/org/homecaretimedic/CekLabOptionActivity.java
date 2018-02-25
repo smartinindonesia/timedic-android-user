@@ -1,6 +1,7 @@
 package id.smartin.org.homecaretimedic;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -44,6 +45,7 @@ import id.smartin.org.homecaretimedic.customuicompt.GridSpacingItemDecoration;
 import id.smartin.org.homecaretimedic.model.LabPackageItem;
 import id.smartin.org.homecaretimedic.model.LayananLab;
 import id.smartin.org.homecaretimedic.tools.TextFormatter;
+import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
 import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
 
@@ -65,13 +67,15 @@ public class CekLabOptionActivity extends AppCompatActivity {
     @BindView(R.id.addedItemLayout)
     RelativeLayout addedItemLayout;
     @BindView(R.id.packageLayout)
-    LinearLayout packageLayout;
+    RelativeLayout packageLayout;
     @BindView(R.id.totalPrice)
     TextView selectedTotalPrice;
     @BindView(R.id.btnRujukanDokter)
     Button btnRujukanDokter;
     @BindView(R.id.nextButton)
     Button btnGotoMap;
+    @BindView(R.id.selectItem)
+    Button selectItem;
 
     private List<LabPackageItem> labPackageItemList = new ArrayList<LabPackageItem>();
     private LabPackageAdapter labPackageAdapter;
@@ -138,21 +142,36 @@ public class CekLabOptionActivity extends AppCompatActivity {
             }
         });
 
-        nextIntent = new Intent(CekLabOptionActivity.this, LayananLokasiActivity.class);
+        nextIntent = new Intent(CekLabOptionActivity.this, MapSelectorActivity.class);
         prepareLayanan();
         prepareLabPackageItems();
+
+        selectItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(nextIntent);
+                finish();
+            }
+        });
     }
 
+    @SuppressLint("RestrictedApi")
     public void createTitleBar() {
+        setSupportActionBar(toolbar);
+        ViewFaceUtility.changeToolbarFont(toolbar, this,"fonts/Dosis-Bold.otf", R.color.theme_black);
         ActionBar mActionbar = getSupportActionBar();
-        mActionbar.setDisplayHomeAsUpEnabled(false);
-        mActionbar.setDefaultDisplayHomeAsUpEnabled(false);
-        mActionbar.setDisplayShowTitleEnabled(false);
-        mActionbar.setDisplayShowHomeEnabled(false);
+        mActionbar.setDisplayHomeAsUpEnabled(true);
+        mActionbar.setDefaultDisplayHomeAsUpEnabled(true);
+        mActionbar.setDisplayShowHomeEnabled(true);
+        mActionbar.setDisplayShowTitleEnabled(true);
         mActionbar.setDisplayShowCustomEnabled(true);
-        View view = getLayoutInflater().inflate(R.layout.action_bar_layout, null);
-        ActionBar.LayoutParams params = new ActionBar.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT, Gravity.CENTER);
-        mActionbar.setCustomView(view, params);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        onBackPressed();
+        return true;
     }
 
     private void openImage() {

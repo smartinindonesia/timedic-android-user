@@ -20,31 +20,32 @@ import id.smartin.org.homecaretimedic.tools.ConverterUtility;
  * Created by Hafid on 11/25/2017.
  */
 
-public class HistoryOrderAdapter extends RecyclerView.Adapter<HistoryOrderAdapter.MyViewHolder> {
+public class ActiveOrderAdapter extends RecyclerView.Adapter<ActiveOrderAdapter.MyViewHolder>{
     public static final String TAG = "[ActiveOrdAdapter]";
 
     private List<Order> orderList;
     private Context context;
     private Activity activity;
 
-    public HistoryOrderAdapter(Activity activity, Context context, List<Order> orders) {
+    public ActiveOrderAdapter(Activity activity, Context context, List<Order> orders) {
         this.orderList = orders;
         this.context = context;
         this.activity = activity;
     }
 
     @Override
-    public HistoryOrderAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_history_order, parent, false);
-        return new HistoryOrderAdapter.MyViewHolder(itemView);
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_active_order, parent, false);
+        return new ActiveOrderAdapter.MyViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(HistoryOrderAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(MyViewHolder holder, int position) {
         Order order = orderList.get(position);
         holder.orderName.setText(order.getTransactionDescription());
         holder.patientsName.setText(order.getHomecarePatientId().getName());
-        holder.transactionDate.setText(ConverterUtility.getDateStringCustomPattern(order.getDate(), "dd-MM-yyyy HH:mm"));
+        holder.transactionDate.setText(ConverterUtility.getDateStringCustomPattern(order.getDate(),"dd-MM-yyyy HH:mm"));
         holder.transactionStatus.setText(order.getHomecareTransactionStatus().getStatus());
     }
 
@@ -53,8 +54,8 @@ public class HistoryOrderAdapter extends RecyclerView.Adapter<HistoryOrderAdapte
         return orderList.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
 
+    public class MyViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.transactionDate)
         public TextView transactionDate;
         @BindView(R.id.orderName)
@@ -66,7 +67,7 @@ public class HistoryOrderAdapter extends RecyclerView.Adapter<HistoryOrderAdapte
 
         public MyViewHolder(View view) {
             super(view);
-            ButterKnife.bind(this, view);
+            ButterKnife.bind(this,view);
         }
     }
 }

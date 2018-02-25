@@ -16,6 +16,8 @@ import javax.crypto.spec.SecretKeySpec;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 
+import id.smartin.org.homecaretimedic.config.Constants;
+
 public class AesUtilHelper {
     private final int keySize;
     private final int iterationCount;
@@ -25,7 +27,7 @@ public class AesUtilHelper {
         this.keySize = keySize;
         this.iterationCount = iterationCount;
         try {
-            cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            cipher = Cipher.getInstance(Constants.TRANSFORM);
         }
         catch (Exception e) {
             throw fail(e);
@@ -35,7 +37,7 @@ public class AesUtilHelper {
     public String encrypt(String salt, String iv, String passphrase, String plaintext) {
         try {
             SecretKey key = generateKey(salt, passphrase);
-            byte[] encrypted = doFinal(Cipher.ENCRYPT_MODE, key, iv, plaintext.getBytes("UTF-8"));
+            byte[] encrypted = doFinal(Cipher.ENCRYPT_MODE, key, iv, plaintext.getBytes(Constants.CHARSET_ENC));
             return base64(encrypted);
         }
         catch (UnsupportedEncodingException e) {
@@ -47,7 +49,7 @@ public class AesUtilHelper {
         try {
             SecretKey key = generateKey(salt, passphrase);
             byte[] decrypted = doFinal(Cipher.DECRYPT_MODE, key, iv, base64(ciphertext));
-            return new String(decrypted, "UTF-8");
+            return new String(decrypted, Constants.CHARSET_ENC);
         }
         catch (UnsupportedEncodingException e) {
             throw fail(e);
@@ -67,9 +69,9 @@ public class AesUtilHelper {
     
     private SecretKey generateKey(String salt, String passphrase) {
         try {
-            SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+            SecretKeyFactory factory = SecretKeyFactory.getInstance(Constants.SECRET_KEY_FACTORY);
             KeySpec spec = new PBEKeySpec(passphrase.toCharArray(), hex(salt), iterationCount, keySize);
-            SecretKey key = new SecretKeySpec(factory.generateSecret(spec).getEncoded(), "AES");
+            SecretKey key = new SecretKeySpec(factory.generateSecret(spec).getEncoded(), Constants.SECURITY_ALGO);
             return key;
         }
         catch (Exception e) {

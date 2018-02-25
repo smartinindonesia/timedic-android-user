@@ -11,13 +11,12 @@ import java.util.Date;
 
 public class ConverterUtility {
 
-    public static String getDateString(int timeStamp){
-        try{
+    public static String getDateString(int timeStamp) {
+        try {
             SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
             Date netDate = (new Date(timeStamp));
             return sdf.format(netDate);
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             return "-";
         }
     }
@@ -37,13 +36,22 @@ public class ConverterUtility {
         return fromTS1.getTime();
     }
 
-    public static String getDateString(Long timeStamp){
-        try{
+    public static String getDateString(Long timeStamp) {
+        try {
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
             Date netDate = (new Date(timeStamp));
             return sdf.format(netDate);
+        } catch (Exception ex) {
+            return "-";
         }
-        catch(Exception ex){
+    }
+
+    public static String getDateStringCustomPattern(Long timeStamp, String pattern) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+            Date netDate = (new Date(timeStamp));
+            return sdf.format(netDate);
+        } catch (Exception ex) {
             return "-";
         }
     }

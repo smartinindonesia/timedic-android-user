@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="?attr/actionBarSize"
@@ -8,6 +8,7 @@
 
     <LinearLayout
         android:id="@+id/selectItemLayananLayout"
+        android:layout_alignParentTop="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/shadow_clr"
@@ -36,6 +37,7 @@
 
     <LinearLayout
         android:id="@+id/rujukanLayout"
+        android:layout_below="@id/selectItemLayananLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimaryTransparent"
@@ -67,6 +69,10 @@
     <RelativeLayout
         android:id="@+id/addedItemLayout"
         android:layout_width="match_parent"
+        android:layout_below="@id/rujukanLayout"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_alignParentBottom="true"
         android:layout_height="wrap_content"
         android:visibility="gone"
         android:padding="@dimen/global_page_padding">
@@ -98,17 +104,35 @@
             android:background="@drawable/orange_selector_button_bg" />
     </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/packageLayout"
+        android:layout_below="@id/rujukanLayout"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/card_recycler_view"
+            android:layout_alignParentTop="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_above="@id/selectItem"
             android:scrollbars="vertical" />
 
-    </LinearLayout>
+        <Button
+            android:id="@+id/selectItem"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:background="@drawable/sign_in_selector_bg"
+            android:hint="Selanjutnya"
+            android:textColorHint="@color/sign_in_selector_fg"
+            android:layout_height="wrap_content" />
 
-</LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -15,6 +15,7 @@ public class LabPackageItem {
     private String price;
     @SerializedName("url_icon")
     private String url_icon;
+    private boolean selected;
 
     public int getId() {
         return id;
@@ -46,6 +47,14 @@ public class LabPackageItem {
 
     public void setUrl_icon(String url_icon) {
         this.url_icon = url_icon;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 
     @Override

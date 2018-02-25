@@ -34,7 +34,6 @@ public class HomecareActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homecare);
         ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
         createTitleBar();
         btnPerawat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,6 +55,7 @@ public class HomecareActivity extends AppCompatActivity {
 
     @SuppressLint("RestrictedApi")
     public void createTitleBar() {
+        setSupportActionBar(toolbar);
         ViewFaceUtility.changeToolbarFont(toolbar, this,"fonts/Dosis-Bold.otf", R.color.theme_black);
         ActionBar mActionbar = getSupportActionBar();
         mActionbar.setDisplayHomeAsUpEnabled(true);
@@ -71,4 +71,5 @@ public class HomecareActivity extends AppCompatActivity {
         onBackPressed();
         return true;
     }
+
 }

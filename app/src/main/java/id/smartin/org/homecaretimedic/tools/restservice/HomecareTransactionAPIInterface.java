@@ -1,6 +1,9 @@
 package id.smartin.org.homecaretimedic.tools.restservice;
 
+import java.util.List;
+
 import id.smartin.org.homecaretimedic.config.Constants;
+import id.smartin.org.homecaretimedic.model.Order;
 import id.smartin.org.homecaretimedic.model.parammodel.HomecareTransParam;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -29,8 +32,8 @@ public interface HomecareTransactionAPIInterface {
     Call<ResponseBody> insertNewTransaction(@Body HomecareTransParam param);
 
     @GET(Constants.ROUTE_HISTORY_ORDER + "{idUser}")
-    Call<ResponseBody> getHistoryOrderByIdUser(@Path(value = "idUser", encoded = true) Long id);
+    Call<List<Order>> getHistoryOrderByIdUser(@Path(value = "idUser", encoded = true) Long id);
 
     @GET(Constants.ROUTE_ACTIVE_ORDER + "{id}")
-    Call<ResponseBody> getActiveOrder(@Path(value = "id", encoded = true) Long id);
+    Call<List<Order>> getActiveOrder(@Path(value = "id", encoded = true) Long id);
 }
