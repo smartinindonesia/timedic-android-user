@@ -142,7 +142,7 @@ public class CekLabOptionActivity extends AppCompatActivity {
             }
         });
 
-        nextIntent = new Intent(CekLabOptionActivity.this, MapSelectorActivity.class);
+        nextIntent = new Intent(CekLabOptionActivity.this, LocationOnlyActivity.class);
         prepareLayanan();
         prepareLabPackageItems();
 
@@ -154,6 +154,8 @@ public class CekLabOptionActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
     @SuppressLint("RestrictedApi")
     public void createTitleBar() {
