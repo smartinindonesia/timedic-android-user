@@ -14,9 +14,7 @@
             android:id="@+id/serviceName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Service Name"
-            android:textAppearance="@style/AppTheme.Base.TextAppearance"
-            android:textStyle="bold" />
+            android:text="Service Name" />
 
         <TextView
             android:id="@+id/servicePrice"

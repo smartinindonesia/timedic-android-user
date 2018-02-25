@@ -20,7 +20,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
@@ -42,12 +41,20 @@ import id.smartin.org.homecaretimedic.adapter.LayananLabAutoCompleteAdapter;
 import id.smartin.org.homecaretimedic.config.Action;
 import id.smartin.org.homecaretimedic.config.RequestCode;
 import id.smartin.org.homecaretimedic.customuicompt.GridSpacingItemDecoration;
+import id.smartin.org.homecaretimedic.manager.HomecareSessionManager;
 import id.smartin.org.homecaretimedic.model.LabPackageItem;
-import id.smartin.org.homecaretimedic.model.LayananLab;
+import id.smartin.org.homecaretimedic.model.LabServices;
+import id.smartin.org.homecaretimedic.model.submitmodel.SubmitInfo;
 import id.smartin.org.homecaretimedic.tools.TextFormatter;
 import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
+import id.smartin.org.homecaretimedic.tools.restservice.APIClient;
+import id.smartin.org.homecaretimedic.tools.restservice.HomecareTransactionAPIInterface;
+import id.smartin.org.homecaretimedic.tools.restservice.LaboratoryServiceAPIInterface;
 import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CekLabOptionActivity extends AppCompatActivity {
     public static final String TAG = "[CekLabOptionActivity]";
@@ -80,11 +87,14 @@ public class CekLabOptionActivity extends AppCompatActivity {
     private List<LabPackageItem> labPackageItemList = new ArrayList<LabPackageItem>();
     private LabPackageAdapter labPackageAdapter;
 
-    private ArrayList<LayananLab> layananLabs = new ArrayList<>();
+    private ArrayList<LabServices> labServices = new ArrayList<>();
     private LayananLabAutoCompleteAdapter adapterLayanan;
 
-    private List<LayananLab> selectedLayananLabs = new ArrayList<>();
+    private List<LabServices> selectedLabServices = new ArrayList<>();
     private LayananLabAdapter selectedLabAdapter;
+
+    private HomecareSessionManager homecareSessionManager;
+    private LaboratoryServiceAPIInterface laboratoryServiceAPIInterface;
 
     BroadcastReceiver refresher = new MyReceiver();
     Intent nextIntent;
@@ -94,22 +104,25 @@ public class CekLabOptionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cek_lab_option);
         ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
+
+        homecareSessionManager = new HomecareSessionManager(this, getApplicationContext());
+        laboratoryServiceAPIInterface = APIClient.getClientWithToken(homecareSessionManager, getApplicationContext()).create(LaboratoryServiceAPIInterface.class);
+
         createTitleBar();
-        selectedLabAdapter = new LayananLabAdapter(getApplicationContext(), selectedLayananLabs);
+        selectedLabAdapter = new LayananLabAdapter(this, getApplicationContext(), selectedLabServices);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         addedItemView.setLayoutManager(mLayoutManager);
         addedItemView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         addedItemView.setItemAnimator(new DefaultItemAnimator());
         addedItemView.setAdapter(selectedLabAdapter);
 
-        adapterLayanan = new LayananLabAutoCompleteAdapter(getApplicationContext(), R.layout.layanan_lab_item, layananLabs);
+        adapterLayanan = new LayananLabAutoCompleteAdapter(this, getApplicationContext(), R.layout.layanan_lab_item, labServices);
         autoSearchLabService.setAdapter(adapterLayanan);
         autoSearchLabService.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                LayananLab l = (LayananLab) parent.getAdapter().getItem(position);
-                if (!selectedLayananLabs.contains(l)) selectedLayananLabs.add(l);
+                LabServices l = (LabServices) parent.getAdapter().getItem(position);
+                if (!selectedLabServices.contains(l)) selectedLabServices.add(l);
                 selectedLabAdapter.notifyDataSetChanged();
                 if (selectedLabAdapter.getItemCount() > 0) {
                     setLayananLabsAvailable();
@@ -137,18 +150,19 @@ public class CekLabOptionActivity extends AppCompatActivity {
         btnGotoMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SubmitInfo.selectedLabServices = selectedLabAdapter.getAllSelectedServices();
                 startActivity(nextIntent);
                 finish();
             }
         });
 
         nextIntent = new Intent(CekLabOptionActivity.this, LocationOnlyActivity.class);
-        prepareLayanan();
-        prepareLabPackageItems();
-
+        populateServices();
+        populatePackages();
         selectItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SubmitInfo.selectedLabPackages = labPackageAdapter.getSelectedPackageItems();
                 startActivity(nextIntent);
                 finish();
             }
@@ -156,11 +170,10 @@ public class CekLabOptionActivity extends AppCompatActivity {
     }
 
 
-
     @SuppressLint("RestrictedApi")
     public void createTitleBar() {
         setSupportActionBar(toolbar);
-        ViewFaceUtility.changeToolbarFont(toolbar, this,"fonts/Dosis-Bold.otf", R.color.theme_black);
+        ViewFaceUtility.changeToolbarFont(toolbar, this, "fonts/Dosis-Bold.otf", R.color.theme_black);
         ActionBar mActionbar = getSupportActionBar();
         mActionbar.setDisplayHomeAsUpEnabled(true);
         mActionbar.setDefaultDisplayHomeAsUpEnabled(true);
@@ -271,17 +284,17 @@ public class CekLabOptionActivity extends AppCompatActivity {
     }
 
     public void prepareLayanan() {
-        layananLabs.clear();
-        LayananLab layananLab = new LayananLab();
-        layananLab.setId(1);
-        layananLab.setHargaLayanan(5000);
-        layananLab.setNamaLayanan("HomecareService 1");
-        LayananLab layananLab1 = new LayananLab();
-        layananLab1.setId(2);
-        layananLab1.setHargaLayanan(5000);
-        layananLab1.setNamaLayanan("HomecareService 2");
-        layananLabs.add(layananLab);
-        layananLabs.add(layananLab1);
+        this.labServices.clear();
+        LabServices labServices = new LabServices();
+        labServices.setId(1);
+        labServices.setHargaLayanan(5000);
+        labServices.setNamaLayanan("HomecareService 1");
+        LabServices labServices1 = new LabServices();
+        labServices1.setId(2);
+        labServices1.setHargaLayanan(5000);
+        labServices1.setNamaLayanan("HomecareService 2");
+        this.labServices.add(labServices);
+        this.labServices.add(labServices1);
         adapterLayanan.notifyDataSetChanged();
     }
 
@@ -307,5 +320,53 @@ public class CekLabOptionActivity extends AppCompatActivity {
                 selectedTotalPrice.setText("Harga total : " + TextFormatter.doubleToRupiah(selectedLabAdapter.sumOfPrice()));
             }
         }
+    }
+
+    public void populateServices() {
+        Call<List<LabServices>> services = laboratoryServiceAPIInterface.getAllServices();
+        services.enqueue(new Callback<List<LabServices>>() {
+            @Override
+            public void onResponse(Call<List<LabServices>> call, Response<List<LabServices>> response) {
+                if (response.code() == 200) {
+                    labServices.clear();
+                    for (int i = 0; i < response.body().size(); i++) {
+                        labServices.add(response.body().get(i));
+                    }
+                    adapterLayanan.notifyDataChange();
+                } else {
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<LabServices>> call, Throwable t) {
+                call.cancel();
+                homecareSessionManager.logout();
+            }
+        });
+    }
+
+    public void populatePackages() {
+        Call<List<LabPackageItem>> services = laboratoryServiceAPIInterface.getAllPackages();
+        services.enqueue(new Callback<List<LabPackageItem>>() {
+            @Override
+            public void onResponse(Call<List<LabPackageItem>> call, Response<List<LabPackageItem>> response) {
+                if (response.code() == 200) {
+                    labPackageItemList.clear();
+                    for (int i = 0; i < response.body().size(); i++) {
+                        labPackageItemList.add(response.body().get(i));
+                    }
+                    labPackageAdapter.notifyDataSetChanged();
+                } else {
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<LabPackageItem>> call, Throwable t) {
+                call.cancel();
+                homecareSessionManager.logout();
+            }
+        });
     }
 }

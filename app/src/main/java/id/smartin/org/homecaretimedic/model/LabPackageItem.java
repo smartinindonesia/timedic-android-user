@@ -9,11 +9,15 @@ import com.google.gson.annotations.SerializedName;
 public class LabPackageItem {
     @SerializedName("id")
     private int id;
-    @SerializedName("name")
+    @SerializedName("packageName")
     private String name;
+    @SerializedName("packageCode")
+    private String packageCode;
+    @SerializedName("packageDescription")
+    private String packageDescription;
     @SerializedName("price")
     private String price;
-    @SerializedName("url_icon")
+    @SerializedName("uriPackageIcon")
     private String url_icon;
     private boolean selected;
 

@@ -111,7 +111,6 @@ public class LayananLokasiActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
         populateServicePlaceDummy();
     }
 

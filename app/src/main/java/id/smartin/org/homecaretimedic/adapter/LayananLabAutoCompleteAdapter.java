@@ -1,5 +1,6 @@
 package id.smartin.org.homecaretimedic.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,22 +13,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 import id.smartin.org.homecaretimedic.R;
-import id.smartin.org.homecaretimedic.model.LayananLab;
+import id.smartin.org.homecaretimedic.config.Constants;
+import id.smartin.org.homecaretimedic.model.LabServices;
+import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
 
 /**
  * Created by Hafid on 11/12/2017.
  */
 
-public class LayananLabAutoCompleteAdapter extends ArrayAdapter<LayananLab> {
+public class LayananLabAutoCompleteAdapter extends ArrayAdapter<LabServices> {
     private final Context mContext;
-    private final List<LayananLab> mDepartments;
-    private final List<LayananLab> mDepartments_All;
-    private final List<LayananLab> mDepartments_Suggestion;
+    private final List<LabServices> mDepartments;
+    private final List<LabServices> mDepartments_All;
+    private final List<LabServices> mDepartments_Suggestion;
     private final int mLayoutResourceId;
+    private Activity activity;
 
-    public LayananLabAutoCompleteAdapter(Context context, int resource, List<LayananLab> departments) {
+
+    public LayananLabAutoCompleteAdapter(Activity activity, Context context, int resource, List<LabServices> departments) {
         super(context, resource, departments);
         this.mContext = context;
+        this.activity = activity;
         this.mLayoutResourceId = resource;
         this.mDepartments = new ArrayList<>(departments);
         this.mDepartments_All = departments;
@@ -38,7 +44,7 @@ public class LayananLabAutoCompleteAdapter extends ArrayAdapter<LayananLab> {
         return mDepartments.size();
     }
 
-    public LayananLab getItem(int position) {
+    public LabServices getItem(int position) {
         return mDepartments.get(position);
     }
 
@@ -49,7 +55,7 @@ public class LayananLabAutoCompleteAdapter extends ArrayAdapter<LayananLab> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         try {
-            LayananLab department = getItem(position);
+            LabServices department = getItem(position);
             LayananLabAutoCompleteAdapter.MyViewHolder holder = new MyViewHolder();
             if (convertView == null) {
                 LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -60,6 +66,7 @@ public class LayananLabAutoCompleteAdapter extends ArrayAdapter<LayananLab> {
                 holder.servicePrice = (TextView) convertView.findViewById(R.id.servicePrice);
                 holder.servicename.setText(department.getNamaLayanan());
                 holder.servicePrice.setText("Rp. "+department.getHargaLayanan());
+                ViewFaceUtility.applyFont(holder.servicename, activity, "fonts/Dosis-Bold.otf");
                 convertView.setTag(holder);
             } else {
                 holder = (MyViewHolder)convertView.getTag();
@@ -77,14 +84,14 @@ public class LayananLabAutoCompleteAdapter extends ArrayAdapter<LayananLab> {
         return new Filter() {
             @Override
             public String convertResultToString(Object resultValue) {
-                return ((LayananLab) resultValue).getNamaLayanan();
+                return ((LabServices) resultValue).getNamaLayanan();
             }
 
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 if (constraint != null) {
                     mDepartments_Suggestion.clear();
-                    for (LayananLab department : mDepartments_All) {
+                    for (LabServices department : mDepartments_All) {
                         if (department.getNamaLayanan().toLowerCase().contains(constraint.toString().toLowerCase())) {
                             mDepartments_Suggestion.add(department);
                         }
@@ -105,8 +112,8 @@ public class LayananLabAutoCompleteAdapter extends ArrayAdapter<LayananLab> {
                     // avoids unchecked cast warning when using mDepartments.addAll((ArrayList<Department>) results.values);
                     List<?> result = (List<?>) results.values;
                     for (Object object : result) {
-                        if (object instanceof LayananLab) {
-                            mDepartments.add((LayananLab) object);
+                        if (object instanceof LabServices) {
+                            mDepartments.add((LabServices) object);
                         }
                     }
                 } else if (constraint == null) {

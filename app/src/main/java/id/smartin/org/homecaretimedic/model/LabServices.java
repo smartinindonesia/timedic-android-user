@@ -6,12 +6,16 @@ import com.google.gson.annotations.SerializedName;
  * Created by Hafid on 11/11/2017.
  */
 
-public class LayananLab {
+public class LabServices {
     @SerializedName("id")
     private long id;
-    @SerializedName("nama")
+    @SerializedName("serviceName")
     private String namaLayanan;
-    @SerializedName("harga")
+    @SerializedName("serviceCode")
+    private String serviceCode;
+    @SerializedName("uriServiceIcon")
+    private String uriServiceIcon;
+    @SerializedName("price")
     private double hargaLayanan;
 
     public long getId() {
@@ -36,6 +40,22 @@ public class LayananLab {
 
     public void setHargaLayanan(double hargaLayanan) {
         this.hargaLayanan = hargaLayanan;
+    }
+
+    public String getServiceCode() {
+        return serviceCode;
+    }
+
+    public void setServiceCode(String serviceCode) {
+        this.serviceCode = serviceCode;
+    }
+
+    public String getUriServiceIcon() {
+        return uriServiceIcon;
+    }
+
+    public void setUriServiceIcon(String uriServiceIcon) {
+        this.uriServiceIcon = uriServiceIcon;
     }
 
     @Override

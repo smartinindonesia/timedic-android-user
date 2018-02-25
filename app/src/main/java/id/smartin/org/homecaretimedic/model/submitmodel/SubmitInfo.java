@@ -3,9 +3,10 @@ package id.smartin.org.homecaretimedic.model.submitmodel;
 import java.util.ArrayList;
 import java.util.List;
 
-import id.smartin.org.homecaretimedic.model.Assessment;
 import id.smartin.org.homecaretimedic.model.HomecareService;
 import id.smartin.org.homecaretimedic.model.Klinik;
+import id.smartin.org.homecaretimedic.model.LabPackageItem;
+import id.smartin.org.homecaretimedic.model.LabServices;
 import id.smartin.org.homecaretimedic.model.Patient;
 import id.smartin.org.homecaretimedic.model.ServicePlace;
 import id.smartin.org.homecaretimedic.model.User;
@@ -34,6 +35,8 @@ public class SubmitInfo {
     public static User selectedCareGiver;
     public static Klinik selectedCareClinic;
     public static List<AssessmentAnswerParam> assessmentList = new ArrayList<>();
+    public static List<LabPackageItem> selectedLabPackages = new ArrayList<>();
+    public static List<LabServices> selectedLabServices = new ArrayList<>();
 
     public void clearAllData(){
 

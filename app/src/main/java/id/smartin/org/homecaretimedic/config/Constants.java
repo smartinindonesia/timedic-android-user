@@ -40,6 +40,15 @@ public class Constants {
     public static final String ROUTE_ASSESTMENTLIST = "/api/assessments/";
     public static final String ROUTE_ASSESTMENTS_BY_ID_SERVICES = "/api/assessments/findbyidservices/";
 
+    //LABORATORY SERVICES
+    public static final String ROUTE_LABORATORY_PACKAGES = "/api/lab/package";
+    public static final String ROUTE_LABORATORY_SERVICES = "/api/lab/services";
+
+    //LABORATORY TRANSACTION
+    public static final String ROUTE_LABORATORY_TRANSACTION = "/api/lab/transaction";
+    public static final String ROUTE_LABORATORY_ACTIVE_ORDER = "/lab/orderactive/";
+    public static final String ROUTE_LABORATORY_HISTORY_ORDER = "/lab/history/";
+
     //API managing
     public static final String YOUTUBE_API_KEY = "AIzaSyCs06OoysZqT-UN1-er9Ob7q6cXzVPnViY";
     public static final String YOUTUBE_CHANNEL = "UCjDX29cI6EMpGwAIOER4vvg";

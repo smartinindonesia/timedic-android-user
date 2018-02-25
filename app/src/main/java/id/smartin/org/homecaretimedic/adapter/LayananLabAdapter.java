@@ -1,5 +1,6 @@
 package id.smartin.org.homecaretimedic.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -17,7 +18,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.smartin.org.homecaretimedic.R;
 import id.smartin.org.homecaretimedic.config.Action;
-import id.smartin.org.homecaretimedic.model.LayananLab;
+import id.smartin.org.homecaretimedic.model.LabServices;
+import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
 
 /**
  * Created by Hafid on 11/11/2017.
@@ -25,12 +27,14 @@ import id.smartin.org.homecaretimedic.model.LayananLab;
 
 public class LayananLabAdapter extends RecyclerView.Adapter<LayananLabAdapter.MyViewHolder> implements Filterable {
 
-    private List<LayananLab> layananLabList;
+    private List<LabServices> labServicesList;
     private Context context;
+    private Activity activity;
 
-    public LayananLabAdapter(Context context, List<LayananLab> layananLabs) {
+    public LayananLabAdapter(Activity activity, Context context, List<LabServices> labServices) {
         this.context = context;
-        this.layananLabList = layananLabs;
+        this.labServicesList = labServices;
+        this.activity = activity;
     }
 
     @Override
@@ -42,27 +46,28 @@ public class LayananLabAdapter extends RecyclerView.Adapter<LayananLabAdapter.My
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-        LayananLab layananLab = layananLabList.get(position);
-        holder.servicename.setText(layananLab.getNamaLayanan());
-        holder.servicePrice.setText("" + layananLab.getHargaLayanan());
+        LabServices labServices = labServicesList.get(position);
+        holder.servicename.setText(labServices.getNamaLayanan());
+        holder.servicePrice.setText("" + labServices.getHargaLayanan());
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                layananLabList.remove(position);
+                labServicesList.remove(position);
                 //notifyItemRemoved(position);
                 notifyDataSetChanged();
                 Intent in = new Intent();
                 in.setAction(Action.BROADCAST_DELETE_LAYANAN_EVENT);
-                in.putExtra("number_of_item", layananLabList.size());
+                in.putExtra("number_of_item", labServicesList.size());
                 in.putExtra("total_price", sumOfPrice());
                 context.sendBroadcast(in);
             }
         });
+        ViewFaceUtility.applyFont(holder.servicename, activity, "fonts/Dosis-Bold.otf");
     }
 
     @Override
     public int getItemCount() {
-        return layananLabList.size();
+        return labServicesList.size();
     }
 
     @Override
@@ -86,10 +91,14 @@ public class LayananLabAdapter extends RecyclerView.Adapter<LayananLabAdapter.My
 
     public double sumOfPrice() {
         double priceSum = 0;
-        for (int i = 0; i < layananLabList.size(); i++) {
-            priceSum = priceSum + layananLabList.get(i).getHargaLayanan();
+        for (int i = 0; i < labServicesList.size(); i++) {
+            priceSum = priceSum + labServicesList.get(i).getHargaLayanan();
         }
         return priceSum;
+    }
+
+    public List<LabServices> getAllSelectedServices(){
+        return labServicesList;
     }
 
 }
