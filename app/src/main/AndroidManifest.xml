@@ -127,7 +127,10 @@
         <activity
             android:name=".CalculatorPregnancyEst"
             android:label="@string/act_preg_cal" />
-        <activity android:name=".LocationOnlyActivity"></activity>
+        <activity android:name=".LocationOnlyActivity" />
+        <activity
+            android:name=".LabAcceptanceActivity"
+            android:label="@string/act_resume"/>
     </application>
 
 </manifest>

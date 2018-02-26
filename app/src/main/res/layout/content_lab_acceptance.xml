@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:paddingLeft="30dp"
+    android:paddingRight="30dp"
+    android:scrollbars="horizontal"
+    android:layout_marginTop="?attr/actionBarSize">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="Ringkasan"
+        android:textStyle="bold"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Layanan"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/selectedLayanan"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Selected Layanan"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Lokasi"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/selectedLokasi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Selected Lokasi"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/transparentColor"/>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Posisi GPS"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/selectedGPSPos"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="(latitude, longitude)"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Keterangan Lokasi"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/selectedKetLokasi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Info Lokasi"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/transparentColor"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tanggal Layanan"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/selectedTanggal"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Selected Date"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Waktu Layanan"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/selectedJamLayanan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Selected Time"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Base.TextAppearance.AppCompat.Headline"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/thanks_page_msg1"
+        android:textAlignment="center"
+        android:textSize="12sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/thanks_page_msg2"
+        android:textAlignment="center"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/downPayment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/thanks_page_price"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/thanks_page_msg3"
+        android:textAlignment="center"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/totalApproxCash"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/thanks_page_price"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/thanks_page_msg4"
+        android:textAlignment="center"
+        android:textSize="12sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/thanks_page_msg5"
+        android:textAlignment="center"
+        android:textSize="12sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="30dp"/>
+
+    <Button
+        android:id="@+id/btnSubmitForm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/sign_up_selector_bg"
+        android:textColor="@color/sign_up_selector_fg"
+        android:text="Setuju"/>
+
+</LinearLayout>

@@ -20,6 +20,7 @@ import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import id.smartin.org.homecaretimedic.config.UIConstants;
 import id.smartin.org.homecaretimedic.customuicompt.ButtonModel;
 import id.smartin.org.homecaretimedic.model.submitmodel.PickedDateTime;
 import id.smartin.org.homecaretimedic.model.submitmodel.SubmitInfo;
@@ -71,9 +72,15 @@ public class DateTimePickActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 SubmitInfo.selectedDateTime = pickedDateTime;
-                Intent intent = new Intent(DateTimePickActivity.this, AcceptanceActivity.class);
-                startActivity(intent);
-                finish();
+                if (SubmitInfo.serviceAvailable.equals(UIConstants.HOMECARE_SERVICE)) {
+                    Intent intent = new Intent(DateTimePickActivity.this, AcceptanceActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else if (SubmitInfo.serviceAvailable.equals(UIConstants.CHECKLAB_SERVICE)){
+                    Intent intent = new Intent(DateTimePickActivity.this, LabAcceptanceActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
             }
         });
 

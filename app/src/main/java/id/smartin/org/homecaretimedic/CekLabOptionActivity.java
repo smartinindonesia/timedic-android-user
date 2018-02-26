@@ -265,6 +265,7 @@ public class CekLabOptionActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
+    /*
     private void prepareLabPackageItems() {
         Log.i(TAG, "Preparing list");
         labPackageItemList.clear();
@@ -282,6 +283,7 @@ public class CekLabOptionActivity extends AppCompatActivity {
         labPackageItemList.add(b);
         labPackageAdapter.notifyDataSetChanged();
     }
+    */
 
     public void prepareLayanan() {
         this.labServices.clear();

@@ -18,6 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import id.smartin.org.homecaretimedic.AddUserCustomerActivity;
+import id.smartin.org.homecaretimedic.DateTimePickActivity;
 import id.smartin.org.homecaretimedic.HCAssestmentActivity;
 import id.smartin.org.homecaretimedic.R;
 import id.smartin.org.homecaretimedic.config.UIConstants;
@@ -97,6 +98,11 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.MyViewHo
                 if (SubmitInfo.serviceAvailable.equals(UIConstants.HOMECARE_SERVICE)){
                     SubmitInfo.registeredPatient.add(patient);
                     Intent intent = new Intent(context, HCAssestmentActivity.class);
+                    context.startActivity(intent);
+                    context.finish();
+                } else if (SubmitInfo.serviceAvailable.equals(UIConstants.CHECKLAB_SERVICE)){
+                    SubmitInfo.registeredPatient.add(patient);
+                    Intent intent = new Intent(context, DateTimePickActivity.class);
                     context.startActivity(intent);
                     context.finish();
                 }

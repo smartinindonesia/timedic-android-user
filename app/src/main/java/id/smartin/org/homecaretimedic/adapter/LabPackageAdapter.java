@@ -26,6 +26,8 @@ import butterknife.ButterKnife;
 import id.smartin.org.homecaretimedic.MapSelectorActivity;
 import id.smartin.org.homecaretimedic.R;
 import id.smartin.org.homecaretimedic.model.LabPackageItem;
+import id.smartin.org.homecaretimedic.tools.ConverterUtility;
+import id.smartin.org.homecaretimedic.tools.TextFormatter;
 
 /**
  * Created by Hafid on 11/11/2017.
@@ -62,7 +64,7 @@ public class LabPackageAdapter extends RecyclerView.Adapter<LabPackageAdapter.My
                 .thumbnail(0.5f)
                 .into(holder.packageIcon);
         holder.packageName.setText(labPackageItem.getName());
-        holder.packagePrice.setText(labPackageItem.getPrice());
+        holder.packagePrice.setText(TextFormatter.doubleToRupiah(labPackageItem.getPrice()));
         holder.checkBox.setChecked(labPackageItem.isSelected());
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

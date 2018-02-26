@@ -3,8 +3,10 @@ package id.smartin.org.homecaretimedic.tools.restservice;
 import java.util.List;
 
 import id.smartin.org.homecaretimedic.config.Constants;
+import id.smartin.org.homecaretimedic.model.parammodel.RegLabParam;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 
@@ -20,6 +22,6 @@ public interface LaboratoryTransactionAPIInterface {
     Call<List<ResponseBody>> getAllHistoryOrders();
 
     @POST(Constants.ROUTE_LABORATORY_TRANSACTION)
-    Call<ResponseBody> insertNewTransaction();
+    Call<ResponseBody> insertNewTransaction(@Body RegLabParam param);
 
 }

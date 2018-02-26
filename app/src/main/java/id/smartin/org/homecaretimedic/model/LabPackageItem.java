@@ -16,7 +16,7 @@ public class LabPackageItem {
     @SerializedName("packageDescription")
     private String packageDescription;
     @SerializedName("price")
-    private String price;
+    private Double price;
     @SerializedName("uriPackageIcon")
     private String url_icon;
     private boolean selected;
@@ -37,11 +37,11 @@ public class LabPackageItem {
         this.name = name;
     }
 
-    public String getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
