@@ -52,6 +52,50 @@
     },
     {
       "client_info": {
+        "mobilesdk_app_id": "1:138437881243:android:f26ab249bfb57e11",
+        "android_client_info": {
+          "package_name": "com.smartin.timedic.caregiver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "138437881243-jiiqo22qrsaaj7dg28141m1ldf0mihem.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.smartin.timedic.caregiver",
+            "certificate_hash": "efc8d34bab14e7923f856d602cf956d19d824488"
+          }
+        },
+        {
+          "client_id": "138437881243-1j9ogr40lur26ngh6ld1rs1l0nn40c85.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA991Dcym-zEcGiG1xSXita-31ZhstOam0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "138437881243-1j9ogr40lur26ngh6ld1rs1l0nn40c85.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:138437881243:android:0ec7d7ce95c023a8",
         "android_client_info": {
           "package_name": "id.smartin.org.homecaretimedic"
@@ -59,11 +103,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "138437881243-ogup12t2ghupcq46cttlsbsq0vqgus8v.apps.googleusercontent.com",
+          "client_id": "138437881243-o87800v21vm3c61sicih11an2npr4m3n.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "id.smartin.org.homecaretimedic",
-            "certificate_hash": "f6524d1b9b9ddc965e9972e49190cb185ce5629c"
+            "certificate_hash": "1bca751b593b63014aa67c7813746a234bb7d1f4"
           }
         },
         {

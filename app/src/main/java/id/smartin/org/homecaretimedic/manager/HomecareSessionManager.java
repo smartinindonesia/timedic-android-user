@@ -20,6 +20,10 @@ public class HomecareSessionManager extends SessionManager {
     public static String KEY_USER_TOKEN = "user_token";
     public static String KEY_IS_LOGIN = "isLogin";
 
+    public HomecareSessionManager(Context context) {
+        super(context, KEY_PREFERENCES_NAME);
+    }
+
     public HomecareSessionManager(Activity activity, Context context) {
         super(activity, context, KEY_PREFERENCES_NAME);
     }
@@ -44,7 +48,7 @@ public class HomecareSessionManager extends SessionManager {
         super.clearToken(KEY_USER_TOKEN);
     }
 
-    public void hasToken(){
+    public void hasToken() {
         super.hasToken(KEY_USER_TOKEN);
     }
 

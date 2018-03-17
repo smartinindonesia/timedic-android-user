@@ -20,6 +20,12 @@ public class SessionManager {
     private Context context;
     private Activity activity;
 
+    public SessionManager(Context context, String KEY_PREFERENCES_NAME){
+        this.context = context;
+        pref = context.getSharedPreferences(KEY_PREFERENCES_NAME, context.MODE_PRIVATE);
+        editor = pref.edit();
+    }
+
     public SessionManager(Activity activity, Context context, String KEY_PREFERENCES_NAME) {
         this.activity = activity;
         this.context = context;
