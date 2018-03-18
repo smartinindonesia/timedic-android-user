@@ -3,6 +3,7 @@ package id.smartin.org.homecaretimedic.service;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -22,5 +23,10 @@ public class FireBaseMessagingService extends FirebaseMessagingService {
         // message, here is where that should be initiated.
         Log.d(TAG, "From: " + remoteMessage.getFrom());
         Log.d(TAG, "Notification Message Body: " + remoteMessage.getNotification().getBody());
+
+        NotificationCompat.Builder noBuilder = new NotificationCompat.Builder(this)
+                .setContentTitle(remoteMessage.getNotification().getTitle())
+                .setContentText(remoteMessage.getNotification().getBody())
+                .setAutoCancel(true);
     }
 }
