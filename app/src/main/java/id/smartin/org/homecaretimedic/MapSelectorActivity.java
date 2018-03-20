@@ -152,6 +152,18 @@ public class MapSelectorActivity extends AppCompatActivity implements OnMapReady
         registerReceiver(mReceiver, mIntentFilter);
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        super.onBackPressed();
+    }
+
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {

@@ -39,6 +39,23 @@ public class SubmitInfo {
     public static List<LabServices> selectedLabServices = new ArrayList<>();
 
     public void clearAllData(){
+        selectedLabServices = null;
+        registeredPatient.clear();
+        selectedDateTime = null;
+        selectedCareGiver = null;
+        selectedCareClinic = null;
+        assessmentList.clear();
+        selectedLabPackages.clear();
+        selectedLabServices.clear();
+    }
 
+    public static double getAssessmentPrice(){
+        double price = 0;
+        if (assessmentList != null) {
+            for (int i = 0; i < assessmentList.size(); i++) {
+                price = price + assessmentList.get(i).getPrice();
+            }
+        }
+        return price;
     }
 }

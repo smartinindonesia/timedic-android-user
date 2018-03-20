@@ -100,7 +100,9 @@
         <activity
             android:name=".DateTimePickActivity"
             android:label="@string/act_date_time_pick" />
-        <activity android:name=".SignUpActivity" />
+        <activity
+            android:name=".SignUpActivity"
+            android:label="@string/act_sign_up" />
         <activity
             android:name=".CekLabOptionActivity"
             android:windowSoftInputMode="stateHidden" />
@@ -137,12 +139,16 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-
         <service android:name=".service.FireBaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <activity
+            android:name=".AccountSettingActivity"
+            android:label="@string/act_account_setting" />
+        <activity android:name=".ChangePasswordActivity"></activity>
     </application>
 
 </manifest>

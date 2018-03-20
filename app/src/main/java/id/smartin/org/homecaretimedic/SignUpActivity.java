@@ -24,6 +24,7 @@ import butterknife.ButterKnife;
 import id.smartin.org.homecaretimedic.config.Constants;
 import id.smartin.org.homecaretimedic.model.parammodel.RegisterParam;
 import id.smartin.org.homecaretimedic.tools.AesUtil;
+import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
 import id.smartin.org.homecaretimedic.tools.restservice.APIClient;
 import id.smartin.org.homecaretimedic.tools.restservice.UserAPIInterface;
 import okhttp3.ResponseBody;
@@ -64,7 +65,6 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
         ButterKnife.bind(this);
         userAPIInterface = APIClient.getClient().create(UserAPIInterface.class);
-        setSupportActionBar(toolbar);
         createTitleBar();
         signUP.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,15 +76,21 @@ public class SignUpActivity extends AppCompatActivity {
 
     @SuppressLint("RestrictedApi")
     public void createTitleBar() {
+        setSupportActionBar(toolbar);
+        ViewFaceUtility.changeToolbarFont(toolbar, this,"fonts/Dosis-Bold.otf", R.color.theme_black);
         ActionBar mActionbar = getSupportActionBar();
-        mActionbar.setDisplayHomeAsUpEnabled(false);
-        mActionbar.setDefaultDisplayHomeAsUpEnabled(false);
-        mActionbar.setDisplayShowTitleEnabled(false);
-        mActionbar.setDisplayShowHomeEnabled(false);
+        mActionbar.setDisplayHomeAsUpEnabled(true);
+        mActionbar.setDefaultDisplayHomeAsUpEnabled(true);
+        mActionbar.setDisplayShowHomeEnabled(true);
+        mActionbar.setDisplayShowTitleEnabled(true);
         mActionbar.setDisplayShowCustomEnabled(true);
-        View view = getLayoutInflater().inflate(R.layout.action_bar_layout, null);
-        ActionBar.LayoutParams params = new ActionBar.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT, Gravity.CENTER);
-        mActionbar.setCustomView(view, params);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        onBackPressed();
+        return true;
     }
 
     private void doSignUp() {
@@ -93,9 +99,6 @@ public class SignUpActivity extends AppCompatActivity {
         registerParam.setLastname(lastName.getText().toString());
         registerParam.setMiddlename(middleName.getText().toString());
         String shahex = AesUtil.Encrypt(password.getText().toString());
-        //String shahex = SecureField.Encrypt(password.getText().toString(), Constants.APP_KEY);
-        //String shahex = new String(Hex.encodeHex(DigestUtils.sha(password.getText().toString())));
-        String bcryptedPass = password.getText().toString();// BCrypt.hashpw(password.getText().toString(), BCrypt.gensalt());
         registerParam.setPassword(shahex);
         registerParam.setUsername(username.getText().toString());
         registerParam.setPhone(phone.getText().toString());

@@ -78,7 +78,7 @@ public class HCAssestmentActivity extends AppCompatActivity {
                     startActivity(acceptanceIntent);
                     finish();
                 } else {
-                    Snackbar.make(mainLayout,getResources().getString(R.string.null_assessment), Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(mainLayout, getResources().getString(R.string.null_assessment), Snackbar.LENGTH_LONG).show();
                 }
             }
         });
@@ -92,7 +92,7 @@ public class HCAssestmentActivity extends AppCompatActivity {
     }
 
     public void populateSelectedAssessment() {
-        Log.i(TAG,"Tagged SERVICE ID "+SubmitInfo.selectedHomecareService.getId());
+        Log.i(TAG, "Tagged SERVICE ID " + SubmitInfo.selectedHomecareService.getId());
         Call<List<AssessmentResponse>> services = homecareAssessmentAPIInterface.getAssessmentByIdService((long) SubmitInfo.selectedHomecareService.getId());
         services.enqueue(new Callback<List<AssessmentResponse>>() {
             @Override
@@ -101,7 +101,10 @@ public class HCAssestmentActivity extends AppCompatActivity {
                 if (response.code() == 200) {
                     assessmentList.clear();
                     for (int i = 0; i < response.body().size(); i++) {
-                        assessmentList.add(response.body().get(i).getAssessment());
+                        Assessment assessmentItem = response.body().get(i).getAssessment();
+                        if (assessmentItem.getStatusActive() == 1) {
+                            assessmentList.add(assessmentItem);
+                        }
                         Log.i(TAG, response.body().get(i).toString());
                     }
                     assestmentAdapter.notifyDataSetChanged();

@@ -14,6 +14,7 @@ public class AssessmentAnswerParam {
     private String assessmentAnswer;
     @SerializedName("filePath")
     private String filePath;
+    private double price;
 
     public AssessmentAnswerParam(IdAssessment idAssessment, String assessmentAnswer, String filePath) {
         this.idAssessment = idAssessment;
@@ -63,5 +64,13 @@ public class AssessmentAnswerParam {
         public void setId(Long id) {
             this.id = id;
         }
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 }

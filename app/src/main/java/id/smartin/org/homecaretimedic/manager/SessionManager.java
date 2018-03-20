@@ -42,6 +42,13 @@ public class SessionManager {
         editor.commit();
     }
 
+    public void updateUserInfo(User user, String KEY_USER_INFOS_JSON){
+        Gson gson = new Gson();
+        String jsonInString = gson.toJson(user);
+        editor.putString(KEY_USER_INFOS_JSON, jsonInString);
+        editor.commit();
+    }
+
     public User getUserDetail(String KEY_USER_INFOS_JSON) {
         Gson gson = new Gson();
         String jsonInString = pref.getString(KEY_USER_INFOS_JSON, "");

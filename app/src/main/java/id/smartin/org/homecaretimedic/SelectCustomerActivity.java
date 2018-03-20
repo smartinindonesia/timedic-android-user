@@ -129,4 +129,15 @@ public class SelectCustomerActivity extends AppCompatActivity {
         patientAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        super.onBackPressed();
+    }
 }

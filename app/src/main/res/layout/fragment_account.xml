@@ -17,19 +17,11 @@
             android:padding="10dp">
 
             <TextView
+                android:id="@+id/accountSetting"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Nama Akun" />
+                android:text="Setting Akun" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Email" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="No Handphone" />
         </LinearLayout>
 
         <View

@@ -11,6 +11,20 @@ public class AssessmentOption {
     private int id;
     @SerializedName("option")
     private String option;
+    @SerializedName("priceAdded")
+    private Double priceAdded;
+
+    public Double getPriceAdded() {
+        if (priceAdded != null) {
+            return priceAdded;
+        } else {
+            return 0.0;
+        }
+    }
+
+    public void setPriceAdded(Double priceAdded) {
+        this.priceAdded = priceAdded;
+    }
 
     public int getId() {
         return id;

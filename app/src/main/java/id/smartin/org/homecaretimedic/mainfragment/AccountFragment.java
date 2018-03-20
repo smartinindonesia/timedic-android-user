@@ -1,14 +1,17 @@
 package id.smartin.org.homecaretimedic.mainfragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import id.smartin.org.homecaretimedic.AccountSettingActivity;
 import id.smartin.org.homecaretimedic.R;
 import id.smartin.org.homecaretimedic.manager.HomecareSessionManager;
 
@@ -22,6 +25,8 @@ public class AccountFragment extends Fragment {
 
     @BindView(R.id.btnLogout)
     LinearLayout logoutBtn;
+    @BindView(R.id.accountSetting)
+    TextView accountSetting;
     private HomecareSessionManager homecareSessionManager;
 
     @Override
@@ -41,6 +46,13 @@ public class AccountFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 homecareSessionManager.logout();
+            }
+        });
+        accountSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), AccountSettingActivity.class);
+                startActivity(intent);
             }
         });
         return newView;

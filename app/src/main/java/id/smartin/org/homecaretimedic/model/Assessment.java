@@ -27,6 +27,8 @@ public class Assessment {
     @SerializedName("assessmentType")
     private int assestmentType;
 
+    private double selectedPrice;
+
     public Assessment(){
 
     }
@@ -139,5 +141,11 @@ public class Assessment {
         }
     }
 
+    public double getSelectedPrice() {
+        return selectedPrice;
+    }
 
+    public void setSelectedPrice(double selectedPrice) {
+        this.selectedPrice = selectedPrice;
+    }
 }

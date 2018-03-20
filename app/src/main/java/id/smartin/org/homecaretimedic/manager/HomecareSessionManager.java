@@ -32,6 +32,10 @@ public class HomecareSessionManager extends SessionManager {
         super.createLoginSession(user, KEY_USER_INFOS_JSON, KEY_IS_LOGIN, KEY_USER_TOKEN, token);
     }
 
+    public void updateProfile(User user){
+        super.updateUserInfo(user, KEY_USER_INFOS_JSON);
+    }
+
     public User getUserDetail() {
         return super.getUserDetail(KEY_USER_INFOS_JSON);
     }
