@@ -221,7 +221,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
-
+        openProgress("Loading...", "Proses verifikasi!");
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -236,6 +236,7 @@ public class LoginActivity extends AppCompatActivity {
                             Log.w(TAG, "signInWithCredential", task.getException());
                             Toast.makeText(getApplicationContext(), "Authentication failed.", Toast.LENGTH_LONG).show();
                         }
+                        closeProgress();
                     }
                 });
     }
@@ -275,20 +276,28 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    public void doLogin() {
+    private void openProgress(String title, String content){
         progressDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
         progressDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-        progressDialog.setTitleText("Loading...");
-        progressDialog.setContentText("Proses Login!");
+        progressDialog.setTitleText(title);
+        progressDialog.setContentText(content);
         progressDialog.setCanceledOnTouchOutside(true);
         progressDialog.show();
+    }
+
+    private void closeProgress(){
+        progressDialog.dismiss();
+    }
+
+    public void doLogin() {
+        openProgress("Loading...", "Proses Login!");
 
         String shahex = AesUtil.Encrypt(password.getText().toString());
         Call<LoginResponse> responseCall = userAPIInterface.loginUser(username.getText().toString(), shahex);
         responseCall.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                progressDialog.dismiss();
+                closeProgress();
                 if (response.code() == 200) {
                     Log.i(TAG, response.body().getUser().toString());
                     Log.i(TAG, "NEW TOKEN " + response.body().getToken());

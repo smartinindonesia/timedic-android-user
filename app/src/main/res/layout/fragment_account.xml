@@ -142,6 +142,7 @@
             android:padding="10dp">
 
             <LinearLayout
+                android:id="@+id/btnTermAndCond"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
@@ -169,6 +170,7 @@
                 android:background="@color/shadow_clr" />
 
             <LinearLayout
+                android:id="@+id/btnPrivacy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"

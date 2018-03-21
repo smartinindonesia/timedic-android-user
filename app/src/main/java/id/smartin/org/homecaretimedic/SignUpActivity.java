@@ -57,7 +57,6 @@ public class SignUpActivity extends AppCompatActivity {
     RelativeLayout mainLayout;
 
     private UserAPIInterface userAPIInterface;
-    private Gson g = new Gson();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

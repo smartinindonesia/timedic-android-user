@@ -1,12 +1,19 @@
 package id.smartin.org.homecaretimedic;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -20,13 +27,33 @@ import com.google.firebase.auth.FirebaseUser;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import id.smartin.org.homecaretimedic.model.User;
+import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
 
 public class FUserSignUpActivity extends AppCompatActivity {
     public static final String TAG = "[FUserSignUpActivity]";
 
-    @BindView(R.id.btnFbaseSignOut)
-    Button btnSignOut;
+    @BindView(R.id.username)
+    EditText username;
+    @BindView(R.id.password)
+    EditText password;
+    @BindView(R.id.firstName)
+    EditText firstName;
+    @BindView(R.id.middleName)
+    EditText middleName;
+    @BindView(R.id.lastName)
+    EditText lastName;
+    @BindView(R.id.phoneUser)
+    EditText phone;
+    @BindView(R.id.chkAgreement)
+    CheckBox checkAgreement;
+    @BindView(R.id.signUP)
+    Button signUP;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.mainLayout)
+    RelativeLayout mainLayout;
 
     private User user;
 
@@ -34,6 +61,8 @@ public class FUserSignUpActivity extends AppCompatActivity {
     private GoogleApiClient mGoogleApiClient;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+
+    private SweetAlertDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +72,53 @@ public class FUserSignUpActivity extends AppCompatActivity {
         user = (User) getIntent().getSerializableExtra("fbase_user");
         Log.i(TAG, user.getFrontName());
         googleLoginInit();
+        createTitleBar();
+        fillTheForm();
+    }
+
+    @SuppressLint("RestrictedApi")
+    public void createTitleBar() {
+        setSupportActionBar(toolbar);
+        ViewFaceUtility.changeToolbarFont(toolbar, this,"fonts/Dosis-Bold.otf", R.color.theme_black);
+        ActionBar mActionbar = getSupportActionBar();
+        mActionbar.setDisplayHomeAsUpEnabled(true);
+        mActionbar.setDefaultDisplayHomeAsUpEnabled(true);
+        mActionbar.setDisplayShowHomeEnabled(true);
+        mActionbar.setDisplayShowTitleEnabled(true);
+        mActionbar.setDisplayShowCustomEnabled(true);
+    }
+
+    public void fillTheForm(){
+        firstName.setText(user.getFrontName());
+        middleName.setText(user.getMiddleName());
+        lastName.setText(user.getLastName());
+        phone.setText(user.getPhoneNumber());
+    }
+
+    private void openProgress(){
+        progressDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+        progressDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        progressDialog.setTitleText("Loading...");
+        progressDialog.setContentText("Proses Login!");
+        progressDialog.setCanceledOnTouchOutside(true);
+        progressDialog.show();
+    }
+
+    private void closeProgress(){
+        progressDialog.dismiss();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        signOut();
+        finish();
+        super.onBackPressed();
     }
 
     private void googleLoginInit() {
@@ -73,12 +149,6 @@ public class FUserSignUpActivity extends AppCompatActivity {
                 // ...
             }
         };
-        btnSignOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signOut();
-            }
-        });
     }
 
     private void signOut() {

@@ -148,8 +148,12 @@
         <activity
             android:name=".AccountSettingActivity"
             android:label="@string/act_account_setting" />
-        <activity android:name=".ChangePasswordActivity" />
-        <activity android:name=".FUserSignUpActivity"></activity>
+        <activity
+            android:name=".ChangePasswordActivity"
+            android:label="@string/act_change_pass" />
+        <activity
+            android:name=".FUserSignUpActivity"
+            android:label="@string/act_sign_up" />
     </application>
 
 </manifest>

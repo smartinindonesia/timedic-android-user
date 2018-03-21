@@ -21,6 +21,7 @@ import butterknife.ButterKnife;
 import id.smartin.org.homecaretimedic.AccountSettingActivity;
 import id.smartin.org.homecaretimedic.ChangePasswordActivity;
 import id.smartin.org.homecaretimedic.R;
+import id.smartin.org.homecaretimedic.config.Constants;
 import id.smartin.org.homecaretimedic.manager.HomecareSessionManager;
 import id.smartin.org.homecaretimedic.model.AppSetting;
 
@@ -47,6 +48,10 @@ public class AccountFragment extends Fragment {
     RelativeLayout btnPushNotif;
     @BindView(R.id.turnNotification)
     Switch notifToggle;
+    @BindView(R.id.btnPrivacy)
+    LinearLayout btnPrivacy;
+    @BindView(R.id.btnTermAndCond)
+    LinearLayout btnTermAndCond;
 
     private HomecareSessionManager homecareSessionManager;
     private AppSetting appSetting;
@@ -108,10 +113,23 @@ public class AccountFragment extends Fragment {
                 gotoMarketPlace();
             }
         });
+        btnPrivacy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openUrl(Constants.PRIVACY_STATEMENT);
+            }
+        });
+
+        btnTermAndCond.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openUrl(Constants.TERM_AND_COND);
+            }
+        });
         return newView;
     }
 
-    public void gotoMarketPlace() {
+    private void gotoMarketPlace() {
         Uri uri = Uri.parse("market://details?id=" + getContext().getPackageName());
         Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
         // To count with Play market backstack, After pressing back button,
@@ -125,5 +143,11 @@ public class AccountFragment extends Fragment {
             startActivity(new Intent(Intent.ACTION_VIEW,
                     Uri.parse("http://play.google.com/store/apps/details?id=" + getContext().getPackageName())));
         }
+    }
+
+    private void openUrl(String url){
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(url));
+        startActivity(i);
     }
 }
