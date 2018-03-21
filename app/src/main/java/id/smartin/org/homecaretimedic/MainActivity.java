@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void sendFCMTokenToServer(){
-        homecareSessionManager = new HomecareSessionManager(getApplicationContext());
+        homecareSessionManager = new HomecareSessionManager(getParent(), getApplicationContext());
         User user = homecareSessionManager.getUserDetail();
         String initialFCMToken = FirebaseInstanceId.getInstance().getToken();
         user.setPhotoPath(initialFCMToken);

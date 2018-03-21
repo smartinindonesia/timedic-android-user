@@ -20,6 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.smartin.org.homecaretimedic.R;
 import id.smartin.org.homecaretimedic.model.Assessment;
+import id.smartin.org.homecaretimedic.model.AssessmentOption;
 import id.smartin.org.homecaretimedic.model.parammodel.AssessmentAnswerParam;
 
 /**
@@ -90,7 +91,7 @@ public class AssestmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     RadioButton rdbtn = new RadioButton(AssestmentAdapter.this.context);
                     rdbtn.setId(assessment.getOptions().get(i).getId());
                     rdbtn.setText(assessment.getOptions().get(i).getOption());
-                    rdbtn.setTag(assessment.getOptions().get(i).getOption());
+                    rdbtn.setTag(assessment.getOptions().get(i));
                     viewHolderOption.option.addView(rdbtn);
                 }
                 if (assessment.getId_multiple_choice() > 0) {
@@ -102,8 +103,10 @@ public class AssestmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         int result = viewHolderOption.option.getCheckedRadioButtonId();
                         if (result != -1) {
                             RadioButton b = (RadioButton) viewHolderOption.itemView.findViewById(result);
+                            AssessmentOption res = (AssessmentOption)b.getTag();
                             assessmentList.get(position).setAnswer(b.getText().toString());
                             assessmentList.get(position).setId_multiple_choice(result);
+                            assessmentList.get(position).setSelectedPrice(res.getPriceAdded());
                             Log.i(TAG, "Selected " + assessment.getAnswer());
                         }
                     }
@@ -158,7 +161,9 @@ public class AssestmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         List<AssessmentAnswerParam> assessmentAnswerParams = new ArrayList<>();
         for (int i = 0; i < assessmentList.size(); i++) {
             Assessment assessment = assessmentList.get(i);
-            assessmentAnswerParams.add(new AssessmentAnswerParam(new AssessmentAnswerParam.IdAssessment((long) assessment.getId()), assessment.getAnswer(), assessment.getPath_file()));
+            AssessmentAnswerParam assessmentAnswerParam = new AssessmentAnswerParam(new AssessmentAnswerParam.IdAssessment((long) assessment.getId()), assessment.getAnswer(), assessment.getPath_file());
+            assessmentAnswerParam.setPrice(assessment.getSelectedPrice());
+            assessmentAnswerParams.add(assessmentAnswerParam);
         }
         return assessmentAnswerParams;
     }

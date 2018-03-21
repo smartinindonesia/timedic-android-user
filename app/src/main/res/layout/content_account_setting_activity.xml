@@ -23,18 +23,6 @@
         android:layout_height="wrap_content">
 
         <EditText
-            android:id="@+id/password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Password"
-            android:inputType="textPassword" />
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <EditText
             android:id="@+id/firstName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -75,16 +63,10 @@
             android:inputType="phone" />
     </android.support.design.widget.TextInputLayout>
 
-    <CheckBox
-        android:id="@+id/chkAgreement"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/term_of_agreement" />
-
     <Button
-        android:id="@+id/signUP"
+        android:id="@+id/btnEdit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="register" />
+        android:text="Edit" />
 
 </LinearLayout>

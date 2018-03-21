@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://E:\Timedic\android-users\HomecareTiMedic.iml" filepath="E:\Timedic\android-users\HomecareTiMedic.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/android-users.iml" filepath="$PROJECT_DIR$/.idea/android-users.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HomecareTiMedic.iml" filepath="$PROJECT_DIR$/HomecareTiMedic.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

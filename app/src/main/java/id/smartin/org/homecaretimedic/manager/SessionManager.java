@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
 
+import id.smartin.org.homecaretimedic.model.AppSetting;
 import id.smartin.org.homecaretimedic.model.User;
 
 /**
@@ -20,7 +21,7 @@ public class SessionManager {
     private Context context;
     private Activity activity;
 
-    public SessionManager(Context context, String KEY_PREFERENCES_NAME){
+    public SessionManager(Context context, String KEY_PREFERENCES_NAME) {
         this.context = context;
         pref = context.getSharedPreferences(KEY_PREFERENCES_NAME, context.MODE_PRIVATE);
         editor = pref.edit();
@@ -33,12 +34,22 @@ public class SessionManager {
         editor = pref.edit();
     }
 
-    public void createLoginSession(User user, String KEY_USER_INFOS_JSON, String KEY_IS_LOGIN, String KEY_USER_TOKEN, String token) {
+    public void createLoginSession(User user, String KEY_USER_INFOS_JSON, String KEY_IS_LOGIN, String KEY_USER_TOKEN, String token, String KEY_APP_SETTING) {
+        Gson gson = new Gson();
+        String jsonInString = gson.toJson(user);
+        //AppSetting appSetting = new AppSetting();
+        //String appsSet = gson.toJson(appSetting);
+        editor.putString(KEY_USER_INFOS_JSON, jsonInString);
+        editor.putString(KEY_USER_TOKEN, token);
+        //editor.putString(KEY_APP_SETTING, appsSet);
+        editor.putBoolean(KEY_IS_LOGIN, true);
+        editor.commit();
+    }
+
+    public void updateUserInfo(User user, String KEY_USER_INFOS_JSON) {
         Gson gson = new Gson();
         String jsonInString = gson.toJson(user);
         editor.putString(KEY_USER_INFOS_JSON, jsonInString);
-        editor.putString(KEY_USER_TOKEN, token);
-        editor.putBoolean(KEY_IS_LOGIN, true);
         editor.commit();
     }
 
@@ -49,17 +60,37 @@ public class SessionManager {
         return user;
     }
 
+    public void setAppSetting(AppSetting appSetting, String KEY_APP_SETTING) {
+        Gson gson = new Gson();
+        String jsonInString = gson.toJson(appSetting);
+        editor.putString(KEY_APP_SETTING, jsonInString);
+        editor.commit();
+    }
+
+    public AppSetting getAppSetting(String KEY_APP_SETTING) {
+        Gson gson = new Gson();
+        String jsonInString = pref.getString(KEY_APP_SETTING, "");
+        if (!jsonInString.equals("")) {
+            AppSetting setting = gson.fromJson(jsonInString, AppSetting.class);
+            return setting;
+        } else {
+            AppSetting setting = new AppSetting();
+            setting.setActive(true);
+            return setting;
+        }
+    }
+
     public String getToken(String KEY_USER_TOKEN) {
         String jsonInString = pref.getString(KEY_USER_TOKEN, "");
         return jsonInString;
     }
 
-    public void clearToken(String KEY_USER_TOKEN){
+    public void clearToken(String KEY_USER_TOKEN) {
         editor.putString(KEY_USER_TOKEN, "");
         editor.commit();
     }
 
-    public boolean hasToken(String KEY_USER_TOKEN){
+    public boolean hasToken(String KEY_USER_TOKEN) {
         String jsonInString = pref.getString(KEY_USER_TOKEN, "");
         return !jsonInString.equals("");
     }

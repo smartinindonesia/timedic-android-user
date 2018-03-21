@@ -4,6 +4,7 @@
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/accountLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -17,19 +18,11 @@
             android:padding="10dp">
 
             <TextView
+                android:id="@+id/accountSetting"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Nama Akun" />
+                android:text="Setting Akun" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Email" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="No Handphone" />
         </LinearLayout>
 
         <View
@@ -44,6 +37,7 @@
             android:padding="10dp">
 
             <LinearLayout
+                android:id="@+id/btnChangePassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
@@ -98,27 +92,41 @@
                 android:layout_height="1dp"
                 android:background="@color/shadow_clr" />
 
-            <LinearLayout
+            <RelativeLayout
+                android:id="@+id/btnPushNotification"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackground"
-                android:clickable="true"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content">
 
-                <ImageView
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_alignParentLeft="true"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_push_notification" />
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="12"
-                    android:text="Push Notification" />
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/ic_push_notification" />
 
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="12"
+                        android:text="Push Notification" />
+
+                </LinearLayout>
+
+                <Switch
+                    android:id="@+id/turnNotification"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
 
         </LinearLayout>
 
@@ -134,6 +142,7 @@
             android:padding="10dp">
 
             <LinearLayout
+                android:id="@+id/btnTermAndCond"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
@@ -161,6 +170,7 @@
                 android:background="@color/shadow_clr" />
 
             <LinearLayout
+                android:id="@+id/btnPrivacy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
@@ -196,6 +206,7 @@
             android:padding="10dp">
 
             <LinearLayout
+                android:id="@+id/btnRateApp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"

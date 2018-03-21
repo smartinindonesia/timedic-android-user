@@ -1,10 +1,11 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="id.smartin.org.homecaretimedic.SignUpActivity">
+    tools:context="id.smartin.org.homecaretimedic.FUserSignUpActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBar"
@@ -30,6 +31,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_sign_up_activity"/>
+    <include layout="@layout/content_fuser_sign_up_activity"/>
 
 </RelativeLayout>

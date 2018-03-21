@@ -99,6 +99,15 @@
             android:text="SIGN UP"
             android:textColor="@color/sign_up_selector_fg" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="4dp" />
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/btnGoogleSignIn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

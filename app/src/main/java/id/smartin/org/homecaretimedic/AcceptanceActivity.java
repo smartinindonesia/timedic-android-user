@@ -25,6 +25,7 @@ import id.smartin.org.homecaretimedic.model.parammodel.HomecareTransParam;
 import id.smartin.org.homecaretimedic.model.responsemodel.LoginResponse;
 import id.smartin.org.homecaretimedic.model.submitmodel.SubmitInfo;
 import id.smartin.org.homecaretimedic.tools.ConverterUtility;
+import id.smartin.org.homecaretimedic.tools.TextFormatter;
 import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
 import id.smartin.org.homecaretimedic.tools.restservice.APIClient;
 import id.smartin.org.homecaretimedic.tools.restservice.HomecareTransactionAPIInterface;
@@ -53,6 +54,10 @@ public class AcceptanceActivity extends AppCompatActivity {
     TextView selectedHour;
     @BindView(R.id.btnSubmitForm)
     Button submitTransaction;
+    @BindView(R.id.downPayment)
+    TextView downPayment;
+    @BindView(R.id.totalApproxCash)
+    TextView totalApproxCash;
 
     private HomecareTransactionAPIInterface homecareTransactionAPIInterface;
     private HomecareSessionManager homecareSessionManager;
@@ -66,14 +71,7 @@ public class AcceptanceActivity extends AppCompatActivity {
 
         homecareSessionManager = new HomecareSessionManager(this, getApplicationContext());
         homecareTransactionAPIInterface = APIClient.getClientWithToken(homecareSessionManager, getApplicationContext()).create(HomecareTransactionAPIInterface.class);
-
-        selectedLayanan.setText(SubmitInfo.selectedHomecareService.getServiceName());
-        selectedLocation.setText(SubmitInfo.selectedServicePlace.getNameLocation());
-        selectedGPSPos.setText("(" + SubmitInfo.selectedPlaceInfo.getLatitude() + "," + SubmitInfo.selectedPlaceInfo.getLongitude() + ")");
-        selectedGPSLocInfo.setText(SubmitInfo.selectedPlaceInfo.getAdditionInfo());
-        selectedDate.setText(SubmitInfo.selectedDateTime.getDate());
-        selectedHour.setText(SubmitInfo.selectedDateTime.getTime());
-
+        fillHomecareTransInfo();
         submitTransaction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,6 +82,17 @@ public class AcceptanceActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void fillHomecareTransInfo(){
+        selectedLayanan.setText(SubmitInfo.selectedHomecareService.getServiceName());
+        selectedLocation.setText(SubmitInfo.selectedServicePlace.getNameLocation());
+        selectedGPSPos.setText("(" + SubmitInfo.selectedPlaceInfo.getLatitude() + "," + SubmitInfo.selectedPlaceInfo.getLongitude() + ")");
+        selectedGPSLocInfo.setText(SubmitInfo.selectedPlaceInfo.getAdditionInfo());
+        selectedDate.setText(SubmitInfo.selectedDateTime.getDate());
+        selectedHour.setText(SubmitInfo.selectedDateTime.getTime());
+        downPayment.setText(TextFormatter.doubleToRupiah(100000.0));
+        totalApproxCash.setText(TextFormatter.doubleToRupiah(SubmitInfo.getAssessmentPrice()));
     }
 
     @SuppressLint("RestrictedApi")
@@ -105,6 +114,12 @@ public class AcceptanceActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+        super.onBackPressed();
+    }
+
     public void sendTransaction() throws ParseException {
         HomecareTransParam homecareTransParam = new HomecareTransParam();
 
@@ -121,7 +136,8 @@ public class AcceptanceActivity extends AppCompatActivity {
         calendar.setTime(date);
         calendar.add(Calendar.HOUR, 1);
         homecareTransParam.setExpiredTransactionTime(calendar.getTimeInMillis());
-
+        homecareTransParam.setPrepaidPrice(100000.0);
+        homecareTransParam.setPredictionPrice(SubmitInfo.getAssessmentPrice());
         homecareTransParam.setReceiptPath("");
         homecareTransParam.setLocationLatitude(SubmitInfo.selectedPlaceInfo.getLatitude());
         homecareTransParam.setLocationLongitude(SubmitInfo.selectedPlaceInfo.getLongitude());

@@ -41,12 +41,13 @@ dependencies {
         exclude group: 'org.apache.httpcomponents' //by group
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }
-    implementation 'com.facebook.android:facebook-login:[4,5)'
+    //implementation 'com.facebook.android:facebook-login:[4,5)'
     compile 'com.shaishavgandhi:login-buttons:0.1.1'
 
     compile 'com.google.firebase:firebase-auth:11.8.0'
     compile 'com.google.firebase:firebase-core:11.8.0'
     compile 'com.google.firebase:firebase-messaging:11.8.0'
+    compile 'com.google.android.gms:play-services-auth:11.8.0'
     compile 'com.android.support:appcompat-v7:27.0.2'
     compile 'com.android.support:support-v4:27.0.2'
     compile 'com.android.support:support-annotations:27.0.2'
@@ -83,5 +84,8 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0'
 }
+
+
+
 
 apply plugin: 'com.google.gms.google-services'
