@@ -53,7 +53,7 @@
         <activity
             android:name=".LoginActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name=".ScreenSlideActivity" />
         <activity
             android:name=".MainActivity"
@@ -105,7 +105,7 @@
             android:label="@string/act_sign_up" />
         <activity
             android:name=".CekLabOptionActivity"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".AddUserCustomerActivity"
             android:label="@string/act_add_patient" />

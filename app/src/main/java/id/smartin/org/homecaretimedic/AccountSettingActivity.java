@@ -84,7 +84,7 @@ public class AccountSettingActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-
+                fillTheForm();
             }
         });
     }

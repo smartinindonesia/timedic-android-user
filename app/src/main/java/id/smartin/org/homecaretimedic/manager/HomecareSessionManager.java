@@ -59,7 +59,7 @@ public class HomecareSessionManager extends SessionManager {
     }
 
     public void logout() {
-        Intent intent = new Intent(getActivity(), LoginActivity.class);
+        Intent intent = new Intent(getContext(), LoginActivity.class);
         intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
         getContext().startActivity(intent);
         super.logout(KEY_IS_LOGIN);
