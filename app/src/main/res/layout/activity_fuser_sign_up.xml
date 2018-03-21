@@ -6,4 +6,10 @@
     android:layout_height="match_parent"
     tools:context="id.smartin.org.homecaretimedic.FUserSignUpActivity">
 
+    <Button
+        android:id="@+id/btnFbaseSignOut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Sign Out"/>
+
 </android.support.constraint.ConstraintLayout>

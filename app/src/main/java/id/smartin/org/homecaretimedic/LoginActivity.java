@@ -25,6 +25,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -141,6 +143,7 @@ public class LoginActivity extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
+                    gotoFirebaseSignUpPage(user);
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
 
                 } else {
@@ -153,14 +156,53 @@ public class LoginActivity extends AppCompatActivity {
         btnGoogleSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signIn();
+                if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+                    signIn();
+                    Log.d(TAG, "Sign in");
+                } else {
+                    signOut();
+                    Log.d(TAG, "Signed Out");
+                }
             }
         });
+    }
+
+    private void gotoFirebaseSignUpPage(FirebaseUser fbaseuser) {
+        User user = new User();
+        String name[] = fbaseuser.getDisplayName().split(" ");
+        String elaborateLastName = "";
+        for (int i = 0; i < name.length; i++) {
+            if (i == 0) {
+                user.setFrontName(name[i]);
+            } else if (i == 1) {
+                user.setMiddleName(name[i]);
+            } else if (i > 1) {
+                elaborateLastName = elaborateLastName + " " + name[i];
+                user.setLastName(elaborateLastName);
+            }
+        }
+        user.setPhotoPath(fbaseuser.getPhotoUrl().toString());
+        user.setPhoneNumber(fbaseuser.getPhoneNumber());
+        user.setEmail(fbaseuser.getEmail());
+        Intent intent = new Intent(this, FUserSignUpActivity.class);
+        intent.putExtra("fbase_user", user);
+        startActivity(intent);
     }
 
     private void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RequestCode.REQUEST_GOOGLE_SIGN_IN);
+    }
+
+    private void signOut() {
+        FirebaseAuth.getInstance().signOut();
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(Status status) {
+
+                    }
+                });
     }
 
     @Override
