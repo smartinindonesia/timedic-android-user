@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import id.smartin.org.homecaretimedic.LoginActivity;
+import id.smartin.org.homecaretimedic.model.AppSetting;
 import id.smartin.org.homecaretimedic.model.User;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
@@ -19,6 +20,7 @@ public class HomecareSessionManager extends SessionManager {
     public static String KEY_USER_INFOS_JSON = "user_json_infos";
     public static String KEY_USER_TOKEN = "user_token";
     public static String KEY_IS_LOGIN = "isLogin";
+    public static String KEY_APP_SETTING = "apps_setting";
 
     public HomecareSessionManager(Context context) {
         super(context, KEY_PREFERENCES_NAME);
@@ -29,10 +31,10 @@ public class HomecareSessionManager extends SessionManager {
     }
 
     public void createLoginSession(User user, String token) {
-        super.createLoginSession(user, KEY_USER_INFOS_JSON, KEY_IS_LOGIN, KEY_USER_TOKEN, token);
+        super.createLoginSession(user, KEY_USER_INFOS_JSON, KEY_IS_LOGIN, KEY_USER_TOKEN, token, KEY_APP_SETTING);
     }
 
-    public void updateProfile(User user){
+    public void updateProfile(User user) {
         super.updateUserInfo(user, KEY_USER_INFOS_JSON);
     }
 
@@ -61,5 +63,13 @@ public class HomecareSessionManager extends SessionManager {
         intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
         getContext().startActivity(intent);
         super.logout(KEY_IS_LOGIN);
+    }
+
+    public void setSetting(AppSetting setting) {
+        super.setAppSetting(setting, KEY_APP_SETTING);
+    }
+
+    public AppSetting getSetting() {
+        return super.getAppSetting(KEY_APP_SETTING);
     }
 }

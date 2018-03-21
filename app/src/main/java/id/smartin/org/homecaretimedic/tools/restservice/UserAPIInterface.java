@@ -22,14 +22,19 @@ import retrofit2.http.Query;
 public interface UserAPIInterface {
     @POST(Constants.ROUTE_LOGIN)
     Call<LoginResponse> loginUser(@Query("username") String username, @Query("password") String password);
+
     @POST(Constants.ROUTE_RESGISTER)
     Call<ResponseBody> registerUser(@Body RegisterParam param);
-    @PUT(Constants.ROUTE_USER_BY_ID+ "{id}")
+
+    @PUT(Constants.ROUTE_USER_BY_ID + "{id}")
     Call<ResponseBody> updateUser(@Path(value = "id", encoded = true) Long id, @Body User user);
-    @PUT(Constants.ROUTE_USER_BY_ID+"{id}")
+
+    @PUT(Constants.ROUTE_USER_BY_ID + "{id}")
     Call<ResponseBody> updateProfile(@Path(value = "id", encoded = true) Long id, @Body UserProfile user);
-    @GET(Constants.ROUTE_USER_BY_ID+"{id}")
+
+    @PUT(Constants.ROUTE_USER_BY_ID + "{id}")
     Call<ResponseBody> updatePassword(@Path(value = "id", encoded = true) Long id, @Body PasswordProfile pass);
-    @GET(Constants.ROUTE_USER_BY_ID+"{id}")
+
+    @GET(Constants.ROUTE_USER_BY_ID + "{id}")
     Call<User> getProfile(@Path(value = "id", encoded = true) Long id);
 }

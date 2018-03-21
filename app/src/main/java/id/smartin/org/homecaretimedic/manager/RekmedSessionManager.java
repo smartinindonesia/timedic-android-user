@@ -16,13 +16,14 @@ public class RekmedSessionManager extends SessionManager {
     public static String KEY_USER_INFOS_JSON = "user_json_infos";
     public static String KEY_USER_TOKEN = "user_token";
     public static String KEY_IS_LOGIN = "isLogin";
+    public static String KEY_APP_SETTING = "app_setting_rekmed";
 
     public RekmedSessionManager(Activity activity, Context context) {
         super(activity, context, KEY_PREFERENCES_NAME);
     }
 
     public void createLoginSession(User user, String token) {
-        super.createLoginSession(user, KEY_USER_INFOS_JSON, KEY_IS_LOGIN, KEY_USER_TOKEN, token);
+        super.createLoginSession(user, KEY_USER_INFOS_JSON, KEY_IS_LOGIN, KEY_USER_TOKEN, token, KEY_APP_SETTING);
     }
 
     public User getUserDetail() {
