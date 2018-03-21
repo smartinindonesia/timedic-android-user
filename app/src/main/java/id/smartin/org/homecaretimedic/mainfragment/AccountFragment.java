@@ -1,6 +1,8 @@
 package id.smartin.org.homecaretimedic.mainfragment;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -22,7 +24,6 @@ import id.smartin.org.homecaretimedic.R;
 import id.smartin.org.homecaretimedic.manager.HomecareSessionManager;
 import id.smartin.org.homecaretimedic.model.AppSetting;
 
-import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**
  * Created by Hafid on 8/22/2017.
@@ -36,6 +37,8 @@ public class AccountFragment extends Fragment {
     LinearLayout accountLayout;
     @BindView(R.id.btnLogout)
     LinearLayout logoutBtn;
+    @BindView(R.id.btnRateApp)
+    LinearLayout btnRateApp;
     @BindView(R.id.accountSetting)
     TextView accountSetting;
     @BindView(R.id.btnChangePassword)
@@ -92,7 +95,6 @@ public class AccountFragment extends Fragment {
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 appSetting.setActive(b);
                 homecareSessionManager.setSetting(appSetting);
-
                 if (b) {
                     Snackbar.make(accountLayout, "Notifikasi diaktifkan!", Snackbar.LENGTH_LONG).show();
                 } else {
@@ -100,6 +102,28 @@ public class AccountFragment extends Fragment {
                 }
             }
         });
+        btnRateApp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                gotoMarketPlace();
+            }
+        });
         return newView;
+    }
+
+    public void gotoMarketPlace() {
+        Uri uri = Uri.parse("market://details?id=" + getContext().getPackageName());
+        Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+        // To count with Play market backstack, After pressing back button,
+        // to taken back to our application, we need to add following flags to intent.
+        goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
+                Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+                Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+        try {
+            startActivity(goToMarket);
+        } catch (ActivityNotFoundException e) {
+            startActivity(new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("http://play.google.com/store/apps/details?id=" + getContext().getPackageName())));
+        }
     }
 }

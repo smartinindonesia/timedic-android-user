@@ -2,8 +2,6 @@ package id.smartin.org.homecaretimedic.tools.restservice;
 
 import android.util.Log;
 
-import com.facebook.AccessTokenManager;
-
 import java.io.IOException;
 
 import id.smartin.org.homecaretimedic.manager.HomecareSessionManager;
