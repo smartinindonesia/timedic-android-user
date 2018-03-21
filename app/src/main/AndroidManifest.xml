@@ -148,7 +148,8 @@
         <activity
             android:name=".AccountSettingActivity"
             android:label="@string/act_account_setting" />
-        <activity android:name=".ChangePasswordActivity"></activity>
+        <activity android:name=".ChangePasswordActivity" />
+        <activity android:name=".FUserSignUpActivity"></activity>
     </application>
 
 </manifest>
