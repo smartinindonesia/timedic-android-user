@@ -64,7 +64,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/sign_in_selector_bg"
-        android:text="Selanjutnya"
-        android:textColor="@color/sign_in_selector_fg" />
+        android:hint="Selanjutnya"
+        android:textColorHint="@color/sign_in_selector_fg" />
 
 </LinearLayout>
