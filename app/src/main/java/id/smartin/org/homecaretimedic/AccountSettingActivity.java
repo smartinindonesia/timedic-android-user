@@ -1,16 +1,21 @@
 package id.smartin.org.homecaretimedic;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.UnsupportedEncodingException;
@@ -46,6 +51,8 @@ public class AccountSettingActivity extends AppCompatActivity {
     Button btnEdit;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.emailAddress)
+    TextView emailAddress;
     @BindView(R.id.mainLayout)
     RelativeLayout mainLayout;
 
@@ -87,6 +94,55 @@ public class AccountSettingActivity extends AppCompatActivity {
                 fillTheForm();
             }
         });
+        final String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+        emailAddress.addTextChangedListener(new TextWatcher() {
+            @TargetApi(Build.VERSION_CODES.M)
+            public void afterTextChanged(Editable s) {
+                String email = emailAddress.getText().toString().trim();
+                if (s.length() > 0) {
+                    if (email.matches(emailPattern)) {
+                        emailAddress.setBackground(getDrawable(R.drawable.bg_green_rounded_textfield));
+                        emailAddress.setTextColor(getColor(R.color.btn_on_text));
+                    } else {
+                        emailAddress.setBackground(getDrawable(R.drawable.bg_red_rounded_textfield));
+                        emailAddress.setTextColor(getColor(R.color.btn_on_text));
+                    }
+                } else {
+                    emailAddress.setBackground(getDrawable(R.drawable.bg_gray_rounded_textfield));
+                    emailAddress.setTextColor(getColor(R.color.text_color));
+                }
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // other stuffs
+            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // other stuffs
+            }
+        });
+        phone.addTextChangedListener(new TextWatcher() {
+            @TargetApi(Build.VERSION_CODES.M)
+            public void afterTextChanged(Editable s) {
+                String num = phone.getText().toString().trim();
+                if (s.length() > 0) {
+                    if (android.util.Patterns.PHONE.matcher(num).matches()) {
+                        phone.setBackground(getDrawable(R.drawable.bg_green_rounded_textfield));
+                        phone.setTextColor(getColor(R.color.btn_on_text));
+                    } else {
+                        phone.setBackground(getDrawable(R.drawable.bg_red_rounded_textfield));
+                        phone.setTextColor(getColor(R.color.btn_on_text));
+                    }
+                } else {
+                    phone.setBackground(getDrawable(R.drawable.bg_gray_rounded_textfield));
+                    phone.setTextColor(getColor(R.color.text_color));
+                }
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // other stuffs
+            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // other stuffs
+            }
+        });
     }
 
     public void fillTheForm() {
@@ -95,6 +151,7 @@ public class AccountSettingActivity extends AppCompatActivity {
         middleName.setText(user.getMiddleName());
         lastName.setText(user.getLastName());
         phone.setText(user.getPhoneNumber());
+        emailAddress.setText(user.getEmail());
     }
 
     @Override
@@ -129,6 +186,7 @@ public class AccountSettingActivity extends AppCompatActivity {
         registerParam.setLastName(lastName.getText().toString());
         registerParam.setMiddleName(middleName.getText().toString());
         registerParam.setPhoneNumber(phone.getText().toString());
+        registerParam.setEmail(emailAddress.getText().toString());
 
         if (registerParam.isValidPhone()) {
             try {

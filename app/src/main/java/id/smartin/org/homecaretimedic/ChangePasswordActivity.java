@@ -1,10 +1,14 @@
 package id.smartin.org.homecaretimedic;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -59,6 +63,31 @@ public class ChangePasswordActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 doUpdatePassword();
+            }
+        });
+        retypePassword.addTextChangedListener(new TextWatcher() {
+            @TargetApi(Build.VERSION_CODES.M)
+            public void afterTextChanged(Editable s) {
+                String pass = password.getText().toString();
+                String rePass = retypePassword.getText().toString();
+                if (s.length() > 0) {
+                    if (pass.equals(rePass)) {
+                        retypePassword.setBackground(getDrawable(R.drawable.bg_green_rounded_textfield));
+                        retypePassword.setTextColor(getColor(R.color.btn_on_text));
+                    } else {
+                        retypePassword.setBackground(getDrawable(R.drawable.bg_red_rounded_textfield));
+                        retypePassword.setTextColor(getColor(R.color.btn_on_text));
+                    }
+                } else {
+                    retypePassword.setBackground(getDrawable(R.drawable.edittext_border));
+                    retypePassword.setTextColor(getColor(R.color.text_color));
+                }
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // other stuffs
+            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // other stuffs
             }
         });
     }

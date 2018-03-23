@@ -182,7 +182,7 @@
             android:layout_height="@dimen/calculator_input_height"
             android:layout_weight="0.6"
             android:background="@drawable/bg_gray_rounded_textfield"
-            android:inputType="textNoSuggestions"
+            android:inputType="textEmailAddress"
             android:paddingLeft="@dimen/calculator_input_padding"
             android:paddingRight="@dimen/calculator_input_padding">
         </EditText>

@@ -154,6 +154,7 @@
         <activity
             android:name=".FUserSignUpActivity"
             android:label="@string/act_sign_up" />
+        <activity android:name=".OrderDetailsActivity"></activity>
     </application>
 
 </manifest>
