@@ -1,14 +1,18 @@
 package id.smartin.org.homecaretimedic;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +20,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -59,6 +64,8 @@ public class FUserSignUpActivity extends AppCompatActivity {
     RelativeLayout mainLayout;
     @BindView(R.id.agreementLink)
     TextView agreementLink;
+    @BindView(R.id.emailAddress)
+    EditText emailAddress;
 
     private User user;
 
@@ -84,6 +91,55 @@ public class FUserSignUpActivity extends AppCompatActivity {
                 openUrl(id.smartin.org.homecaretimedic.config.Constants.TERM_AND_COND);
             }
         });
+        final String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+        emailAddress.addTextChangedListener(new TextWatcher() {
+            @TargetApi(Build.VERSION_CODES.M)
+            public void afterTextChanged(Editable s) {
+                String email = emailAddress.getText().toString().trim();
+                if (s.length() > 0) {
+                    if (email.matches(emailPattern)) {
+                        emailAddress.setBackground(getDrawable(R.drawable.bg_green_rounded_textfield));
+                        emailAddress.setTextColor(getColor(R.color.btn_on_text));
+                    } else {
+                        emailAddress.setBackground(getDrawable(R.drawable.bg_red_rounded_textfield));
+                        emailAddress.setTextColor(getColor(R.color.btn_on_text));
+                    }
+                } else {
+                    emailAddress.setBackground(getDrawable(R.drawable.bg_gray_rounded_textfield));
+                    emailAddress.setTextColor(getColor(R.color.text_color));
+                }
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // other stuffs
+            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // other stuffs
+            }
+        });
+        phone.addTextChangedListener(new TextWatcher() {
+            @TargetApi(Build.VERSION_CODES.M)
+            public void afterTextChanged(Editable s) {
+                String num = phone.getText().toString().trim();
+                if (s.length() > 0) {
+                    if (android.util.Patterns.PHONE.matcher(num).matches()) {
+                        phone.setBackground(getDrawable(R.drawable.bg_green_rounded_textfield));
+                        phone.setTextColor(getColor(R.color.btn_on_text));
+                    } else {
+                        phone.setBackground(getDrawable(R.drawable.bg_red_rounded_textfield));
+                        phone.setTextColor(getColor(R.color.btn_on_text));
+                    }
+                } else {
+                    phone.setBackground(getDrawable(R.drawable.bg_gray_rounded_textfield));
+                    phone.setTextColor(getColor(R.color.text_color));
+                }
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // other stuffs
+            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // other stuffs
+            }
+        });
         fillTheForm();
     }
 
@@ -104,6 +160,7 @@ public class FUserSignUpActivity extends AppCompatActivity {
         middleName.setText(user.getMiddleName());
         lastName.setText(user.getLastName());
         phone.setText(user.getPhoneNumber());
+        emailAddress.setText(user.getEmail());
     }
 
     private void openProgress(){

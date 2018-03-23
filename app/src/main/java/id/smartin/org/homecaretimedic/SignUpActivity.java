@@ -1,13 +1,17 @@
 package id.smartin.org.homecaretimedic;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -60,6 +64,8 @@ public class SignUpActivity extends AppCompatActivity {
     RelativeLayout mainLayout;
     @BindView(R.id.agreementLink)
     TextView agreementLink;
+    @BindView(R.id.emailAddress)
+    EditText emailAddress;
 
     private UserAPIInterface userAPIInterface;
 
@@ -82,12 +88,61 @@ public class SignUpActivity extends AppCompatActivity {
                 openUrl(id.smartin.org.homecaretimedic.config.Constants.TERM_AND_COND);
             }
         });
+        final String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+        emailAddress.addTextChangedListener(new TextWatcher() {
+            @TargetApi(Build.VERSION_CODES.M)
+            public void afterTextChanged(Editable s) {
+                String email = emailAddress.getText().toString().trim();
+                if (s.length() > 0) {
+                    if (email.matches(emailPattern)) {
+                        emailAddress.setBackground(getDrawable(R.drawable.bg_green_rounded_textfield));
+                        emailAddress.setTextColor(getColor(R.color.btn_on_text));
+                    } else {
+                        emailAddress.setBackground(getDrawable(R.drawable.bg_red_rounded_textfield));
+                        emailAddress.setTextColor(getColor(R.color.btn_on_text));
+                    }
+                } else {
+                    emailAddress.setBackground(getDrawable(R.drawable.bg_gray_rounded_textfield));
+                    emailAddress.setTextColor(getColor(R.color.text_color));
+                }
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // other stuffs
+            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // other stuffs
+            }
+        });
+        phone.addTextChangedListener(new TextWatcher() {
+            @TargetApi(Build.VERSION_CODES.M)
+            public void afterTextChanged(Editable s) {
+                String num = phone.getText().toString().trim();
+                if (s.length() > 0) {
+                    if (android.util.Patterns.PHONE.matcher(num).matches()) {
+                        phone.setBackground(getDrawable(R.drawable.bg_green_rounded_textfield));
+                        phone.setTextColor(getColor(R.color.btn_on_text));
+                    } else {
+                        phone.setBackground(getDrawable(R.drawable.bg_red_rounded_textfield));
+                        phone.setTextColor(getColor(R.color.btn_on_text));
+                    }
+                } else {
+                    phone.setBackground(getDrawable(R.drawable.bg_gray_rounded_textfield));
+                    phone.setTextColor(getColor(R.color.text_color));
+                }
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // other stuffs
+            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // other stuffs
+            }
+        });
     }
 
     @SuppressLint("RestrictedApi")
     public void createTitleBar() {
         setSupportActionBar(toolbar);
-        ViewFaceUtility.changeToolbarFont(toolbar, this,"fonts/Dosis-Bold.otf", R.color.theme_black);
+        ViewFaceUtility.changeToolbarFont(toolbar, this, "fonts/Dosis-Bold.otf", R.color.theme_black);
         ActionBar mActionbar = getSupportActionBar();
         mActionbar.setDisplayHomeAsUpEnabled(true);
         mActionbar.setDefaultDisplayHomeAsUpEnabled(true);
@@ -112,16 +167,21 @@ public class SignUpActivity extends AppCompatActivity {
         registerParam.setPassword(shahex);
         registerParam.setUsername(username.getText().toString());
         registerParam.setPhone(phone.getText().toString());
+        registerParam.setEmail(emailAddress.getText().toString());
 
         if (registerParam.isValidPhone()) {
-            if (checkAgreement.isChecked()) {
-                try {
-                    postData(registerParam);
-                } catch (UnsupportedEncodingException e) {
-                    Toast.makeText(getApplicationContext(), "Parameter tidak benar!", Toast.LENGTH_LONG).show();
+            if (registerParam.isValidEmail()) {
+                if (checkAgreement.isChecked()) {
+                    try {
+                        postData(registerParam);
+                    } catch (UnsupportedEncodingException e) {
+                        Toast.makeText(getApplicationContext(), "Parameter tidak benar!", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Anda belum menyetujui pernyataan persetujuan!", Toast.LENGTH_LONG).show();
                 }
             } else {
-                Toast.makeText(getApplicationContext(), "Anda belum menyetujui pernyataan persetujuan!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Email tidak valid!", Toast.LENGTH_LONG).show();
             }
         } else {
             Toast.makeText(getApplicationContext(), "Nomor HP tidak valid!", Toast.LENGTH_LONG).show();
@@ -150,7 +210,7 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
-    private void openUrl(String url){
+    private void openUrl(String url) {
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(url));
         startActivity(i);

@@ -1,5 +1,8 @@
 package id.smartin.org.homecaretimedic.model.parammodel;
 
+import android.text.TextUtils;
+import android.util.Patterns;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -20,6 +23,8 @@ public class RegisterParam {
     private String lastname;
     @SerializedName("phone")
     private String phone;
+    @SerializedName("email")
+    private String email;
 
     public String getUsername() {
         return username;
@@ -69,9 +74,21 @@ public class RegisterParam {
         this.phone = phone;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public boolean isValidPhone() {
         boolean isTrue = android.util.Patterns.PHONE.matcher(phone).matches();
         return isTrue;
+    }
+
+    public boolean isValidEmail() {
+        return (!TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches());
     }
 
     public boolean passwordValidator(String password){
