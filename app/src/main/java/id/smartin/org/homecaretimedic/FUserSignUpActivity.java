@@ -3,6 +3,7 @@ package id.smartin.org.homecaretimedic;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -27,6 +29,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.pedant.SweetAlert.Constants;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import id.smartin.org.homecaretimedic.model.User;
 import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
@@ -54,6 +57,8 @@ public class FUserSignUpActivity extends AppCompatActivity {
     Toolbar toolbar;
     @BindView(R.id.mainLayout)
     RelativeLayout mainLayout;
+    @BindView(R.id.agreementLink)
+    TextView agreementLink;
 
     private User user;
 
@@ -73,6 +78,12 @@ public class FUserSignUpActivity extends AppCompatActivity {
         Log.i(TAG, user.getFrontName());
         googleLoginInit();
         createTitleBar();
+        agreementLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openUrl(id.smartin.org.homecaretimedic.config.Constants.TERM_AND_COND);
+            }
+        });
         fillTheForm();
     }
 
@@ -160,5 +171,11 @@ public class FUserSignUpActivity extends AppCompatActivity {
                         finish();
                     }
                 });
+    }
+
+    private void openUrl(String url){
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(url));
+        startActivity(i);
     }
 }

@@ -62,7 +62,6 @@ public class ActiveOrder extends Fragment {
         activeOrderAdapter = new ActiveOrderAdapter(getActivity(), getContext(), orderList);
         final RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(activeOrderAdapter);
         getActiveOrder();

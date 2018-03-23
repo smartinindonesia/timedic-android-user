@@ -58,7 +58,6 @@ public class HistoryOrder extends Fragment {
         historyOrderAdapter = new HistoryOrderAdapter(getActivity(), getContext(), orderList);
         final RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(historyOrderAdapter);
         getHistoryOrder();

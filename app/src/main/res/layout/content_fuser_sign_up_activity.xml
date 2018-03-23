@@ -166,7 +166,17 @@
         android:id="@+id/chkAgreement"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/black_link_color"
         android:text="@string/term_of_agreement" />
+
+    <TextView
+        android:id="@+id/agreementLink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="31dp"
+        android:text="@string/term_of_agreement_link"
+        android:paddingBottom="@dimen/calculator_row_space"
+        android:textColor="@color/blue_link_color" />
 
     <Button
         android:id="@+id/signUP"

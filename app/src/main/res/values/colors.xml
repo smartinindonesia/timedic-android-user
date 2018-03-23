@@ -6,6 +6,7 @@
     <color name="textColorPrimary">#054F4D</color>
     <color name="textColorSecondary">#FEFEFE</color>
     <color name="transparentColor">#00FFFFFF</color>
+    <color name="zeroClear">#00000000</color>
     <color name="windowBackground">#FFFFFF</color>
     <color name="navigationBarColor">#000000</color>
     <color name="colorAccent">#EE0faba6</color>
@@ -28,4 +29,5 @@
     <color name="theme_pink">#ED3571</color>
     <color name="theme_gray">#EEEEEE</color>
     <color name="theme_black">#373435</color>
+    <color name="theme_link">#0000FF</color>
 </resources>

@@ -61,7 +61,8 @@ setelah kami melakukan kunjungan kerumah anda
     </string>
     <string name="thanks_page_msg5">TiMedic - Kami Rawat di Rumah Anda</string>
 
-    <string name="term_of_agreement">I agree with the term of service agreement</string>
+    <string name="term_of_agreement">Saya menyetujui persyaratan dan ketentuan yang berlaku pada tautan di bawah ini </string>
+    <string name="term_of_agreement_link"><u>Persyaratan dan Ketentuan</u></string>
 
 
     <string name="cek_lab_notification">Masukkan jenis-jenis tes yang anda inginkan dibawah ini</string>

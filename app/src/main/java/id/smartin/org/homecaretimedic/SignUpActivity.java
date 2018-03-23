@@ -1,6 +1,8 @@
 package id.smartin.org.homecaretimedic;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +15,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -55,6 +58,8 @@ public class SignUpActivity extends AppCompatActivity {
     Toolbar toolbar;
     @BindView(R.id.mainLayout)
     RelativeLayout mainLayout;
+    @BindView(R.id.agreementLink)
+    TextView agreementLink;
 
     private UserAPIInterface userAPIInterface;
 
@@ -69,6 +74,12 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 doSignUp();
+            }
+        });
+        agreementLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openUrl(id.smartin.org.homecaretimedic.config.Constants.TERM_AND_COND);
             }
         });
     }
@@ -137,5 +148,11 @@ public class SignUpActivity extends AppCompatActivity {
                 call.cancel();
             }
         });
+    }
+
+    private void openUrl(String url){
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(url));
+        startActivity(i);
     }
 }
