@@ -2,167 +2,243 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="?attr/actionBarSize"
     android:gravity="center"
     android:orientation="horizontal"
     android:paddingLeft="@dimen/global_act_padding"
     android:paddingRight="@dimen/global_act_padding"
-    android:layout_marginTop="?attr/actionBarSize"
     android:weightSum="5">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="4.5"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_gravity="left"
-            android:src="@drawable/account_login" />
-
-        <EditText
-            android:id="@+id/patientsName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:background="@drawable/edittext_border"
-            android:drawableLeft="@drawable/ic_login_email"
-            android:hint="Nama Pengguna"
-            android:inputType="text"
-            android:padding="4dp" />
+        android:layout_gravity="center"
+        android:layout_weight="4.5">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="5dp"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:padding="4dp"
-                android:text="Agama"/>
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="left"
+                android:src="@drawable/account_login" />
 
-            <Spinner
-                android:id="@+id/religion"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/edittext_border"
-                android:drawableLeft="@drawable/ic_click_date"
-                android:hint="Agama"
-                android:padding="4dp"/>
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/calculator_row_space">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
+                    android:text="Nama Pasien"
+                    android:textSize="@dimen/calculator_hint_size" />
+
+                <EditText
+                    android:id="@+id/patientsName"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/calculator_input_height"
+                    android:layout_weight="0.6"
+                    android:background="@drawable/bg_gray_rounded_textfield"
+                    android:inputType="text"
+                    android:paddingLeft="@dimen/calculator_input_padding"
+                    android:paddingRight="@dimen/calculator_input_padding"></EditText>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/calculator_row_space">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
+                    android:text="Agama"
+                    android:textSize="@dimen/calculator_hint_size" />
+
+                <Spinner
+                    android:id="@+id/religion"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/calculator_input_height"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.6"
+                    android:background="@drawable/edittext_border"
+                    android:drawableLeft="@drawable/ic_click_date"
+                    android:hint="Agama"
+                    android:padding="4dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/calculator_row_space">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
+                    android:text="Jenis kelamin"
+                    android:textSize="@dimen/calculator_hint_size" />
+
+                <Spinner
+                    android:id="@+id/genderSelector"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/calculator_input_height"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.6"
+                    android:background="@drawable/edittext_border"
+                    android:drawableLeft="@drawable/ic_click_date"
+                    android:hint="Jenis Kelamin"
+                    android:padding="4dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/calculator_row_space">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
+                    android:text="Tinggi Badan (cm)"
+                    android:textSize="@dimen/calculator_hint_size" />
+
+                <EditText
+                    android:id="@+id/heightMeasurement"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/calculator_input_height"
+                    android:layout_weight="0.6"
+                    android:background="@drawable/bg_gray_rounded_textfield"
+                    android:inputType="numberDecimal"
+                    android:paddingLeft="@dimen/calculator_input_padding"
+                    android:paddingRight="@dimen/calculator_input_padding"></EditText>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/calculator_row_space">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
+                    android:text="Berat Badan (kg)"
+                    android:textSize="@dimen/calculator_hint_size" />
+
+                <EditText
+                    android:id="@+id/weightMeasurement"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/calculator_input_height"
+                    android:layout_weight="0.6"
+                    android:background="@drawable/bg_gray_rounded_textfield"
+                    android:inputType="numberDecimal"
+                    android:paddingLeft="@dimen/calculator_input_padding"
+                    android:paddingRight="@dimen/calculator_input_padding"></EditText>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/calculator_row_space">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
+                    android:text="Tempat Lahir"
+                    android:textSize="@dimen/calculator_hint_size" />
+
+                <EditText
+                    android:id="@+id/placeOfBirth"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/calculator_input_height"
+                    android:layout_weight="0.6"
+                    android:background="@drawable/bg_gray_rounded_textfield"
+                    android:inputType="text"
+                    android:paddingLeft="@dimen/calculator_input_padding"
+                    android:paddingRight="@dimen/calculator_input_padding"></EditText>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/calculator_row_space">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
+                    android:text="Tanggal Lahir"
+                    android:textSize="@dimen/calculator_hint_size" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.6"
+                    android:orientation="horizontal"
+                    android:paddingTop="5dp">
+
+                    <EditText
+                        android:id="@+id/dateOfBirth"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/calculator_input_height"
+                        android:layout_weight="0.6"
+                        android:background="@drawable/bg_gray_rounded_textfield"
+                        android:enabled="false"
+                        android:inputType="text"
+                        android:paddingLeft="@dimen/calculator_input_padding"
+                        android:paddingRight="@dimen/calculator_input_padding"/>
+
+                    <ImageButton
+                        android:id="@+id/selectDOB"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/calculator_input_height"
+                        android:layout_gravity="center"
+                        android:layout_weight="0.4"
+                        android:background="@drawable/orange_selector_button_bg"
+                        android:padding="4dp"
+                        android:src="@drawable/ic_select_date_white" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+            <Button
+                android:id="@+id/addUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/sign_up_selector_bg"
+                android:hint="Tambahkan"
+                android:textColorHint="@color/sign_up_selector_fg" />
 
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="5dp"
-            android:layout_gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:padding="4dp"
-                android:text="Jenis kelamin"/>
-
-            <Spinner
-                android:id="@+id/genderSelector"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/edittext_border"
-                android:drawableLeft="@drawable/ic_click_date"
-                android:hint="Agama"
-                android:padding="4dp"
-                android:inputType="text"/>
-
-        </LinearLayout>
-
-        <EditText
-            android:id="@+id/heightMeasurement"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@drawable/edittext_border"
-            android:drawableLeft="@drawable/ic_click_date"
-            android:hint="Tinggi badan (cm)"
-            android:padding="4dp"
-            android:inputType="numberDecimal"/>
-
-        <EditText
-            android:id="@+id/weightMeasurement"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@drawable/edittext_border"
-            android:drawableLeft="@drawable/ic_click_date"
-            android:hint="Berat badan (kg)"
-            android:padding="4dp"
-            android:inputType="numberDecimal"/>
-
-        <EditText
-            android:id="@+id/placeOfBirth"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@drawable/edittext_border"
-            android:drawableLeft="@drawable/ic_click_date"
-            android:hint="Tempat Lahir"
-            android:padding="4dp"
-            android:inputType="text"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="5dp"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/dateOfBirth"
-                android:layout_weight="8"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/edittext_border"
-                android:drawableLeft="@drawable/ic_click_date"
-                android:hint="Tanggal Lahir"
-                android:enabled="false"
-                android:padding="4dp"
-                android:inputType="text"/>
-
-            <ImageButton
-                android:id="@+id/selectDOB"
-                android:layout_weight="2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:padding="4dp"
-                android:src="@drawable/ic_select_date_white"
-                android:background="@drawable/orange_selector_button_bg"/>
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="10dp"/>
-
-        <Button
-            android:id="@+id/addUser"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/sign_up_selector_bg"
-            android:text="Tambahkan"
-            android:textColor="@color/sign_up_selector_fg" />
-
-    </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>
