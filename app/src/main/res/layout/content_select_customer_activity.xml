@@ -23,9 +23,9 @@
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:background="@drawable/orange_selector_button_bg"
-        android:textColor="@color/sign_in_selector_fg"
+        android:textColorHint="@color/sign_in_selector_fg"
         android:layout_marginBottom="10dp"
-        android:text="Tambahkan Pasien"
+        android:hint="Tambahkan Pasien"
         android:layout_height="wrap_content" />
 
 </RelativeLayout>

@@ -11,6 +11,7 @@
     <string name="act_account_setting">Profil</string>
     <string name="act_sign_up">Pendaftaran Akun</string>
     <string name="act_change_pass">Perubahan Password</string>
+    <string name="act_order_detail">Detail Pemesanan</string>
 
     <string name="act_medical_record">Medical Record</string>
 
