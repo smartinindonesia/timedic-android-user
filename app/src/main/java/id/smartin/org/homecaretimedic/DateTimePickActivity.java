@@ -56,12 +56,18 @@ public class DateTimePickActivity extends AppCompatActivity {
                 int day = mcurrentTime.get(Calendar.DAY_OF_MONTH) + 2;
                 int month = mcurrentTime.get(Calendar.MONTH);
                 int year = mcurrentTime.get(Calendar.YEAR);
+                Calendar nextWeek = Calendar.getInstance();
+                nextWeek.add(Calendar.DATE, 7);
+                Calendar minDate = Calendar.getInstance();
+                minDate.add(Calendar.DATE, 2);
                 datePickerDialog = new DatePickerDialog(DateTimePickActivity.this, new DatePickerDialog.OnDateSetListener() {
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         tglPelayanan.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
                         pickedDateTime.setDate(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
                     }
                 }, mcurrentTime.get(Calendar.YEAR), mcurrentTime.get(Calendar.MONTH), mcurrentTime.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.getDatePicker().setMaxDate(nextWeek.getTimeInMillis());
+                datePickerDialog.getDatePicker().setMinDate(minDate.getTimeInMillis());
                 datePickerDialog.setTitle("Pilih tanggal pelayanan");
                 datePickerDialog.show();
                 tglPelayanan.setText(day + "-" + (month + 1) + "-" + year);

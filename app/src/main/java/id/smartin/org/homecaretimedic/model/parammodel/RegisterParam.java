@@ -25,6 +25,8 @@ public class RegisterParam {
     private String phone;
     @SerializedName("email")
     private String email;
+    @SerializedName("dateOfBirth")
+    private Long dateOfBirth;
 
     public String getUsername() {
         return username;
@@ -80,6 +82,14 @@ public class RegisterParam {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Long getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(Long dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 
     public boolean isValidPhone() {

@@ -2,6 +2,7 @@ package id.smartin.org.homecaretimedic;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -17,7 +18,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +34,8 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -66,7 +71,12 @@ public class FUserSignUpActivity extends AppCompatActivity {
     TextView agreementLink;
     @BindView(R.id.emailAddress)
     EditText emailAddress;
+    @BindView(R.id.dateOfBirth)
+    EditText dob;
+    @BindView(R.id.selectDOB)
+    ImageButton selectDob;
 
+    private DatePickerDialog datePickerDialog;
     private User user;
 
     private GoogleSignInOptions gso;
@@ -140,6 +150,23 @@ public class FUserSignUpActivity extends AppCompatActivity {
                 // other stuffs
             }
         });
+        selectDob.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar mcurrentTime = Calendar.getInstance();
+                int day = mcurrentTime.get(Calendar.DAY_OF_MONTH) + 2;
+                int month = mcurrentTime.get(Calendar.MONTH);
+                int year = mcurrentTime.get(Calendar.YEAR);
+                datePickerDialog = new DatePickerDialog(FUserSignUpActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        dob.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                    }
+                }, mcurrentTime.get(Calendar.YEAR), mcurrentTime.get(Calendar.MONTH), mcurrentTime.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.setTitle("Pilih tanggal pelayanan");
+                datePickerDialog.show();
+                dob.setText(day + "-" + (month + 1) + "-" + year);
+            }
+        });
         fillTheForm();
     }
 
@@ -161,6 +188,7 @@ public class FUserSignUpActivity extends AppCompatActivity {
         lastName.setText(user.getLastName());
         phone.setText(user.getPhoneNumber());
         emailAddress.setText(user.getEmail());
+        dob.setText(user.getDateBirth());
     }
 
     private void openProgress(){
