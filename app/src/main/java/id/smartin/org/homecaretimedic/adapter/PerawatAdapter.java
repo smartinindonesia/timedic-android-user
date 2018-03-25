@@ -14,7 +14,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.smartin.org.homecaretimedic.R;
-import id.smartin.org.homecaretimedic.model.Perawat;
+import id.smartin.org.homecaretimedic.model.Caregiver;
 
 /**
  * Created by Hafid on 9/23/2017.
@@ -23,13 +23,13 @@ import id.smartin.org.homecaretimedic.model.Perawat;
 public class PerawatAdapter extends RecyclerView.Adapter<PerawatAdapter.MyViewHolder>{
     public static String TAG = "[PerawatAdapter]";
 
-    private List<Perawat> perawatList;
+    private List<Caregiver> caregiverList;
     private Context context;
 
 
-    public PerawatAdapter(Context context, List<Perawat> perawatList){
+    public PerawatAdapter(Context context, List<Caregiver> caregiverList){
         this.context = context;
-        this.perawatList = perawatList;
+        this.caregiverList = caregiverList;
     }
 
     @Override
@@ -41,12 +41,12 @@ public class PerawatAdapter extends RecyclerView.Adapter<PerawatAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Perawat perawat = perawatList.get(position);
-        holder.nama.setText(perawat.getNamaPerawat());
-        holder.kategori.setText(perawat.getKategoriPerawat());
-        holder.agama.setText(perawat.getAlamat());
-        holder.pendidikan.setText(perawat.getPendidikan());
-        holder.skill.setText(perawat.getSkill());
+        Caregiver caregiver = caregiverList.get(position);
+        holder.nama.setText(caregiver.getNamaPerawat());
+        holder.kategori.setText(caregiver.getKategoriPerawat());
+        holder.agama.setText(caregiver.getAlamat());
+        holder.pendidikan.setText(caregiver.getPendidikan());
+        holder.skill.setText(caregiver.getSkill());
         holder.btnPesan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,7 +63,7 @@ public class PerawatAdapter extends RecyclerView.Adapter<PerawatAdapter.MyViewHo
 
     @Override
     public int getItemCount() {
-        return perawatList.size();
+        return caregiverList.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

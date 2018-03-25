@@ -37,6 +37,10 @@ public class Order {
     private Patient homecarePatientId;
     @SerializedName("paymentMethodId")
     private PaymentMethod paymentMethodId;
+    @SerializedName("fullAddress")
+    private String fullAddress;
+    @SerializedName("selectedService")
+    private String selectedService;
 
     public Long getId() {
         return id;
@@ -148,5 +152,21 @@ public class Order {
 
     public void setPaymentMethodId(PaymentMethod paymentMethodId) {
         this.paymentMethodId = paymentMethodId;
+    }
+
+    public String getFullAddress() {
+        return fullAddress;
+    }
+
+    public void setFullAddress(String fullAddress) {
+        this.fullAddress = fullAddress;
+    }
+
+    public String getSelectedService() {
+        return selectedService;
+    }
+
+    public void setSelectedService(String selectedService) {
+        this.selectedService = selectedService;
     }
 }

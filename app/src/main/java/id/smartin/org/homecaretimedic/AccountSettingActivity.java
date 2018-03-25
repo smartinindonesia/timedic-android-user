@@ -2,6 +2,7 @@ package id.smartin.org.homecaretimedic;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.DatePickerDialog;
 import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
@@ -13,12 +14,15 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,6 +30,8 @@ import id.smartin.org.homecaretimedic.manager.HomecareSessionManager;
 import id.smartin.org.homecaretimedic.model.User;
 import id.smartin.org.homecaretimedic.model.parammodel.RegisterParam;
 import id.smartin.org.homecaretimedic.model.parammodel.UserProfile;
+import id.smartin.org.homecaretimedic.model.submitmodel.PickedDateTime;
+import id.smartin.org.homecaretimedic.tools.ConverterUtility;
 import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
 import id.smartin.org.homecaretimedic.tools.restservice.APIClient;
 import id.smartin.org.homecaretimedic.tools.restservice.UserAPIInterface;
@@ -55,7 +61,13 @@ public class AccountSettingActivity extends AppCompatActivity {
     TextView emailAddress;
     @BindView(R.id.mainLayout)
     RelativeLayout mainLayout;
+    @BindView(R.id.selectDOB)
+    ImageButton selectDob;
+    @BindView(R.id.dateOfBirth)
+    EditText dob;
 
+    private DatePickerDialog datePickerDialog;
+    private PickedDateTime pickedDateTime;
     private UserAPIInterface userAPIInterface;
     private HomecareSessionManager homecareSessionManager;
     private User user;
@@ -74,6 +86,23 @@ public class AccountSettingActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 doEditProfile();
+            }
+        });
+        selectDob.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar mcurrentTime = Calendar.getInstance();
+                int day = mcurrentTime.get(Calendar.DAY_OF_MONTH) + 2;
+                int month = mcurrentTime.get(Calendar.MONTH);
+                int year = mcurrentTime.get(Calendar.YEAR);
+                datePickerDialog = new DatePickerDialog(AccountSettingActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        dob.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                    }
+                }, mcurrentTime.get(Calendar.YEAR), mcurrentTime.get(Calendar.MONTH), mcurrentTime.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.setTitle("Pilih tanggal pelayanan");
+                datePickerDialog.show();
+                dob.setText(day + "-" + (month + 1) + "-" + year);
             }
         });
         getUserDetail();
@@ -152,6 +181,7 @@ public class AccountSettingActivity extends AppCompatActivity {
         lastName.setText(user.getLastName());
         phone.setText(user.getPhoneNumber());
         emailAddress.setText(user.getEmail());
+        dob.setText(ConverterUtility.getDateString(user.getDateBirth()));
     }
 
     @Override
@@ -187,6 +217,8 @@ public class AccountSettingActivity extends AppCompatActivity {
         registerParam.setMiddleName(middleName.getText().toString());
         registerParam.setPhoneNumber(phone.getText().toString());
         registerParam.setEmail(emailAddress.getText().toString());
+        Long dobs = ConverterUtility.getTimeStamp(dob.getText().toString(), "dd-MM-yyyy");
+        registerParam.setDateBirth(dobs);
 
         if (registerParam.isValidPhone()) {
             try {

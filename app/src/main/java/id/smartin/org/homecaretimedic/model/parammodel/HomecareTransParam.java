@@ -42,6 +42,10 @@ public class HomecareTransParam {
     private PaymentMethod paymentMethod;
     @SerializedName("homecarePatientId")
     private Patient homecarePatientId;
+    @SerializedName("fullAddress")
+    private String fullAddress;
+    @SerializedName("selectedService")
+    private String selectedService;
 
     public Long getId() {
         return id;
@@ -153,5 +157,21 @@ public class HomecareTransParam {
 
     public void setHomecarePatientId(Patient homecarePatientId) {
         this.homecarePatientId = homecarePatientId;
+    }
+
+    public String getFullAddress() {
+        return fullAddress;
+    }
+
+    public void setFullAddress(String fullAddress) {
+        this.fullAddress = fullAddress;
+    }
+
+    public String getSelectedService() {
+        return selectedService;
+    }
+
+    public void setSelectedService(String selectedService) {
+        this.selectedService = selectedService;
     }
 }

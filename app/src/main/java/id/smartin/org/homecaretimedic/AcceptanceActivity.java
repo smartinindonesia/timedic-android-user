@@ -84,14 +84,14 @@ public class AcceptanceActivity extends AppCompatActivity {
         });
     }
 
-    public void fillHomecareTransInfo(){
+    public void fillHomecareTransInfo() {
         selectedLayanan.setText(SubmitInfo.selectedHomecareService.getServiceName());
         selectedLocation.setText(SubmitInfo.selectedServicePlace.getNameLocation());
         selectedGPSPos.setText("(" + SubmitInfo.selectedPlaceInfo.getLatitude() + "," + SubmitInfo.selectedPlaceInfo.getLongitude() + ")");
         selectedGPSLocInfo.setText(SubmitInfo.selectedPlaceInfo.getAdditionInfo());
         selectedDate.setText(SubmitInfo.selectedDateTime.getDate());
         selectedHour.setText(SubmitInfo.selectedDateTime.getTime());
-        downPayment.setText(TextFormatter.doubleToRupiah(100000.0));
+        downPayment.setText(TextFormatter.doubleToRupiah(SubmitInfo.selectedHomecareService.getVisitCost()));
         totalApproxCash.setText(TextFormatter.doubleToRupiah(SubmitInfo.getAssessmentPrice()));
     }
 
@@ -109,7 +109,6 @@ public class AcceptanceActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        finish();
         onBackPressed();
         return true;
     }
@@ -126,9 +125,6 @@ public class AcceptanceActivity extends AppCompatActivity {
         String selDate = SubmitInfo.selectedDateTime.getDate() + " " + SubmitInfo.selectedDateTime.getTime();
         String selDateFormat = "dd-MM-yyyy HH:mm";
         homecareTransParam.setDate(ConverterUtility.getTimeStamp(selDate, selDateFormat));
-        homecareTransParam.setFixedPrice(0);
-        homecareTransParam.setPrepaidPrice(0);
-
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
         String currentDateandTime = sdf.format(new Date());
         Date date = sdf.parse(currentDateandTime);
@@ -136,7 +132,8 @@ public class AcceptanceActivity extends AppCompatActivity {
         calendar.setTime(date);
         calendar.add(Calendar.HOUR, 1);
         homecareTransParam.setExpiredTransactionTime(calendar.getTimeInMillis());
-        homecareTransParam.setPrepaidPrice(100000.0);
+        homecareTransParam.setPrepaidPrice(SubmitInfo.selectedHomecareService.getVisitCost());
+        homecareTransParam.setFixedPrice(0);
         homecareTransParam.setPredictionPrice(SubmitInfo.getAssessmentPrice());
         homecareTransParam.setReceiptPath("");
         homecareTransParam.setLocationLatitude(SubmitInfo.selectedPlaceInfo.getLatitude());
@@ -146,6 +143,8 @@ public class AcceptanceActivity extends AppCompatActivity {
         homecareTransParam.setHomecareTransactionStatus(new HomecareTransactionStatus((long) 2));
         homecareTransParam.setHomecarePatientId(SubmitInfo.registeredPatient.get(0));
         homecareTransParam.setPaymentMethod(new PaymentMethod((long) 1));
+        homecareTransParam.setSelectedService(SubmitInfo.selectedHomecareService.getServiceName());
+        homecareTransParam.setFullAddress(SubmitInfo.selectedPlaceInfo.getAdditionInfo());
         Call<ResponseBody> responseCall = homecareTransactionAPIInterface.insertNewTransaction(homecareTransParam);
         responseCall.enqueue(new Callback<ResponseBody>() {
             @Override

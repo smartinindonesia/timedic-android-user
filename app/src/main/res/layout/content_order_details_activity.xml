@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="?attr/actionBarSize"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingBottom="30dp"
+    android:paddingLeft="30dp"
+    android:paddingRight="30dp"
+    android:scrollbars="horizontal">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/calculator_row_space">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
+                    android:text="Nama Layanan" />
+
+                <TextView
+                    android:id="@+id/serviceName"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/calculator_input_height"
+                    android:layout_weight="0.6"
+                    android:paddingLeft="@dimen/calculator_input_padding"
+                    android:paddingRight="@dimen/calculator_input_padding"></TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/calculator_row_space">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
+                    android:text="Tanggal" />
+
+                <TextView
+                    android:id="@+id/transactionDate"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/calculator_input_height"
+                    android:layout_weight="0.6"
+                    android:paddingLeft="@dimen/calculator_input_padding"
+                    android:paddingRight="@dimen/calculator_input_padding"></TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/calculator_row_space">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
+                    android:text="Biaya Kunjungan Awal" />
+
+                <TextView
+                    android:id="@+id/downPayment"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/calculator_input_height"
+                    android:layout_weight="0.6"
+                    android:paddingLeft="@dimen/calculator_input_padding"
+                    android:paddingRight="@dimen/calculator_input_padding"></TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/calculator_row_space">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
+                    android:text="Harga Perkiraan Awal" />
+
+                <TextView
+                    android:id="@+id/totalApproxCash"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/calculator_input_height"
+                    android:layout_weight="0.6"
+                    android:paddingLeft="@dimen/calculator_input_padding"
+                    android:paddingRight="@dimen/calculator_input_padding"></TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/calculator_row_space">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
+                    android:text="Harga Akhir Layanan" />
+
+                <TextView
+                    android:id="@+id/totalCash"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/calculator_input_height"
+                    android:layout_weight="0.6"
+                    android:paddingLeft="@dimen/calculator_input_padding"
+                    android:paddingRight="@dimen/calculator_input_padding"></TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/calculator_row_space">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
+                    android:text="Alamat Pemesanan" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="0.6"
+                    android:padding="@dimen/calculator_row_space">
+
+                    <TextView
+                        android:id="@+id/addressLoc"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/calculator_input_height"
+                        android:paddingLeft="@dimen/calculator_input_padding"
+                        android:paddingRight="@dimen/calculator_input_padding"/>
+
+                    <TextView
+                        android:id="@+id/mapLocation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/calculator_input_padding"
+                        android:paddingRight="@dimen/calculator_input_padding"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/calculator_row_space">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
+                    android:text="Status Transaksi" />
+
+                <TextView
+                    android:id="@+id/transactionStatus"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/calculator_input_height"
+                    android:layout_weight="0.6"
+                    android:paddingLeft="@dimen/calculator_input_padding"
+                    android:paddingRight="@dimen/calculator_input_padding"></TextView>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

@@ -4,8 +4,8 @@ package id.smartin.org.homecaretimedic.model;
  * Created by Hafid on 9/23/2017.
  */
 
-public class Perawat {
-    public static String TAG = "[Perawat]";
+public class Caregiver {
+    public static String TAG = "[Caregiver]";
 
     private int idPerawat;
     private String namaPerawat;

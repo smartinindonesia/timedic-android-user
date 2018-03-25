@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
 public class HomecareService {
 
     @SerializedName("id")
-    private int id;
+    private Integer id;
     @SerializedName("serviceCaterogry")
     private String serviceCategory;
     @SerializedName("serviceCode")
@@ -18,12 +18,14 @@ public class HomecareService {
     private String serviceName;
     @SerializedName("serviceUrlIcon")
     private String serviceUrlIcon;
+    @SerializedName("visitCost")
+    private Double visitCost;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -57,5 +59,13 @@ public class HomecareService {
 
     public void setServiceUrlIcon(String serviceUrlIcon) {
         this.serviceUrlIcon = serviceUrlIcon;
+    }
+
+    public Double getVisitCost() {
+        return visitCost;
+    }
+
+    public void setVisitCost(Double visitCost) {
+        this.visitCost = visitCost;
     }
 }

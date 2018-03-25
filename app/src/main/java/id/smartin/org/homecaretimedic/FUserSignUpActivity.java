@@ -42,6 +42,7 @@ import butterknife.ButterKnife;
 import cn.pedant.SweetAlert.Constants;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import id.smartin.org.homecaretimedic.model.User;
+import id.smartin.org.homecaretimedic.tools.ConverterUtility;
 import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
 
 public class FUserSignUpActivity extends AppCompatActivity {
@@ -188,7 +189,7 @@ public class FUserSignUpActivity extends AppCompatActivity {
         lastName.setText(user.getLastName());
         phone.setText(user.getPhoneNumber());
         emailAddress.setText(user.getEmail());
-        dob.setText(user.getDateBirth());
+        dob.setText(ConverterUtility.getDateString(user.getDateBirth()));
     }
 
     private void openProgress(){
