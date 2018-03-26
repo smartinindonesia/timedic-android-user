@@ -61,7 +61,7 @@ public class MapSelectorActivity extends AppCompatActivity implements OnMapReady
     @BindView(R.id.additionalInfo)
     EditText additionalInfo;
 
-    GoogleMap googleMap;
+    private GoogleMap googleMap;
 
     private IntentFilter mIntentFilter;
     private Intent serviceIntent;
@@ -82,8 +82,6 @@ public class MapSelectorActivity extends AppCompatActivity implements OnMapReady
         setContentView(R.layout.activity_map_selector);
         ButterKnife.bind(this);
         initilizeMap();
-
-        setSupportActionBar(toolbar);
         createTitleBar();
         initProgressDialog();
 

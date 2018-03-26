@@ -83,6 +83,16 @@
                                 android:background="@color/theme_orange"
                                 android:textColor="@color/button_text_color" />
 
+                            <TextView
+                                android:id="@+id/caregiverNum"
+                                android:layout_alignParentBottom="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_below="@+id/transactionStatus"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@color/theme_orange"
+                                android:textColor="@color/button_text_color" />
+
                         </RelativeLayout>
 
                     </LinearLayout>

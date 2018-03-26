@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * Created by Hafid on 2/23/2018.
  */
 
-public class Order implements Serializable{
+public class HomecareOrder implements Serializable{
     @SerializedName("id")
     private Long id;
     @SerializedName("date")
@@ -30,6 +30,8 @@ public class Order implements Serializable{
     private Double locationLongitude;
     @SerializedName("transactionDescription")
     private String transactionDescription;
+    @SerializedName("homecareTransactionCaregiverlistList")
+    private ArrayList<CaregiverOrder> caregiverArrayList;
     @SerializedName("homecareAssessmentRecordList")
     private ArrayList<Assessment> homecareAssessmentRecordList;
     @SerializedName("transactionStatusId")
@@ -169,5 +171,13 @@ public class Order implements Serializable{
 
     public void setSelectedService(String selectedService) {
         this.selectedService = selectedService;
+    }
+
+    public ArrayList<CaregiverOrder> getCaregiverArrayList() {
+        return caregiverArrayList;
+    }
+
+    public void setCaregiverArrayList(ArrayList<CaregiverOrder> caregiverArrayList) {
+        this.caregiverArrayList = caregiverArrayList;
     }
 }

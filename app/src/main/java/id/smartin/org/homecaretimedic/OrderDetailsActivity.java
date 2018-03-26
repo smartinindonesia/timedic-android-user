@@ -1,16 +1,17 @@
 package id.smartin.org.homecaretimedic;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
+import android.view.View;
 import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import id.smartin.org.homecaretimedic.model.Order;
+import id.smartin.org.homecaretimedic.model.HomecareOrder;
 import id.smartin.org.homecaretimedic.tools.ConverterUtility;
 import id.smartin.org.homecaretimedic.tools.TextFormatter;
 import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
@@ -37,7 +38,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
     @BindView(R.id.transactionStatus)
     TextView transactionStatus;
 
-    Order order;
+    HomecareOrder homecareOrder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +46,17 @@ public class OrderDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_order_details);
         ButterKnife.bind(this);
         createTitleBar();
+        homecareOrder = (HomecareOrder) getIntent().getSerializableExtra("homecareOrder");
         fillPage();
+        mapLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(OrderDetailsActivity.this, MapViewerActivity.class);
+                intent.putExtra("latitude", homecareOrder.getLocationLatitude());
+                intent.putExtra("longitude", homecareOrder.getLocationLongitude());
+                startActivity(intent);
+            }
+        });
     }
 
     @SuppressLint("RestrictedApi")
@@ -61,15 +72,14 @@ public class OrderDetailsActivity extends AppCompatActivity {
     }
 
     public void fillPage() {
-        order = (Order) getIntent().getSerializableExtra("order");
-        serviceName.setText(order.getSelectedService());
-        transactionDate.setText(ConverterUtility.getDateString(order.getDate()));
-        downPayment.setText(TextFormatter.doubleToRupiah(order.getPrepaidPrice()));
-        totalApproxCash.setText(TextFormatter.doubleToRupiah(order.getPredictionPrice()));
-        totalCash.setText(TextFormatter.doubleToRupiah(order.getFixedPrice()));
-        addressLoc.setText(order.getFullAddress());
-        mapLocation.setText("(" + order.getLocationLatitude() + "," + order.getLocationLongitude() + ")");
-        transactionStatus.setText(order.getHomecareTransactionStatus().getStatus());
+        serviceName.setText(homecareOrder.getSelectedService());
+        transactionDate.setText(ConverterUtility.getDateString(homecareOrder.getDate()));
+        downPayment.setText(TextFormatter.doubleToRupiah(homecareOrder.getPrepaidPrice()));
+        totalApproxCash.setText(TextFormatter.doubleToRupiah(homecareOrder.getPredictionPrice()));
+        totalCash.setText(TextFormatter.doubleToRupiah(homecareOrder.getFixedPrice()));
+        addressLoc.setText(homecareOrder.getFullAddress());
+        mapLocation.setText("(" + homecareOrder.getLocationLatitude() + "," + homecareOrder.getLocationLongitude() + ")");
+        transactionStatus.setText(homecareOrder.getHomecareTransactionStatus().getStatus());
     }
 
     @Override

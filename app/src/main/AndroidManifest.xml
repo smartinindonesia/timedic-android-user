@@ -154,8 +154,12 @@
         <activity
             android:name=".FUserSignUpActivity"
             android:label="@string/act_sign_up" />
-        <activity android:name=".OrderDetailsActivity"
-            android:label="@string/act_order_detail"/>
+        <activity
+            android:name=".OrderDetailsActivity"
+            android:label="@string/act_order_detail" />
+        <activity
+            android:name=".MapViewerActivity"
+            android:label="@string/act_map_viewer" />
     </application>
 
 </manifest>

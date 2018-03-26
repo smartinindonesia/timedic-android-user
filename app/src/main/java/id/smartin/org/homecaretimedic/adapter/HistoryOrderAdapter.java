@@ -16,7 +16,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.smartin.org.homecaretimedic.OrderDetailsActivity;
 import id.smartin.org.homecaretimedic.R;
-import id.smartin.org.homecaretimedic.model.Order;
+import id.smartin.org.homecaretimedic.model.HomecareOrder;
 import id.smartin.org.homecaretimedic.tools.ConverterUtility;
 
 /**
@@ -26,12 +26,12 @@ import id.smartin.org.homecaretimedic.tools.ConverterUtility;
 public class HistoryOrderAdapter extends RecyclerView.Adapter<HistoryOrderAdapter.MyViewHolder> {
     public static final String TAG = "[ActiveOrdAdapter]";
 
-    private List<Order> orderList;
+    private List<HomecareOrder> homecareOrderList;
     private Context context;
     private Activity activity;
 
-    public HistoryOrderAdapter(Activity activity, Context context, List<Order> orders) {
-        this.orderList = orders;
+    public HistoryOrderAdapter(Activity activity, Context context, List<HomecareOrder> homecareOrders) {
+        this.homecareOrderList = homecareOrders;
         this.context = context;
         this.activity = activity;
     }
@@ -44,25 +44,26 @@ public class HistoryOrderAdapter extends RecyclerView.Adapter<HistoryOrderAdapte
 
     @Override
     public void onBindViewHolder(HistoryOrderAdapter.MyViewHolder holder, int position) {
-        final Order order = orderList.get(position);
-        holder.serviceName.setText(order.getSelectedService());
-        holder.orderDescription.setText(order.getTransactionDescription());
-        holder.patientsName.setText(order.getHomecarePatientId().getName());
-        holder.transactionDate.setText(ConverterUtility.getDateStringCustomPattern(order.getDate(), "dd-MM-yyyy HH:mm"));
-        holder.transactionStatus.setText(order.getHomecareTransactionStatus().getStatus());
+        final HomecareOrder homecareOrder = homecareOrderList.get(position);
+        holder.serviceName.setText(homecareOrder.getSelectedService());
+        holder.orderDescription.setText(homecareOrder.getTransactionDescription());
+        holder.patientsName.setText(homecareOrder.getHomecarePatientId().getName());
+        holder.transactionDate.setText(ConverterUtility.getDateStringCustomPattern(homecareOrder.getDate(), "dd-MM-yyyy HH:mm"));
+        holder.transactionStatus.setText(homecareOrder.getHomecareTransactionStatus().getStatus());
         holder.gotoDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(activity, OrderDetailsActivity.class);
-                intent.putExtra("order", order);
+                intent.putExtra("homecareOrder", homecareOrder);
                 activity.startActivity(intent);
             }
         });
+        holder.caregiverNum.setText(homecareOrder.getCaregiverArrayList().size()+" Perawat");
     }
 
     @Override
     public int getItemCount() {
-        return orderList.size();
+        return homecareOrderList.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -79,6 +80,8 @@ public class HistoryOrderAdapter extends RecyclerView.Adapter<HistoryOrderAdapte
         public TextView transactionStatus;
         @BindView(R.id.orderDetails)
         public ImageButton gotoDetails;
+        @BindView(R.id.caregiverNum)
+        public TextView caregiverNum;
 
         public MyViewHolder(View view) {
             super(view);

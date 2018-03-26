@@ -7,7 +7,7 @@ package id.smartin.org.homecaretimedic.model;
 public class Caregiver {
     public static String TAG = "[Caregiver]";
 
-    private int idPerawat;
+    private Integer idPerawat;
     private String namaPerawat;
     private String tempatLahir;
     private String kategoriPerawat;
@@ -18,14 +18,14 @@ public class Caregiver {
     private String jenisKelamin;
     private String photoPath;
     private String pendidikan;
-    private double tinggiBadan;
-    private double beratBadan;
+    private Double tinggiBadan;
+    private Double beratBadan;
 
-    public int getIdPerawat() {
+    public Integer getIdPerawat() {
         return idPerawat;
     }
 
-    public void setIdPerawat(int idPerawat) {
+    public void setIdPerawat(Integer idPerawat) {
         this.idPerawat = idPerawat;
     }
 
@@ -109,19 +109,19 @@ public class Caregiver {
         this.pendidikan = pendidikan;
     }
 
-    public double getTinggiBadan() {
+    public Double getTinggiBadan() {
         return tinggiBadan;
     }
 
-    public void setTinggiBadan(double tinggiBadan) {
+    public void setTinggiBadan(Double tinggiBadan) {
         this.tinggiBadan = tinggiBadan;
     }
 
-    public double getBeratBadan() {
+    public Double getBeratBadan() {
         return beratBadan;
     }
 
-    public void setBeratBadan(double beratBadan) {
+    public void setBeratBadan(Double beratBadan) {
         this.beratBadan = beratBadan;
     }
 }

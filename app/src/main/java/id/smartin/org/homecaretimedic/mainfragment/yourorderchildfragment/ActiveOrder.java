@@ -3,14 +3,12 @@ package id.smartin.org.homecaretimedic.mainfragment.yourorderchildfragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +17,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.smartin.org.homecaretimedic.R;
 import id.smartin.org.homecaretimedic.adapter.ActiveOrderAdapter;
-import id.smartin.org.homecaretimedic.adapter.AssestmentAdapter;
 import id.smartin.org.homecaretimedic.manager.HomecareSessionManager;
-import id.smartin.org.homecaretimedic.model.Assessment;
-import id.smartin.org.homecaretimedic.model.Order;
+import id.smartin.org.homecaretimedic.model.HomecareOrder;
 import id.smartin.org.homecaretimedic.tools.restservice.APIClient;
-import id.smartin.org.homecaretimedic.tools.restservice.HomecareAssessmentAPIInterface;
 import id.smartin.org.homecaretimedic.tools.restservice.HomecareTransactionAPIInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -41,7 +36,7 @@ public class ActiveOrder extends Fragment {
     RecyclerView recyclerView;
 
     private HomecareSessionManager homecareSessionManager;
-    private List<Order> orderList = new ArrayList<>();
+    private List<HomecareOrder> homecareOrderList = new ArrayList<>();
     private ActiveOrderAdapter activeOrderAdapter;
     private HomecareTransactionAPIInterface homecareTransactionAPIInterface;
 
@@ -59,7 +54,7 @@ public class ActiveOrder extends Fragment {
         homecareTransactionAPIInterface = APIClient.getClientWithToken(homecareSessionManager, getContext()).create(HomecareTransactionAPIInterface.class);
         ButterKnife.bind(this, view);
         homecareSessionManager = new HomecareSessionManager(getActivity(), getContext());
-        activeOrderAdapter = new ActiveOrderAdapter(getActivity(), getContext(), orderList);
+        activeOrderAdapter = new ActiveOrderAdapter(getActivity(), getContext(), homecareOrderList);
         final RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -70,15 +65,15 @@ public class ActiveOrder extends Fragment {
     }
 
     public void getActiveOrder() {
-        Call<List<Order>> services = homecareTransactionAPIInterface.getActiveOrder(homecareSessionManager.getUserDetail().getId());
-        services.enqueue(new Callback<List<Order>>() {
+        Call<List<HomecareOrder>> services = homecareTransactionAPIInterface.getActiveOrder(homecareSessionManager.getUserDetail().getId());
+        services.enqueue(new Callback<List<HomecareOrder>>() {
             @Override
-            public void onResponse(Call<List<Order>> call, Response<List<Order>> response) {
+            public void onResponse(Call<List<HomecareOrder>> call, Response<List<HomecareOrder>> response) {
                 if (response.code() == 200) {
-                    List<Order> responseOrder = response.body();
-                    orderList.clear();
-                    for (int i = 0; i < responseOrder.size(); i++) {
-                        orderList.add(responseOrder.get(i));
+                    List<HomecareOrder> responseHomecareOrder = response.body();
+                    homecareOrderList.clear();
+                    for (int i = 0; i < responseHomecareOrder.size(); i++) {
+                        homecareOrderList.add(responseHomecareOrder.get(i));
                     }
                     activeOrderAdapter.notifyDataSetChanged();
                 } else {
@@ -87,7 +82,7 @@ public class ActiveOrder extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<Order>> call, Throwable t) {
+            public void onFailure(Call<List<HomecareOrder>> call, Throwable t) {
                 call.cancel();
                 homecareSessionManager.logout();
             }
