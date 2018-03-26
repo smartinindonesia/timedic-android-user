@@ -2,13 +2,14 @@ package id.smartin.org.homecaretimedic.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Hafid on 2/23/2018.
  */
 
-public class Order {
+public class Order implements Serializable{
     @SerializedName("id")
     private Long id;
     @SerializedName("date")

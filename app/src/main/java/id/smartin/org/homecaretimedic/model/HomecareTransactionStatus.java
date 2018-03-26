@@ -2,11 +2,13 @@ package id.smartin.org.homecaretimedic.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by Hafid on 1/20/2018.
  */
 
-public class HomecareTransactionStatus {
+public class HomecareTransactionStatus implements Serializable {
     @SerializedName("id")
     private Long id;
     @SerializedName("status")

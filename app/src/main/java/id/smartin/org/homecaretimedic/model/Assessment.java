@@ -2,6 +2,7 @@ package id.smartin.org.homecaretimedic.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
  * Created by Hafid on 9/24/2017.
  */
 
-public class Assessment {
+public class Assessment implements Serializable{
 
     @SerializedName("id")
     private int id;
