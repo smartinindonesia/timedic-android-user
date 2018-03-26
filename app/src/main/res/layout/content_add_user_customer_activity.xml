@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="?attr/actionBarSize"
-    android:gravity="center"
-    android:orientation="horizontal"
-    android:paddingLeft="@dimen/global_act_padding"
-    android:paddingRight="@dimen/global_act_padding"
-    android:weightSum="5">
+    android:layout_marginTop="?attr/actionBarSize">
 
-    <ScrollView
-        android:layout_width="0dp"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:layout_weight="4.5">
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/global_act_padding"
+        android:paddingRight="@dimen/global_act_padding"
+        android:weightSum="5">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4.5"
             android:orientation="vertical">
 
             <ImageView
@@ -212,7 +211,7 @@
                         android:enabled="false"
                         android:inputType="text"
                         android:paddingLeft="@dimen/calculator_input_padding"
-                        android:paddingRight="@dimen/calculator_input_padding"/>
+                        android:paddingRight="@dimen/calculator_input_padding" />
 
                     <ImageButton
                         android:id="@+id/selectDOB"
@@ -239,6 +238,6 @@
                 android:textColorHint="@color/sign_up_selector_fg" />
 
         </LinearLayout>
-    </ScrollView>
 
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>
