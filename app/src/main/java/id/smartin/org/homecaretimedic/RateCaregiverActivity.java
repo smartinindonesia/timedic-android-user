@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import id.smartin.org.homecaretimedic.model.CaregiverOrder;
 import id.smartin.org.homecaretimedic.model.parammodel.CaregiverRateParam;
 import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
 
@@ -43,6 +44,7 @@ public class RateCaregiverActivity extends AppCompatActivity {
     Button submitRate;
 
     CaregiverRateParam caregiverRateParam = new CaregiverRateParam();
+    CaregiverOrder caregiverOrder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +74,8 @@ public class RateCaregiverActivity extends AppCompatActivity {
                 postRate();
             }
         });
-
+        caregiverOrder = (CaregiverOrder) getIntent().getSerializableExtra("caregiver");
+        getCaregiverInfos();
     }
 
     @SuppressLint("RestrictedApi")
@@ -102,6 +105,14 @@ public class RateCaregiverActivity extends AppCompatActivity {
     private void postRate() {
         caregiverRateParam.setRate((double) rating.getNumStars());
         caregiverRateParam.setComment(comment.getText().toString());
+    }
+
+    private void getCaregiverInfos(){
+
+    }
+
+    private void fillTheForm(){
+
     }
 
 }

@@ -5,6 +5,10 @@ import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +16,9 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import id.smartin.org.homecaretimedic.adapter.CaregiverHistoryAdapter;
+import id.smartin.org.homecaretimedic.customuicompt.RecyclerTouchListener;
+import id.smartin.org.homecaretimedic.model.CaregiverOrder;
 import id.smartin.org.homecaretimedic.model.HomecareOrder;
 import id.smartin.org.homecaretimedic.tools.ConverterUtility;
 import id.smartin.org.homecaretimedic.tools.TextFormatter;
@@ -40,8 +47,12 @@ public class OrderDetailsActivity extends AppCompatActivity {
     TextView transactionStatus;
     @BindView(R.id.btnRate)
     Button btnRate;
+    @BindView(R.id.caregiverHistory)
+    RecyclerView caregiverHistory;
 
     HomecareOrder homecareOrder;
+
+    CaregiverHistoryAdapter caregiverHistoryAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +78,28 @@ public class OrderDetailsActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        caregiverHistoryAdapter = new CaregiverHistoryAdapter(this, this, homecareOrder.getCaregiverArrayList());
+        final RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        caregiverHistory.addItemDecoration(dividerItemDecoration);
+        caregiverHistory.setLayoutManager(mLayoutManager);
+        caregiverHistory.setItemAnimator(new DefaultItemAnimator());
+        caregiverHistory.setAdapter(caregiverHistoryAdapter);
+        caregiverHistory.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), caregiverHistory, new RecyclerTouchListener.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                CaregiverOrder cgs = caregiverHistoryAdapter.getItem(position);
+                Intent intent = new Intent(OrderDetailsActivity.this, RateCaregiverActivity.class);
+                intent.putExtra("caregiver", cgs);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
     }
 
     @SuppressLint("RestrictedApi")
