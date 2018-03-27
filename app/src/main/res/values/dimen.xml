@@ -15,4 +15,6 @@
     <dimen name="calculator_page_padding">20dp</dimen>
     <dimen name="calculator_hint_size">18sp</dimen>
     <dimen name="calculator_row_space">3dp</dimen>
+
+    <dimen name="prof_pic_size">150dp</dimen>
 </resources>

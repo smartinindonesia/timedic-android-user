@@ -160,6 +160,7 @@
         <activity
             android:name=".MapViewerActivity"
             android:label="@string/act_map_viewer" />
+        <activity android:name=".RateCaregiverActivity"></activity>
     </application>
 
 </manifest>
