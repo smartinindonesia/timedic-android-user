@@ -57,9 +57,10 @@
                 style="?android:attr/ratingBarStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:isIndicator="true"
+                android:layout_gravity="center"
+                android:isIndicator="false"
                 android:numStars="5"
-                android:stepSize="0.1" />
+                android:stepSize="1" />
 
             <EditText
                 android:id="@+id/comment"
@@ -68,6 +69,7 @@
                 android:background="@drawable/edittext_border"
                 android:hint="Komentar"
                 android:inputType="textMultiLine"
+                android:padding="@dimen/calculator_input_padding"
                 android:maxLength="255"
                 android:singleLine="false"
                 android:textAlignment="viewStart"

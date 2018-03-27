@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -37,6 +38,8 @@ public class OrderDetailsActivity extends AppCompatActivity {
     TextView mapLocation;
     @BindView(R.id.transactionStatus)
     TextView transactionStatus;
+    @BindView(R.id.btnRate)
+    Button btnRate;
 
     HomecareOrder homecareOrder;
 
@@ -54,6 +57,13 @@ public class OrderDetailsActivity extends AppCompatActivity {
                 Intent intent = new Intent(OrderDetailsActivity.this, MapViewerActivity.class);
                 intent.putExtra("latitude", homecareOrder.getLocationLatitude());
                 intent.putExtra("longitude", homecareOrder.getLocationLongitude());
+                startActivity(intent);
+            }
+        });
+        btnRate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(OrderDetailsActivity.this, RateCaregiverActivity.class);
                 startActivity(intent);
             }
         });
