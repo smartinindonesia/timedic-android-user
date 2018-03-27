@@ -252,8 +252,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/orange_selector_button_bg"
-            android:hint="Daftarkan"
-            android:textColorHint="@color/button_text_color" />
+            android:textColorHint="@color/button_text_color"
+            android:hint="Daftarkan"/>
 
     </LinearLayout>
 </ScrollView>

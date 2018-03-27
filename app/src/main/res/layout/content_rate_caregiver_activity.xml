@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    android:layout_marginTop="?attr/actionBarSize">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,25 +31,65 @@
             android:text="Description"
             android:textAlignment="center" />
 
-        <RatingBar
-            android:id="@+id/rating"
-            style="?android:attr/ratingBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:isIndicator="true"
-            android:numStars="5"
-            android:stepSize="0.1" />
-
         <TextView
-            android:id="@+id/comment"
-            android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:hint="Komentar" />
-
-        <Button
+            android:id="@+id/caregiverPrevRate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Kirimkan" />
+            android:text="5/5"
+            android:textAlignment="center" />
+
+        <LinearLayout
+            android:id="@+id/rateLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Berikan rating dan komentar anda!"
+                android:textAlignment="center" />
+
+            <RatingBar
+                android:id="@+id/rating"
+                style="?android:attr/ratingBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:stepSize="0.1" />
+
+            <EditText
+                android:id="@+id/comment"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:background="@drawable/edittext_border"
+                android:hint="Komentar"
+                android:inputType="textMultiLine"
+                android:maxLength="255"
+                android:singleLine="false"
+                android:textAlignment="viewStart"
+                android:gravity="start" />
+
+            <TextView
+                android:id="@+id/charIndices"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="x/255"
+                android:textAlignment="textEnd"
+                android:gravity="end" />
+
+            <Button
+                android:id="@+id/submitRate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/orange_selector_button_bg"
+                android:textColorHint="@color/button_text_color"
+                android:hint="Kirimkan" />
+        </LinearLayout>
 
     </LinearLayout>
+
 </ScrollView>
