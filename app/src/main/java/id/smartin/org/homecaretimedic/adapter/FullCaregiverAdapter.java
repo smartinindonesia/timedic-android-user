@@ -20,14 +20,14 @@ import id.smartin.org.homecaretimedic.model.Caregiver;
  * Created by Hafid on 9/23/2017.
  */
 
-public class PerawatAdapter extends RecyclerView.Adapter<PerawatAdapter.MyViewHolder>{
-    public static String TAG = "[PerawatAdapter]";
+public class FullCaregiverAdapter extends RecyclerView.Adapter<FullCaregiverAdapter.MyViewHolder>{
+    public static String TAG = "[FullCaregiverAdapter]";
 
     private List<Caregiver> caregiverList;
     private Context context;
 
 
-    public PerawatAdapter(Context context, List<Caregiver> caregiverList){
+    public FullCaregiverAdapter(Context context, List<Caregiver> caregiverList){
         this.context = context;
         this.caregiverList = caregiverList;
     }
@@ -36,17 +36,17 @@ public class PerawatAdapter extends RecyclerView.Adapter<PerawatAdapter.MyViewHo
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.perawat_item, parent, false);
-        return new PerawatAdapter.MyViewHolder(itemView);
+        return new FullCaregiverAdapter.MyViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Caregiver caregiver = caregiverList.get(position);
-        holder.nama.setText(caregiver.getNamaPerawat());
-        holder.kategori.setText(caregiver.getKategoriPerawat());
-        holder.agama.setText(caregiver.getAlamat());
-        holder.pendidikan.setText(caregiver.getPendidikan());
-        holder.skill.setText(caregiver.getSkill());
+        holder.nama.setText(caregiver.getFrontName()+" "+caregiver.getMiddleName()+" "+caregiver.getLastName());
+        holder.kategori.setText(caregiver.getRegisterNurseNumber());
+        holder.agama.setText(caregiver.getAddress());
+        holder.pendidikan.setText(caregiver.getEmail());
+        holder.skill.setText(caregiver.getPhoneNumber());
         holder.btnPesan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

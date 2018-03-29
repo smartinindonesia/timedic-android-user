@@ -17,9 +17,16 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import id.smartin.org.homecaretimedic.manager.HomecareSessionManager;
+import id.smartin.org.homecaretimedic.model.Caregiver;
 import id.smartin.org.homecaretimedic.model.CaregiverOrder;
 import id.smartin.org.homecaretimedic.model.parammodel.CaregiverRateParam;
 import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
+import id.smartin.org.homecaretimedic.tools.restservice.APIClient;
+import id.smartin.org.homecaretimedic.tools.restservice.HomecareCaregiverAPIInterface;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RateCaregiverActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
@@ -45,6 +52,10 @@ public class RateCaregiverActivity extends AppCompatActivity {
 
     CaregiverRateParam caregiverRateParam = new CaregiverRateParam();
     CaregiverOrder caregiverOrder;
+    Caregiver caregiverInfo;
+
+    private HomecareCaregiverAPIInterface homecareCaregiverAPIInterface;
+    private HomecareSessionManager homecareSessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +63,8 @@ public class RateCaregiverActivity extends AppCompatActivity {
         setContentView(R.layout.activity_rate_caregiver);
         ButterKnife.bind(this);
         createTitleBar();
+        homecareSessionManager = new HomecareSessionManager(this, getApplicationContext());
+        homecareCaregiverAPIInterface = APIClient.getClientWithToken(homecareSessionManager, getApplicationContext()).create(HomecareCaregiverAPIInterface.class);
         comment.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -107,12 +120,26 @@ public class RateCaregiverActivity extends AppCompatActivity {
         caregiverRateParam.setComment(comment.getText().toString());
     }
 
-    private void getCaregiverInfos(){
+    private void getCaregiverInfos() {
+        if (caregiverInfo != null) {
+            Call<Caregiver> resp = homecareCaregiverAPIInterface.getCaregiver(caregiverOrder.getCaregiverId());
+            resp.enqueue(new Callback<Caregiver>() {
+                @Override
+                public void onResponse(Call<Caregiver> call, Response<Caregiver> response) {
+                    caregiverInfo = response.body();
+                    fillTheForm();
+                }
 
+                @Override
+                public void onFailure(Call<Caregiver> call, Throwable t) {
+                    homecareSessionManager.logout();
+                }
+            });
+        }
     }
 
-    private void fillTheForm(){
-
+    private void fillTheForm() {
+        caregiverName.setText(caregiverInfo.getFrontName() + " " + caregiverInfo.getMiddleName() + " " + caregiverInfo.getLastName());
     }
 
 }

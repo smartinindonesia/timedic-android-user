@@ -51,6 +51,9 @@ public class Constants {
     public static final String ROUTE_LABORATORY_ACTIVE_ORDER = "/lab/orderactive/";
     public static final String ROUTE_LABORATORY_HISTORY_ORDER = "/lab/history/";
 
+    //CAREGIVER
+    public static final String ROUTE_CAREGIVER = "/api/caregiver/";
+
     //API managing
     public static final String YOUTUBE_API_KEY = "AIzaSyCs06OoysZqT-UN1-er9Ob7q6cXzVPnViY";
     public static final String YOUTUBE_CHANNEL = "UCjDX29cI6EMpGwAIOER4vvg";

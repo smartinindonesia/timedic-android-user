@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 import butterknife.BindView;
@@ -21,13 +22,13 @@ public class HomecareActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.btnPerawat)
-    ImageButton btnPerawat;
+    Button btnPerawat;
     @BindView(R.id.btnFisioterapis)
-    ImageButton btnFisioterapis;
+    Button btnFisioterapis;
     @BindView(R.id.btnCeklab)
-    ImageButton btnCeklab;
+    Button btnCeklab;
     @BindView(R.id.btnBidan)
-    ImageButton btnBidan;
+    Button btnBidan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +52,14 @@ public class HomecareActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        setFontView();
+    }
+
+    private void setFontView(){
+        ViewFaceUtility.applyFont(btnPerawat, this, "fonts/Dosis-Regular.otf");
+        ViewFaceUtility.applyFont(btnFisioterapis, this, "fonts/Dosis-Regular.otf");
+        ViewFaceUtility.applyFont(btnCeklab, this, "fonts/Dosis-Regular.otf");
+        ViewFaceUtility.applyFont(btnBidan, this, "fonts/Dosis-Regular.otf");
     }
 
     @SuppressLint("RestrictedApi")

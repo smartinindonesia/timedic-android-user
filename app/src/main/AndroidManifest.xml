@@ -160,7 +160,11 @@
         <activity
             android:name=".MapViewerActivity"
             android:label="@string/act_map_viewer" />
-        <activity android:name=".RateCaregiverActivity"></activity>
+        <activity
+            android:name=".RateCaregiverActivity"
+            android:label="@string/act_rate_caregiver"
+            android:windowSoftInputMode="stateHidden" />
+
     </application>
 
 </manifest>

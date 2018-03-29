@@ -69,6 +69,10 @@ public class HealthCalculatorActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        setFontView();
+    }
+
+    private void setFontView(){
         ViewFaceUtility.applyFont(btnBbi, this, "fonts/Dosis-Regular.otf");
         ViewFaceUtility.applyFont(btnPregnantCalc, this, "fonts/Dosis-Regular.otf");
         ViewFaceUtility.applyFont(btnCaloryNeed, this, "fonts/Dosis-Regular.otf");

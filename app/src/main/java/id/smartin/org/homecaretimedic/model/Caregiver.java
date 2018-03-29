@@ -1,96 +1,137 @@
 package id.smartin.org.homecaretimedic.model;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+
 /**
  * Created by Hafid on 9/23/2017.
  */
 
-public class Caregiver {
+public class Caregiver implements Serializable{
     public static String TAG = "[Caregiver]";
 
-    private Integer idPerawat;
-    private String namaPerawat;
-    private String tempatLahir;
-    private String kategoriPerawat;
-    private String agama;
-    private String alamat;
-    private String skill;
-    private Klinik clinic;
-    private String jenisKelamin;
+    @SerializedName("id")
+    private Long id;
+    @SerializedName("address")
+    private String address;
+    @SerializedName("dateOfBirth")
+    private Long dateOfBirth;
+    @SerializedName("email")
+    private String email;
+    @SerializedName("employeeIdNumber")
+    private String employeeIdNumber;
+    @SerializedName("firstRegistrationDate")
+    private Long firstRegistrationDate;
+    @SerializedName("frontName")
+    private String frontName;
+    @SerializedName("middleName")
+    private String middleName;
+    @SerializedName("lastName")
+    private String lastName;
+    @SerializedName("password")
+    private String password;
+    @SerializedName("phoneNumber")
+    private String phoneNumber;
+    @SerializedName("photoPath")
     private String photoPath;
-    private String pendidikan;
-    private Double tinggiBadan;
-    private Double beratBadan;
+    @SerializedName("registerNurseNumber")
+    private String registerNurseNumber;
+    @SerializedName("sipp")
+    private String sipp;
+    @SerializedName("username")
+    private String username;
+    @SerializedName("idCaregiverStatus")
+    private CaregiverStatus idCaregiverStatus;
+    @SerializedName("idHomecareClinic")
+    private HomecareClinic idHomecareClinic;
 
-    public Integer getIdPerawat() {
-        return idPerawat;
+    public Long getId() {
+        return id;
     }
 
-    public void setIdPerawat(Integer idPerawat) {
-        this.idPerawat = idPerawat;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getNamaPerawat() {
-        return namaPerawat;
+    public String getAddress() {
+        return address;
     }
 
-    public void setNamaPerawat(String namaPerawat) {
-        this.namaPerawat = namaPerawat;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public String getTempatLahir() {
-        return tempatLahir;
+    public Long getDateOfBirth() {
+        return dateOfBirth;
     }
 
-    public void setTempatLahir(String tempatLahir) {
-        this.tempatLahir = tempatLahir;
+    public void setDateOfBirth(Long dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 
-    public String getKategoriPerawat() {
-        return kategoriPerawat;
+    public String getEmail() {
+        return email;
     }
 
-    public void setKategoriPerawat(String kategoriPerawat) {
-        this.kategoriPerawat = kategoriPerawat;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getAgama() {
-        return agama;
+    public String getEmployeeIdNumber() {
+        return employeeIdNumber;
     }
 
-    public void setAgama(String agama) {
-        this.agama = agama;
+    public void setEmployeeIdNumber(String employeeIdNumber) {
+        this.employeeIdNumber = employeeIdNumber;
     }
 
-    public String getAlamat() {
-        return alamat;
+    public Long getFirstRegistrationDate() {
+        return firstRegistrationDate;
     }
 
-    public void setAlamat(String alamat) {
-        this.alamat = alamat;
+    public void setFirstRegistrationDate(Long firstRegistrationDate) {
+        this.firstRegistrationDate = firstRegistrationDate;
     }
 
-    public String getSkill() {
-        return skill;
+    public String getFrontName() {
+        return frontName;
     }
 
-    public void setSkill(String skill) {
-        this.skill = skill;
+    public void setFrontName(String frontName) {
+        this.frontName = frontName;
     }
 
-    public Klinik getClinic() {
-        return clinic;
+    public String getMiddleName() {
+        return middleName;
     }
 
-    public void setClinic(Klinik clinic) {
-        this.clinic = clinic;
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
     }
 
-    public String getJenisKelamin() {
-        return jenisKelamin;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setJenisKelamin(String jenisKelamin) {
-        this.jenisKelamin = jenisKelamin;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getPhotoPath() {
@@ -101,27 +142,43 @@ public class Caregiver {
         this.photoPath = photoPath;
     }
 
-    public String getPendidikan() {
-        return pendidikan;
+    public String getRegisterNurseNumber() {
+        return registerNurseNumber;
     }
 
-    public void setPendidikan(String pendidikan) {
-        this.pendidikan = pendidikan;
+    public void setRegisterNurseNumber(String registerNurseNumber) {
+        this.registerNurseNumber = registerNurseNumber;
     }
 
-    public Double getTinggiBadan() {
-        return tinggiBadan;
+    public String getSipp() {
+        return sipp;
     }
 
-    public void setTinggiBadan(Double tinggiBadan) {
-        this.tinggiBadan = tinggiBadan;
+    public void setSipp(String sipp) {
+        this.sipp = sipp;
     }
 
-    public Double getBeratBadan() {
-        return beratBadan;
+    public String getUsername() {
+        return username;
     }
 
-    public void setBeratBadan(Double beratBadan) {
-        this.beratBadan = beratBadan;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public CaregiverStatus getIdCaregiverStatus() {
+        return idCaregiverStatus;
+    }
+
+    public void setIdCaregiverStatus(CaregiverStatus idCaregiverStatus) {
+        this.idCaregiverStatus = idCaregiverStatus;
+    }
+
+    public HomecareClinic getIdHomecareClinic() {
+        return idHomecareClinic;
+    }
+
+    public void setIdHomecareClinic(HomecareClinic idHomecareClinic) {
+        this.idHomecareClinic = idHomecareClinic;
     }
 }
