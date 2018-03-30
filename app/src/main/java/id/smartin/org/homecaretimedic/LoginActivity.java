@@ -110,14 +110,12 @@ public class LoginActivity extends AppCompatActivity {
         if (homecareSessionManager.isLogin()) {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
-            finish();
         }
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.e(TAG, "Sudah pencet tombol sign in");
                 doLogin();
-                finish();
             }
         });
         signUp.setOnClickListener(new View.OnClickListener() {
@@ -125,7 +123,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent newinten = new Intent(LoginActivity.this, SignUpActivity.class);
                 startActivity(newinten);
-                finish();
             }
         });
         setPermission();
@@ -170,7 +167,7 @@ public class LoginActivity extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
-                    doLoginFirebase(user, "google");
+                    //doLoginFirebase(user, "google");
 
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
 
@@ -216,7 +213,6 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(this, FUserSignUpActivity.class);
         intent.putExtra("fbase_user", user);
         startActivity(intent);
-        finish();
     }
 
     private void signIn() {
@@ -262,11 +258,25 @@ public class LoginActivity extends AppCompatActivity {
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
+                        closeProgress();
                         if (!task.isSuccessful()) {
                             Log.w(TAG, "signInWithCredential", task.getException());
-                            Toast.makeText(getApplicationContext(), "Authentication failed.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Autentikasi google gagal!", Toast.LENGTH_LONG).show();
+                        } else {
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            if (user != null) {
+                                // User is signed in
+                                doLoginFirebase(user, "google");
+
+                                Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+
+                            } else {
+                                // User is signed out
+                                Log.d(TAG, "onAuthStateChanged:signed_out");
+                            }
+                            //Toast.makeText(getApplicationContext(), "Autentikasi google gagal!", Toast.LENGTH_LONG).show();
                         }
-                        closeProgress();
+
                     }
                 });
     }
@@ -364,7 +374,6 @@ public class LoginActivity extends AppCompatActivity {
                     Log.i(TAG, response.body().getUser().toString());
                     Log.i(TAG, "NEW TOKEN " + response.body().getToken());
                     gotoMainPage(response.body().getUser(), response.body().getToken());
-                    finish();
                 } else if (response.code() == 401) {
                     Log.i(TAG, response.raw().toString());
                     gotoFirebaseSignUpPage(user);
@@ -389,7 +398,6 @@ public class LoginActivity extends AppCompatActivity {
         homecareSessionManager.createLoginSession(usr, token);
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
-        finish();
     }
 
 
