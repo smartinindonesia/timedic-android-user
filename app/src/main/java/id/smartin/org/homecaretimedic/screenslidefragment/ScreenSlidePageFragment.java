@@ -13,6 +13,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.smartin.org.homecaretimedic.R;
 import id.smartin.org.homecaretimedic.model.uimodel.Slider;
+import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
 
 /**
  * Created by Hafid on 8/21/2017.
@@ -35,7 +36,12 @@ public class ScreenSlidePageFragment extends Fragment {
         Slider code = (Slider) this.getArguments().getSerializable("view_code");
         screenLogo.setImageResource(code.getImage_source_id());
         screenMessage.setText(Html.fromHtml(code.getDescription()));
+        setFonts();
         return rootView;
+    }
+
+    public void setFonts(){
+        ViewFaceUtility.applyFont(screenMessage, getActivity(), "fonts/Dosis-Medium.otf");
     }
 
 }

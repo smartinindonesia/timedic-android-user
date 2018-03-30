@@ -6,6 +6,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import id.smartin.org.homecaretimedic.R;
 
 /**
@@ -29,5 +31,11 @@ public class ViewFaceUtility {
 
     public static void applyFont(TextView tv, Activity context, String path) {
         tv.setTypeface(Typeface.createFromAsset(context.getAssets(), path));
+    }
+
+    public static void applyFonts(ArrayList<TextView> tvs, Activity context, String path) {
+        for (int i = 0; i < tvs.size();i++) {
+            tvs.get(i).setTypeface(Typeface.createFromAsset(context.getAssets(), path));
+        }
     }
 }

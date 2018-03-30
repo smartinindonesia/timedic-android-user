@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
@@ -43,6 +44,7 @@ import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,6 +57,7 @@ import id.smartin.org.homecaretimedic.model.User;
 import id.smartin.org.homecaretimedic.model.responsemodel.LoginResponse;
 import id.smartin.org.homecaretimedic.tools.AesUtil;
 import id.smartin.org.homecaretimedic.tools.SecureField;
+import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
 import id.smartin.org.homecaretimedic.tools.restservice.APIClient;
 import id.smartin.org.homecaretimedic.tools.restservice.UserAPIInterface;
 import retrofit2.Call;
@@ -122,6 +125,22 @@ public class LoginActivity extends AppCompatActivity {
         });
         setPermission();
         googleLoginInit();
+        setFonts();
+    }
+
+    public void setFonts(){
+        ArrayList<TextView> tvs = new ArrayList<>();
+        tvs.add(signIn);
+        for (int i = 0; i < btnGoogleSignIn.getChildCount(); i++) {
+            if (btnGoogleSignIn.getChildAt(i) instanceof TextView) {
+                TextView tx = (TextView) btnGoogleSignIn.getChildAt(i);
+                tvs.add(tx);
+            }
+        }
+        tvs.add(username);
+        tvs.add(signUp);
+        tvs.add(password);
+        ViewFaceUtility.applyFonts(tvs, this, "fonts/Dosis-Medium.otf");
     }
 
     private void googleLoginInit() {
@@ -329,4 +348,6 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
+
 }

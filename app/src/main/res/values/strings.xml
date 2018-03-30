@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">TiMedic</string>
-    <string name="act_homecare">HOMECARE</string>
-    <string name="act_layanan_lokasi">PERAWAT</string>
+    <string name="act_homecare">Homecare</string>
+    <string name="act_layanan_lokasi">Perawat</string>
     <string name="act_map_selector">Pilih Lokasi</string>
     <string name="act_select_patient">Pilih Pasien</string>
     <string name="act_assessment">Assessment</string>

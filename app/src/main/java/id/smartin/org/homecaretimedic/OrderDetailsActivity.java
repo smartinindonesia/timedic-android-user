@@ -105,7 +105,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
     @SuppressLint("RestrictedApi")
     public void createTitleBar() {
         setSupportActionBar(toolbar);
-        ViewFaceUtility.changeToolbarFont(toolbar, this, "fonts/Dosis-Bold.otf", R.color.theme_black);
+        ViewFaceUtility.changeToolbarFont(toolbar, this, "fonts/BalooBhaina-Regular.ttf", R.color.theme_black);
         ActionBar mActionbar = getSupportActionBar();
         mActionbar.setDisplayHomeAsUpEnabled(true);
         mActionbar.setDefaultDisplayHomeAsUpEnabled(true);

@@ -24,6 +24,7 @@ import butterknife.ButterKnife;
 import id.smartin.org.homecaretimedic.customuicompt.ParallaxPageTransformer;
 import id.smartin.org.homecaretimedic.model.uimodel.Slider;
 import id.smartin.org.homecaretimedic.screenslidefragment.ScreenSlidePageFragment;
+import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
 
 public class ScreenSlideActivity extends FragmentActivity {
     public static String TAG = "[ScreenSlideActivity]";
@@ -74,6 +75,7 @@ public class ScreenSlideActivity extends FragmentActivity {
             }
         });
         tabLayout.setupWithViewPager(mPager, true);
+        setFonts();
         //mPager.setPageTransformer(true, new ZoomOutPageTransformer());
     }
 
@@ -119,6 +121,10 @@ public class ScreenSlideActivity extends FragmentActivity {
                 }
             });
         }
+    }
+
+    public void setFonts(){
+        ViewFaceUtility.applyFont(nextAct, this, "fonts/Dosis-Medium.otf");
     }
 }
 
