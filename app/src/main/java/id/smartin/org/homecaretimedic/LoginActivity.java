@@ -79,6 +79,8 @@ public class LoginActivity extends AppCompatActivity {
     CoordinatorLayout mainLayout;
     @BindView(R.id.btnSignup)
     Button signUp;
+    @BindView(R.id.forgotPassword)
+    TextView forgotPassword;
 
     private UserAPIInterface userAPIInterface;
 
@@ -108,12 +110,14 @@ public class LoginActivity extends AppCompatActivity {
         if (homecareSessionManager.isLogin()) {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
+            finish();
         }
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.e(TAG, "Sudah pencet tombol sign in");
                 doLogin();
+                finish();
             }
         });
         signUp.setOnClickListener(new View.OnClickListener() {
@@ -121,6 +125,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent newinten = new Intent(LoginActivity.this, SignUpActivity.class);
                 startActivity(newinten);
+                finish();
             }
         });
         setPermission();
@@ -128,7 +133,7 @@ public class LoginActivity extends AppCompatActivity {
         setFonts();
     }
 
-    public void setFonts(){
+    public void setFonts() {
         ArrayList<TextView> tvs = new ArrayList<>();
         tvs.add(signIn);
         for (int i = 0; i < btnGoogleSignIn.getChildCount(); i++) {
@@ -140,6 +145,7 @@ public class LoginActivity extends AppCompatActivity {
         tvs.add(username);
         tvs.add(signUp);
         tvs.add(password);
+        tvs.add(forgotPassword);
         ViewFaceUtility.applyFonts(tvs, this, "fonts/Dosis-Medium.otf");
     }
 
@@ -164,7 +170,8 @@ public class LoginActivity extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
-                    gotoFirebaseSignUpPage(user);
+                    doLoginFirebase(user, "google");
+
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
 
                 } else {
@@ -205,9 +212,11 @@ public class LoginActivity extends AppCompatActivity {
         user.setPhotoPath(fbaseuser.getPhotoUrl().toString());
         user.setPhoneNumber(fbaseuser.getPhoneNumber());
         user.setEmail(fbaseuser.getEmail());
+        user.setFirebaseIdGoogle(fbaseuser.getUid());
         Intent intent = new Intent(this, FUserSignUpActivity.class);
         intent.putExtra("fbase_user", user);
         startActivity(intent);
+        finish();
     }
 
     private void signIn() {
@@ -297,8 +306,9 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void openProgress(String title, String content){
+    private void openProgress(String title, String content) {
         progressDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+        progressDialog.dismiss();
         progressDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
         progressDialog.setTitleText(title);
         progressDialog.setContentText(content);
@@ -306,7 +316,7 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.show();
     }
 
-    private void closeProgress(){
+    private void closeProgress() {
         progressDialog.dismiss();
     }
 
@@ -325,6 +335,39 @@ public class LoginActivity extends AppCompatActivity {
                     gotoMainPage(response.body().getUser(), response.body().getToken());
                 } else if (response.code() == 401) {
                     Log.i(TAG, response.raw().toString());
+                    Snackbar.make(mainLayout, getResources().getString(R.string.login_failed_unauthorized), Snackbar.LENGTH_LONG).show();
+                } else if (response.code() == 404) {
+                    Snackbar.make(mainLayout, getResources().getString(R.string.login_failed_user_not_found), Snackbar.LENGTH_LONG).show();
+                } else {
+                    Snackbar.make(mainLayout, getResources().getString(R.string.login_err_unknown), Snackbar.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                progressDialog.dismiss();
+                Snackbar.make(mainLayout, getResources().getString(R.string.network_problem), Snackbar.LENGTH_LONG).show();
+                call.cancel();
+            }
+        });
+    }
+
+    public void doLoginFirebase(final FirebaseUser user, String type) {
+        openProgress("Loading...", "Proses Login!");
+
+        Call<LoginResponse> responseCall = userAPIInterface.loginUserWithFirebase(user.getUid().toString(), type);
+        responseCall.enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                closeProgress();
+                if (response.code() == 200) {
+                    Log.i(TAG, response.body().getUser().toString());
+                    Log.i(TAG, "NEW TOKEN " + response.body().getToken());
+                    gotoMainPage(response.body().getUser(), response.body().getToken());
+                    finish();
+                } else if (response.code() == 401) {
+                    Log.i(TAG, response.raw().toString());
+                    gotoFirebaseSignUpPage(user);
                     Snackbar.make(mainLayout, getResources().getString(R.string.login_failed_unauthorized), Snackbar.LENGTH_LONG).show();
                 } else if (response.code() == 404) {
                     Snackbar.make(mainLayout, getResources().getString(R.string.login_failed_user_not_found), Snackbar.LENGTH_LONG).show();

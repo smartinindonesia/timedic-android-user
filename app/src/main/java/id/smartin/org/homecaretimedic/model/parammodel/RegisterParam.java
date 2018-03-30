@@ -27,6 +27,10 @@ public class RegisterParam {
     private String email;
     @SerializedName("dateOfBirth")
     private Long dateOfBirth;
+    @SerializedName("firebaseIdFacebook")
+    private String firebaseIdFacebook;
+    @SerializedName("firebaseIdGoogle")
+    private String firebaseIdGoogle;
 
     public String getUsername() {
         return username;
@@ -105,4 +109,19 @@ public class RegisterParam {
         return this.password.equals(password);
     }
 
+    public String getFirebaseIdFacebook() {
+        return firebaseIdFacebook;
+    }
+
+    public void setFirebaseIdFacebook(String firebaseIdFacebook) {
+        this.firebaseIdFacebook = firebaseIdFacebook;
+    }
+
+    public String getFirebaseIdGoogle() {
+        return firebaseIdGoogle;
+    }
+
+    public void setFirebaseIdGoogle(String firebaseIdGoogle) {
+        this.firebaseIdGoogle = firebaseIdGoogle;
+    }
 }

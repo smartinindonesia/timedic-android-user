@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -35,6 +36,7 @@ import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 
 import butterknife.BindView;
@@ -42,8 +44,16 @@ import butterknife.ButterKnife;
 import cn.pedant.SweetAlert.Constants;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import id.smartin.org.homecaretimedic.model.User;
+import id.smartin.org.homecaretimedic.model.parammodel.RegisterParam;
+import id.smartin.org.homecaretimedic.tools.AesUtil;
 import id.smartin.org.homecaretimedic.tools.ConverterUtility;
 import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
+import id.smartin.org.homecaretimedic.tools.restservice.APIClient;
+import id.smartin.org.homecaretimedic.tools.restservice.UserAPIInterface;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class FUserSignUpActivity extends AppCompatActivity {
     public static final String TAG = "[FUserSignUpActivity]";
@@ -78,6 +88,7 @@ public class FUserSignUpActivity extends AppCompatActivity {
     ImageButton selectDob;
 
     private DatePickerDialog datePickerDialog;
+    private UserAPIInterface userAPIInterface;
     private User user;
 
     private GoogleSignInOptions gso;
@@ -92,10 +103,17 @@ public class FUserSignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fuser_sign_up);
         ButterKnife.bind(this);
+        userAPIInterface = APIClient.getClient().create(UserAPIInterface.class);
         user = (User) getIntent().getSerializableExtra("fbase_user");
         Log.i(TAG, user.getFrontName());
         googleLoginInit();
         createTitleBar();
+        signUP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                doSignUpGoogle();
+            }
+        });
         agreementLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -120,9 +138,11 @@ public class FUserSignUpActivity extends AppCompatActivity {
                     emailAddress.setTextColor(getColor(R.color.text_color));
                 }
             }
+
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 // other stuffs
             }
+
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // other stuffs
             }
@@ -144,9 +164,11 @@ public class FUserSignUpActivity extends AppCompatActivity {
                     phone.setTextColor(getColor(R.color.text_color));
                 }
             }
+
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 // other stuffs
             }
+
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // other stuffs
             }
@@ -183,7 +205,7 @@ public class FUserSignUpActivity extends AppCompatActivity {
         mActionbar.setDisplayShowCustomEnabled(true);
     }
 
-    public void fillTheForm(){
+    public void fillTheForm() {
         firstName.setText(user.getFrontName());
         middleName.setText(user.getMiddleName());
         lastName.setText(user.getLastName());
@@ -192,7 +214,7 @@ public class FUserSignUpActivity extends AppCompatActivity {
         dob.setText(ConverterUtility.getDateString(user.getDateBirth()));
     }
 
-    private void openProgress(){
+    private void openProgress() {
         progressDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
         progressDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
         progressDialog.setTitleText("Loading...");
@@ -201,7 +223,62 @@ public class FUserSignUpActivity extends AppCompatActivity {
         progressDialog.show();
     }
 
-    private void closeProgress(){
+    private void doSignUpGoogle() {
+        RegisterParam registerParam = new RegisterParam();
+        registerParam.setFirstname(firstName.getText().toString());
+        registerParam.setLastname(lastName.getText().toString());
+        registerParam.setMiddlename(middleName.getText().toString());
+        String shahex = AesUtil.Encrypt(password.getText().toString());
+        registerParam.setPassword(shahex);
+        registerParam.setUsername(username.getText().toString());
+        registerParam.setPhone(phone.getText().toString());
+        registerParam.setEmail(emailAddress.getText().toString());
+        Long dobs = ConverterUtility.getTimeStamp(dob.getText().toString(), "dd-MM-yyyy");
+        registerParam.setDateOfBirth(dobs);
+        registerParam.setFirebaseIdGoogle(user.getFirebaseIdGoogle());
+        Log.i(TAG, user.getFirebaseIdGoogle());
+        if (registerParam.isValidPhone()) {
+            if (registerParam.isValidEmail()) {
+                if (checkAgreement.isChecked()) {
+                    try {
+                        postData(registerParam);
+                    } catch (UnsupportedEncodingException e) {
+                        Toast.makeText(getApplicationContext(), "Parameter tidak benar!", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Anda belum menyetujui pernyataan persetujuan!", Toast.LENGTH_LONG).show();
+                }
+            } else {
+                Toast.makeText(getApplicationContext(), "Email tidak valid!", Toast.LENGTH_LONG).show();
+            }
+        } else {
+            Toast.makeText(getApplicationContext(), "Nomor HP tidak valid!", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void postData(RegisterParam registerParam) throws UnsupportedEncodingException {
+        final Call<ResponseBody> resp = userAPIInterface.registerUser(registerParam);
+        resp.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.i(TAG, response.code() + " Error");
+                if (response.code() == 201) {
+                    Toast.makeText(getApplicationContext(), "Pendaftaran user baru berhasil dilakukan! Silahkan login untuk melanjutkan", Toast.LENGTH_LONG).show();
+                    gotoLogin();
+                } else {
+                    Snackbar.make(mainLayout, "Pendaftaran user baru gagal!", Snackbar.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.i(TAG, "Failed");
+                call.cancel();
+            }
+        });
+    }
+
+    private void closeProgress() {
         progressDialog.dismiss();
     }
 
@@ -214,8 +291,14 @@ public class FUserSignUpActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         signOut();
-        finish();
+        gotoLogin();
         super.onBackPressed();
+    }
+
+    private void gotoLogin() {
+        Intent intent = new Intent(FUserSignUpActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void googleLoginInit() {
@@ -259,7 +342,7 @@ public class FUserSignUpActivity extends AppCompatActivity {
                 });
     }
 
-    private void openUrl(String url){
+    private void openUrl(String url) {
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(url));
         startActivity(i);

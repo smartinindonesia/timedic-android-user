@@ -50,6 +50,10 @@ public class User implements Serializable{
     private boolean credentialsNonExpired;
     @SerializedName("enabled")
     private boolean enabled;
+    @SerializedName("firebaseIdFacebook")
+    private String firebaseIdFacebook;
+    @SerializedName("firebaseIdGoogle")
+    private String firebaseIdGoogle;
 
     public Long getId() {
         return id;
@@ -201,6 +205,22 @@ public class User implements Serializable{
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public String getFirebaseIdFacebook() {
+        return firebaseIdFacebook;
+    }
+
+    public void setFirebaseIdFacebook(String firebaseIdFacebook) {
+        this.firebaseIdFacebook = firebaseIdFacebook;
+    }
+
+    public String getFirebaseIdGoogle() {
+        return firebaseIdGoogle;
+    }
+
+    public void setFirebaseIdGoogle(String firebaseIdGoogle) {
+        this.firebaseIdGoogle = firebaseIdGoogle;
     }
 
     @Override

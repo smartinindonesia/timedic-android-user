@@ -16,6 +16,7 @@ public class Constants {
 
     //USER
     public static final String ROUTE_LOGIN = "/authenticate/user?";
+    public static final String ROUTE_LOGIN_FIREBASE = "/authenticateBySocial/user?";
     public static final String ROUTE_RESGISTER = "/register/user";
     public static final String ROUTE_USER_POST = "api/user";
     public static final String ROUTE_USER_BY_ID = "api/user/";
