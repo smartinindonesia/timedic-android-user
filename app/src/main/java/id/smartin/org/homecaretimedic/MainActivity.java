@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         homecareSessionManager = new HomecareSessionManager(this, getApplicationContext());
         User user = homecareSessionManager.getUserDetail();
         String initialFCMToken = FirebaseInstanceId.getInstance().getToken();
-        user.setPhotoPath(initialFCMToken);
+        user.setFcmToken(initialFCMToken);
         userAPIInterface = APIClient.getClientWithToken(homecareSessionManager, getApplicationContext()).create(UserAPIInterface.class);
         Call<ResponseBody> services = userAPIInterface.updateUser(user.getId(), user);
         services.enqueue(new Callback<ResponseBody>() {

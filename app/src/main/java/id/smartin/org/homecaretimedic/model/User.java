@@ -54,6 +54,8 @@ public class User implements Serializable{
     private String firebaseIdFacebook;
     @SerializedName("firebaseIdGoogle")
     private String firebaseIdGoogle;
+    @SerializedName("fcmToken")
+    private String fcmToken;
 
     public Long getId() {
         return id;
@@ -221,6 +223,14 @@ public class User implements Serializable{
 
     public void setFirebaseIdGoogle(String firebaseIdGoogle) {
         this.firebaseIdGoogle = firebaseIdGoogle;
+    }
+
+    public String getFcmToken() {
+        return fcmToken;
+    }
+
+    public void setFcmToken(String fcmToken) {
+        this.fcmToken = fcmToken;
     }
 
     @Override
