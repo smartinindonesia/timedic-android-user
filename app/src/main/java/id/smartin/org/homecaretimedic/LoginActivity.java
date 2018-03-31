@@ -503,10 +503,11 @@ public class LoginActivity extends AppCompatActivity {
 
     public void checkLogin() {
         FirebaseUser user = mAuth.getCurrentUser();
-        for (UserInfo users : FirebaseAuth.getInstance().getCurrentUser().getProviderData()) {
-            Log.i(TAG, "USER LOGIN WITH "+users.getProviderId());
-        }
+
         if (user != null) {
+            for (UserInfo users : FirebaseAuth.getInstance().getCurrentUser().getProviderData()) {
+                Log.i(TAG, "USER LOGIN WITH "+users.getProviderId());
+            }
             // User is signed in
             doLoginFirebase(user, "google");
 
