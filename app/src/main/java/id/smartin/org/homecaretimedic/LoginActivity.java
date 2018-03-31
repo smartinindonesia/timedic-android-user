@@ -239,7 +239,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void gotoFirebaseSignUpPage(FirebaseUser fbaseuser) {
+    private void gotoFirebaseSignUpPage(FirebaseUser fbaseuser, String type) {
         User user = new User();
         String name[] = fbaseuser.getDisplayName().split(" ");
         String elaborateLastName = "";
@@ -256,7 +256,11 @@ public class LoginActivity extends AppCompatActivity {
         user.setPhotoPath(fbaseuser.getPhotoUrl().toString());
         user.setPhoneNumber(fbaseuser.getPhoneNumber());
         user.setEmail(fbaseuser.getEmail());
-        user.setFirebaseIdGoogle(fbaseuser.getUid());
+        if (type.equals("facebook")) {
+            user.setFirebaseIdFacebook(fbaseuser.getUid());
+        } else if (type.equals("google")) {
+            user.setFirebaseIdGoogle(fbaseuser.getUid());
+        }
         Intent intent = new Intent(this, FUserSignUpActivity.class);
         intent.putExtra("fbase_user", user);
         startActivity(intent);
@@ -457,7 +461,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public void doLoginFirebase(final FirebaseUser user, String type) {
+    public void doLoginFirebase(final FirebaseUser user, final String type) {
         openProgress("Loading...", "Proses Login!");
 
         Call<LoginResponse> responseCall = userAPIInterface.loginUserWithFirebase(user.getUid().toString(), type);
@@ -471,7 +475,7 @@ public class LoginActivity extends AppCompatActivity {
                     gotoMainPage(response.body().getUser(), response.body().getToken());
                 } else if (response.code() == 401) {
                     Log.i(TAG, response.raw().toString());
-                    gotoFirebaseSignUpPage(user);
+                    gotoFirebaseSignUpPage(user, type);
                     Snackbar.make(mainLayout, getResources().getString(R.string.login_failed_unauthorized), Snackbar.LENGTH_LONG).show();
                 } else if (response.code() == 404) {
                     Snackbar.make(mainLayout, getResources().getString(R.string.login_failed_user_not_found), Snackbar.LENGTH_LONG).show();

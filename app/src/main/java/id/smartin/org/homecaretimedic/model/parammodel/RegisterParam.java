@@ -31,6 +31,8 @@ public class RegisterParam {
     private String firebaseIdFacebook;
     @SerializedName("firebaseIdGoogle")
     private String firebaseIdGoogle;
+    @SerializedName("gender")
+    private String gender;
 
     public String getUsername() {
         return username;
@@ -123,5 +125,13 @@ public class RegisterParam {
 
     public void setFirebaseIdGoogle(String firebaseIdGoogle) {
         this.firebaseIdGoogle = firebaseIdGoogle;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 }

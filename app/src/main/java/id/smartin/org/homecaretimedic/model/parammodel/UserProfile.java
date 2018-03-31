@@ -26,9 +26,11 @@ public class UserProfile {
     @SerializedName("phoneNumber")
     private String phoneNumber;
     @SerializedName("latitude")
-    private float latitude;
+    private Float latitude;
     @SerializedName("longitude")
-    private float longitude;
+    private Float longitude;
+    @SerializedName("gender")
+    private String gender;
 
     public Long getId() {
         return id;
@@ -94,7 +96,7 @@ public class UserProfile {
         this.phoneNumber = phoneNumber;
     }
 
-    public float getLatitude() {
+    public Float getLatitude() {
         return latitude;
     }
 
@@ -102,7 +104,7 @@ public class UserProfile {
         this.latitude = latitude;
     }
 
-    public float getLongitude() {
+    public Float getLongitude() {
         return longitude;
     }
 
@@ -113,5 +115,21 @@ public class UserProfile {
     public boolean isValidPhone() {
         boolean isTrue = android.util.Patterns.PHONE.matcher(phoneNumber).matches();
         return isTrue;
+    }
+
+    public void setLatitude(Float latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setLongitude(Float longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 }

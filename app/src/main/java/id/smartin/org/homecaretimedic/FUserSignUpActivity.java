@@ -115,7 +115,11 @@ public class FUserSignUpActivity extends AppCompatActivity {
         signUP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                doSignUpGoogle();
+                if (user.getFirebaseIdFacebook() != null) {
+                    doSignUpFacebook();
+                } else if (user.getFirebaseIdGoogle() != null) {
+                    doSignUpGoogle();
+                }
             }
         });
         agreementLink.setOnClickListener(new View.OnClickListener() {
@@ -241,6 +245,39 @@ public class FUserSignUpActivity extends AppCompatActivity {
         registerParam.setDateOfBirth(dobs);
         registerParam.setFirebaseIdGoogle(user.getFirebaseIdGoogle());
         Log.i(TAG, user.getFirebaseIdGoogle());
+        if (registerParam.isValidPhone()) {
+            if (registerParam.isValidEmail()) {
+                if (checkAgreement.isChecked()) {
+                    try {
+                        postData(registerParam);
+                    } catch (UnsupportedEncodingException e) {
+                        Toast.makeText(getApplicationContext(), "Parameter tidak benar!", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Anda belum menyetujui pernyataan persetujuan!", Toast.LENGTH_LONG).show();
+                }
+            } else {
+                Toast.makeText(getApplicationContext(), "Email tidak valid!", Toast.LENGTH_LONG).show();
+            }
+        } else {
+            Toast.makeText(getApplicationContext(), "Nomor HP tidak valid!", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void doSignUpFacebook() {
+        RegisterParam registerParam = new RegisterParam();
+        registerParam.setFirstname(firstName.getText().toString());
+        registerParam.setLastname(lastName.getText().toString());
+        registerParam.setMiddlename(middleName.getText().toString());
+        String shahex = AesUtil.Encrypt(password.getText().toString());
+        registerParam.setPassword(shahex);
+        registerParam.setUsername(username.getText().toString());
+        registerParam.setPhone(phone.getText().toString());
+        registerParam.setEmail(emailAddress.getText().toString());
+        Long dobs = ConverterUtility.getTimeStamp(dob.getText().toString(), "dd-MM-yyyy");
+        registerParam.setDateOfBirth(dobs);
+        registerParam.setFirebaseIdFacebook(user.getFirebaseIdFacebook());
+        Log.i(TAG, user.getFirebaseIdFacebook());
         if (registerParam.isValidPhone()) {
             if (registerParam.isValidEmail()) {
                 if (checkAgreement.isChecked()) {
