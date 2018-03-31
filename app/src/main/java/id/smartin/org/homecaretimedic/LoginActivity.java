@@ -209,6 +209,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void facebookLoginInit() {
+        mAuth = FirebaseAuth.getInstance();
         callbackManager = CallbackManager.Factory.create();
         LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this, Arrays.asList("email", "public_profile"));
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -324,7 +325,7 @@ public class LoginActivity extends AppCompatActivity {
                 // signed in user can be handled in the listener.
                 closeProgress();
                 if (!task.isSuccessful()) {
-                    Log.w(TAG, "signInWithCredential", task.getException());
+                    Log.e(TAG, "signInWithCredential", task.getException());
                     Toast.makeText(getApplicationContext(), "Autentikasi facebook gagal!", Toast.LENGTH_LONG).show();
                 } else {
                     FirebaseUser user = mAuth.getCurrentUser();
@@ -396,9 +397,8 @@ public class LoginActivity extends AppCompatActivity {
                 // Google Sign In failed, update UI appropriately
                 // ...
             }
-        } else {
-            callbackManager.onActivityResult(requestCode, resultCode, data);
         }
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     private void setPermission() {
@@ -506,10 +506,12 @@ public class LoginActivity extends AppCompatActivity {
 
         if (user != null) {
             for (UserInfo users : FirebaseAuth.getInstance().getCurrentUser().getProviderData()) {
-                Log.i(TAG, "USER LOGIN WITH "+users.getProviderId());
+
             }
+            String provider = user.getProviders().get(0);
+            Log.i(TAG, "USER LOGIN WITH " + provider);
             // User is signed in
-            doLoginFirebase(user, "google");
+            doLoginFirebase(user, provider.replace(".com",""));
 
             Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
 
