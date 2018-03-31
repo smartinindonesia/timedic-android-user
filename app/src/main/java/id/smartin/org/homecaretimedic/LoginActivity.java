@@ -68,11 +68,9 @@ import id.smartin.org.homecaretimedic.manager.HomecareSessionManager;
 import id.smartin.org.homecaretimedic.model.User;
 import id.smartin.org.homecaretimedic.model.responsemodel.LoginResponse;
 import id.smartin.org.homecaretimedic.tools.AesUtil;
-import id.smartin.org.homecaretimedic.tools.SecureField;
 import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
 import id.smartin.org.homecaretimedic.tools.restservice.APIClient;
 import id.smartin.org.homecaretimedic.tools.restservice.UserAPIInterface;
-import in.championswimmer.libsocialbuttons.BtnSocial;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -211,7 +209,6 @@ public class LoginActivity extends AppCompatActivity {
     private void facebookLoginInit() {
         mAuth = FirebaseAuth.getInstance();
         callbackManager = CallbackManager.Factory.create();
-        LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this, Arrays.asList("email", "public_profile"));
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
@@ -271,12 +268,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void signInFb() {
-        LoginManager
-                .getInstance()
-                .logInWithReadPermissions(
-                        this,
-                        Arrays.asList("public_profile", "user_friends", "email")
-                );
+        LoginManager.getInstance().logInWithReadPermissions(
+                this,
+                Arrays.asList("public_profile", "user_friends", "email")
+        );
     }
 
     private void signOut() {
@@ -331,8 +326,7 @@ public class LoginActivity extends AppCompatActivity {
                     FirebaseUser user = mAuth.getCurrentUser();
                     if (user != null) {
                         // User is signed in
-                        //doLoginFirebase(user, "facebook");
-
+                        doLoginFirebase(user, "facebook");
                         Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
 
                     } else {
@@ -503,18 +497,12 @@ public class LoginActivity extends AppCompatActivity {
 
     public void checkLogin() {
         FirebaseUser user = mAuth.getCurrentUser();
-
         if (user != null) {
-            for (UserInfo users : FirebaseAuth.getInstance().getCurrentUser().getProviderData()) {
-
-            }
             String provider = user.getProviders().get(0);
             Log.i(TAG, "USER LOGIN WITH " + provider);
             // User is signed in
-            doLoginFirebase(user, provider.replace(".com",""));
-
+            doLoginFirebase(user, provider.replace(".com", ""));
             Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-
         } else {
             // User is signed out
             Log.d(TAG, "onAuthStateChanged:signed_out");

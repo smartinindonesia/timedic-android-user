@@ -1,109 +1,29 @@
 {
   "project_info": {
-    "project_number": "138437881243",
-    "firebase_url": "https://timedic-ee4af.firebaseio.com",
-    "project_id": "timedic-ee4af",
-    "storage_bucket": "timedic-ee4af.appspot.com"
+    "project_number": "740361619120",
+    "firebase_url": "https://timedic-user.firebaseio.com",
+    "project_id": "timedic-user",
+    "storage_bucket": "timedic-user.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:138437881243:android:275768b706f4adf1",
-        "android_client_info": {
-          "package_name": "com.smartinindonesia.adipura.timedic"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "138437881243-f3pc9n3v0hgrec2rm0ps2qooii427f5n.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.smartinindonesia.adipura.timedic",
-            "certificate_hash": "efc8d34bab14e7923f856d602cf956d19d824488"
-          }
-        },
-        {
-          "client_id": "138437881243-1j9ogr40lur26ngh6ld1rs1l0nn40c85.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyA991Dcym-zEcGiG1xSXita-31ZhstOam0"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "138437881243-1j9ogr40lur26ngh6ld1rs1l0nn40c85.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:138437881243:android:f26ab249bfb57e11",
-        "android_client_info": {
-          "package_name": "com.smartin.timedic.caregiver"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "138437881243-jiiqo22qrsaaj7dg28141m1ldf0mihem.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.smartin.timedic.caregiver",
-            "certificate_hash": "efc8d34bab14e7923f856d602cf956d19d824488"
-          }
-        },
-        {
-          "client_id": "138437881243-1j9ogr40lur26ngh6ld1rs1l0nn40c85.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyA991Dcym-zEcGiG1xSXita-31ZhstOam0"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "138437881243-1j9ogr40lur26ngh6ld1rs1l0nn40c85.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:138437881243:android:0ec7d7ce95c023a8",
+        "mobilesdk_app_id": "1:740361619120:android:0ec7d7ce95c023a8",
         "android_client_info": {
           "package_name": "id.smartin.org.homecaretimedic"
         }
       },
       "oauth_client": [
         {
-          "client_id": "138437881243-o87800v21vm3c61sicih11an2npr4m3n.apps.googleusercontent.com",
+          "client_id": "740361619120-pvlao5cgmrncogp20c1n6uq4a7g58s4c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "id.smartin.org.homecaretimedic",
+            "certificate_hash": "f6524d1b9b9ddc965e9972e49190cb185ce5629c"
+          }
+        },
+        {
+          "client_id": "740361619120-0clcjvrfi2l00hhh3ifdlq9cl3rat257.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "id.smartin.org.homecaretimedic",
@@ -111,13 +31,13 @@
           }
         },
         {
-          "client_id": "138437881243-1j9ogr40lur26ngh6ld1rs1l0nn40c85.apps.googleusercontent.com",
+          "client_id": "740361619120-6t8sbdtk9l2ilidfk9n3orbgdkjvg3lq.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA991Dcym-zEcGiG1xSXita-31ZhstOam0"
+          "current_key": "AIzaSyCSJSguaQ-aSFD9nn3KHiWRpML3zjtaVSc"
         }
       ],
       "services": {
@@ -128,7 +48,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "138437881243-1j9ogr40lur26ngh6ld1rs1l0nn40c85.apps.googleusercontent.com",
+              "client_id": "740361619120-6t8sbdtk9l2ilidfk9n3orbgdkjvg3lq.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
