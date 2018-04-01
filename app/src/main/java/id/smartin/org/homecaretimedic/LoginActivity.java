@@ -253,7 +253,7 @@ public class LoginActivity extends AppCompatActivity {
                 user.setLastName(elaborateLastName);
             }
         }
-        user.setPhotoPath(fbaseuser.getPhotoUrl().toString());
+        user.setPhotoPath(fbaseuser.getPhotoUrl().getPath());
         user.setPhoneNumber(fbaseuser.getPhoneNumber());
         user.setEmail(fbaseuser.getEmail());
         if (type.equals("facebook")) {

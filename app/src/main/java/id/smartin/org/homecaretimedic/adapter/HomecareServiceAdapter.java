@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
 
@@ -26,13 +28,13 @@ import id.smartin.org.homecaretimedic.model.submitmodel.SubmitInfo;
  * Created by Hafid on 12/8/2017.
  */
 
-public class HomecareServiceAdapter extends RecyclerView.Adapter<HomecareServiceAdapter.MyViewHolder>{
+public class HomecareServiceAdapter extends RecyclerView.Adapter<HomecareServiceAdapter.MyViewHolder> {
 
     private List<HomecareService> homecareServiceList;
     private Context context;
     private Activity activity;
 
-    public HomecareServiceAdapter(Activity activity, Context context, List<HomecareService> homecareServiceList){
+    public HomecareServiceAdapter(Activity activity, Context context, List<HomecareService> homecareServiceList) {
         this.context = context;
         this.homecareServiceList = homecareServiceList;
         this.activity = activity;
@@ -48,7 +50,8 @@ public class HomecareServiceAdapter extends RecyclerView.Adapter<HomecareService
     @Override
     public void onBindViewHolder(HomecareServiceAdapter.MyViewHolder holder, int position) {
         final HomecareService homecareService = homecareServiceList.get(position);
-        Glide.with(context).load(homecareService.getServiceUrlIcon())
+        Glide.with(context).load(homecareService.getServiceUrlIcon()).apply(new RequestOptions()
+                .diskCacheStrategy(DiskCacheStrategy.ALL))
                 .thumbnail(0.5f)
                 .into(holder.serviceIcon);
         holder.serviceName.setText(homecareService.getServiceName());
@@ -68,8 +71,8 @@ public class HomecareServiceAdapter extends RecyclerView.Adapter<HomecareService
         return homecareServiceList.size();
     }
 
-    public HomecareService getItem(int position){
-        return  homecareServiceList.get(position);
+    public HomecareService getItem(int position) {
+        return homecareServiceList.get(position);
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -82,7 +85,7 @@ public class HomecareServiceAdapter extends RecyclerView.Adapter<HomecareService
 
         public MyViewHolder(View view) {
             super(view);
-            ButterKnife.bind(this,view);
+            ButterKnife.bind(this, view);
         }
     }
 }

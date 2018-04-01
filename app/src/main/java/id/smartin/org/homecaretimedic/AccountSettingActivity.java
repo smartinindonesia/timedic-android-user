@@ -17,10 +17,15 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -72,6 +77,8 @@ public class AccountSettingActivity extends AppCompatActivity {
     EditText dob;
     @BindView(R.id.genderSpin)
     Spinner genderSpin;
+    @BindView(R.id.profPic)
+    ImageView profPic;
 
     private DatePickerDialog datePickerDialog;
     private PickedDateTime pickedDateTime;
@@ -204,7 +211,7 @@ public class AccountSettingActivity extends AppCompatActivity {
         phone.setText(user.getPhoneNumber());
         emailAddress.setText(user.getEmail());
         dob.setText(ConverterUtility.getDateString(user.getDateBirth()));
-        if (user.getGender()!=null) {
+        if (user.getGender() != null) {
             if (user.getGender().equals("Laki-Laki")) {
                 genderSpin.setSelection(0);
             } else {
@@ -212,6 +219,16 @@ public class AccountSettingActivity extends AppCompatActivity {
             }
         } else {
             genderSpin.setSelection(0);
+        }
+        if (user.getPhotoPath() != null) {
+            profPic.setVisibility(View.VISIBLE);
+            Glide.with(getApplicationContext()).load(user.getPhotoPath()).apply(new RequestOptions()
+                    .circleCropTransform()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL))
+                    .thumbnail(0.5f)
+                    .into(profPic);
+        } else {
+            profPic.setVisibility(View.GONE);
         }
     }
 
