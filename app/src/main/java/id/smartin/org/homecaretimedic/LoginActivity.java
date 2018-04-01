@@ -287,6 +287,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     }
                 });
+        LoginManager.getInstance().logOut();
     }
 
     @Override

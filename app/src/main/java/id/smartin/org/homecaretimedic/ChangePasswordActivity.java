@@ -35,6 +35,8 @@ import retrofit2.Response;
 public class ChangePasswordActivity extends AppCompatActivity {
     public static final String TAG = "[ChangePasswordAct]";
 
+    @BindView(R.id.oldPassword)
+    EditText oldPassword;
     @BindView(R.id.password)
     EditText password;
     @BindView(R.id.rePassword)
@@ -118,17 +120,22 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
     public void doUpdatePassword() {
         Log.i(TAG, password.getText().toString());
+        Boolean isOldPass = AesUtil.Encrypt(oldPassword.getText().toString()).equals(user.getPassword());
         PasswordProfile registerParam = new PasswordProfile();
         String shahex = AesUtil.Encrypt(password.getText().toString());
         registerParam.setPassword(shahex);
-        if (!password.getText().toString().trim().equals("")) {
-            if (password.getText().toString().equals(retypePassword.getText().toString())) {
-                postData(registerParam);
+        if (isOldPass) {
+            if (!password.getText().toString().trim().equals("")) {
+                if (password.getText().toString().equals(retypePassword.getText().toString())) {
+                    postData(registerParam);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Password tidak sesuai, harap diulang kembali!", Toast.LENGTH_LONG).show();
+                }
             } else {
-                Toast.makeText(getApplicationContext(), "Password tidak sesuai, harap diulang kembali!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Password tidak boleh kosong!", Toast.LENGTH_LONG).show();
             }
         } else {
-            Toast.makeText(getApplicationContext(), "Password tidak boleh kosong!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Password lama tidak sesuai!", Toast.LENGTH_LONG).show();
         }
     }
 
