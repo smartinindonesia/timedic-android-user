@@ -21,7 +21,7 @@ public class RegisterParam {
     private String middlename;
     @SerializedName("lastname")
     private String lastname;
-    @SerializedName("phone")
+    @SerializedName("phoneNumber")
     private String phone;
     @SerializedName("email")
     private String email;
