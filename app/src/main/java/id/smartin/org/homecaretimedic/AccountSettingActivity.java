@@ -123,30 +123,6 @@ public class AccountSettingActivity extends AppCompatActivity {
             }
         });
 
-        genderOptions = new ArrayList<>();
-        genderOptions.add(new GenderOption(R.drawable.btn_laki_laki, "Laki-Laki"));
-        genderOptions.add(new GenderOption(R.drawable.btn__perempuan, "Perempuan"));
-        adapterGender = new GenderSpinnerAdapter(this, genderOptions);
-        genderSpin.setAdapter(adapterGender);
-
-        getUserDetail();
-    }
-
-    public void getUserDetail() {
-        final Call<User> resp = userAPIInterface.getProfile(user.getId());
-        resp.enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                user = response.body();
-                homecareSessionManager.updateProfile(user);
-                fillTheForm();
-            }
-
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                fillTheForm();
-            }
-        });
         final String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
         emailAddress.addTextChangedListener(new TextWatcher() {
             @TargetApi(Build.VERSION_CODES.M)
@@ -198,6 +174,31 @@ public class AccountSettingActivity extends AppCompatActivity {
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // other stuffs
+            }
+        });
+
+        genderOptions = new ArrayList<>();
+        genderOptions.add(new GenderOption(R.drawable.btn_laki_laki, "Laki-Laki"));
+        genderOptions.add(new GenderOption(R.drawable.btn__perempuan, "Perempuan"));
+        adapterGender = new GenderSpinnerAdapter(this, genderOptions);
+        genderSpin.setAdapter(adapterGender);
+
+        getUserDetail();
+    }
+
+    public void getUserDetail() {
+        final Call<User> resp = userAPIInterface.getProfile(user.getId());
+        resp.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                user = response.body();
+                homecareSessionManager.updateProfile(user);
+                fillTheForm();
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                fillTheForm();
             }
         });
     }

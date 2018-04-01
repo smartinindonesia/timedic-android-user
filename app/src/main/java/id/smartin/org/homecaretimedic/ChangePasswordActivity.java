@@ -146,7 +146,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.code() == 200) {
                     Toast.makeText(getApplicationContext(), "Password berhasil diganti!", Toast.LENGTH_LONG).show();
-                    finish();
+                    getUserDetail();
                 } else {
                     Toast.makeText(getApplicationContext(), "Penggantian password baru gagal!", Toast.LENGTH_LONG).show();
                 }
@@ -156,6 +156,24 @@ public class ChangePasswordActivity extends AppCompatActivity {
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 call.cancel();
                 homecareSessionManager.logout();
+            }
+        });
+    }
+
+    public void getUserDetail() {
+        final Call<User> resp = userAPIInterface.getProfile(user.getId());
+        resp.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                user = response.body();
+                homecareSessionManager.updateProfile(user);
+                finish();
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                call.cancel();
+                Toast.makeText(getApplicationContext(), "Jaringan bermasalah!", Toast.LENGTH_LONG).show();
             }
         });
     }
