@@ -204,12 +204,6 @@
 
             </LinearLayout>
 
-            <Button
-                android:id="@+id/btnRate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="Rate"/>
-
         </LinearLayout>
 
     </ScrollView>

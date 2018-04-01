@@ -17,6 +17,8 @@ public class CaregiverOrder implements Serializable{
     private String registerNurseNumber;
     @SerializedName("caregiverId")
     private Long caregiverId;
+    @SerializedName("rateStatus")
+    private Boolean rateStatus;
 
     public Long getId() {
         return id;
@@ -48,5 +50,13 @@ public class CaregiverOrder implements Serializable{
 
     public void setCaregiverId(Long caregiverId) {
         this.caregiverId = caregiverId;
+    }
+
+    public Boolean getRateStatus() {
+        return rateStatus;
+    }
+
+    public void setRateStatus(Boolean rateStatus) {
+        this.rateStatus = rateStatus;
     }
 }

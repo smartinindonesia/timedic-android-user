@@ -120,7 +120,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
     public void doUpdatePassword() {
         Log.i(TAG, password.getText().toString());
-        Boolean isOldPass = AesUtil.Encrypt(oldPassword.getText().toString()).equals(user.getPassword());
+        Boolean isOldPass = AesUtil.Decrypt(user.getPassword()).equals(oldPassword.getText().toString());
         PasswordProfile registerParam = new PasswordProfile();
         String shahex = AesUtil.Encrypt(password.getText().toString());
         registerParam.setPassword(shahex);

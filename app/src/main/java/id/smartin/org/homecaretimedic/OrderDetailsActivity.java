@@ -45,8 +45,6 @@ public class OrderDetailsActivity extends AppCompatActivity {
     TextView mapLocation;
     @BindView(R.id.transactionStatus)
     TextView transactionStatus;
-    @BindView(R.id.btnRate)
-    Button btnRate;
     @BindView(R.id.caregiverHistory)
     RecyclerView caregiverHistory;
 
@@ -68,13 +66,6 @@ public class OrderDetailsActivity extends AppCompatActivity {
                 Intent intent = new Intent(OrderDetailsActivity.this, MapViewerActivity.class);
                 intent.putExtra("latitude", homecareOrder.getLocationLatitude());
                 intent.putExtra("longitude", homecareOrder.getLocationLongitude());
-                startActivity(intent);
-            }
-        });
-        btnRate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(OrderDetailsActivity.this, RateCaregiverActivity.class);
                 startActivity(intent);
             }
         });

@@ -43,7 +43,12 @@ public class ActiveOrder extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActiveOrder();
     }
 
     @Override
