@@ -23,6 +23,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,12 +42,16 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.pedant.SweetAlert.Constants;
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import id.smartin.org.homecaretimedic.adapter.GenderSpinnerAdapter;
+import id.smartin.org.homecaretimedic.model.GenderOption;
 import id.smartin.org.homecaretimedic.model.User;
 import id.smartin.org.homecaretimedic.model.parammodel.RegisterParam;
 import id.smartin.org.homecaretimedic.tools.AesUtil;
@@ -90,10 +95,15 @@ public class FUserSignUpActivity extends AppCompatActivity {
     EditText dob;
     @BindView(R.id.selectDOB)
     ImageButton selectDob;
+    @BindView(R.id.genderSpin)
+    Spinner genderSpin;
 
     private DatePickerDialog datePickerDialog;
     private UserAPIInterface userAPIInterface;
     private User user;
+
+    GenderSpinnerAdapter adapterGender;
+    List<GenderOption> genderOptions;
 
     private GoogleSignInOptions gso;
     private GoogleApiClient mGoogleApiClient;
@@ -198,6 +208,13 @@ public class FUserSignUpActivity extends AppCompatActivity {
                 dob.setText(day + "-" + (month + 1) + "-" + year);
             }
         });
+
+        genderOptions = new ArrayList<>();
+        genderOptions.add(new GenderOption(R.drawable.btn_laki_laki, "Laki-Laki"));
+        genderOptions.add(new GenderOption(R.drawable.btn__perempuan, "Perempuan"));
+        adapterGender = new GenderSpinnerAdapter(this, genderOptions);
+        genderSpin.setAdapter(adapterGender);
+
         fillTheForm();
     }
 
@@ -244,6 +261,7 @@ public class FUserSignUpActivity extends AppCompatActivity {
         Long dobs = ConverterUtility.getTimeStamp(dob.getText().toString(), "dd-MM-yyyy");
         registerParam.setDateOfBirth(dobs);
         registerParam.setFirebaseIdGoogle(user.getFirebaseIdGoogle());
+        registerParam.setGender(genderSpin.getSelectedItem().toString());
         Log.i(TAG, user.getFirebaseIdGoogle());
         if (registerParam.isValidPhone()) {
             if (registerParam.isValidEmail()) {
@@ -277,6 +295,7 @@ public class FUserSignUpActivity extends AppCompatActivity {
         Long dobs = ConverterUtility.getTimeStamp(dob.getText().toString(), "dd-MM-yyyy");
         registerParam.setDateOfBirth(dobs);
         registerParam.setFirebaseIdFacebook(user.getFirebaseIdFacebook());
+        registerParam.setGender(genderSpin.getSelectedItem().toString());
         Log.i(TAG, user.getFirebaseIdFacebook());
         if (registerParam.isValidPhone()) {
             if (registerParam.isValidEmail()) {

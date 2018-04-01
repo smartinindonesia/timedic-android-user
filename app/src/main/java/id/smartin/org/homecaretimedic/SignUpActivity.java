@@ -22,17 +22,22 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import id.smartin.org.homecaretimedic.adapter.GenderSpinnerAdapter;
 import id.smartin.org.homecaretimedic.config.Constants;
+import id.smartin.org.homecaretimedic.model.GenderOption;
 import id.smartin.org.homecaretimedic.model.parammodel.RegisterParam;
 import id.smartin.org.homecaretimedic.tools.AesUtil;
 import id.smartin.org.homecaretimedic.tools.ConverterUtility;
@@ -75,6 +80,11 @@ public class SignUpActivity extends AppCompatActivity {
     EditText dob;
     @BindView(R.id.selectDOB)
     ImageButton selectDob;
+    @BindView(R.id.genderSpin)
+    Spinner genderSpin;
+
+    GenderSpinnerAdapter adapterGender;
+    List<GenderOption> genderOptions;
 
     private DatePickerDialog datePickerDialog;
     private UserAPIInterface userAPIInterface;
@@ -164,6 +174,12 @@ public class SignUpActivity extends AppCompatActivity {
                 dob.setText(day + "-" + (month + 1) + "-" + year);
             }
         });
+
+        genderOptions = new ArrayList<>();
+        genderOptions.add(new GenderOption(R.drawable.btn_laki_laki, "Laki-Laki"));
+        genderOptions.add(new GenderOption(R.drawable.btn__perempuan, "Perempuan"));
+        adapterGender = new GenderSpinnerAdapter(this, genderOptions);
+        genderSpin.setAdapter(adapterGender);
     }
 
     @SuppressLint("RestrictedApi")
@@ -197,6 +213,7 @@ public class SignUpActivity extends AppCompatActivity {
         registerParam.setEmail(emailAddress.getText().toString());
         Long dobs = ConverterUtility.getTimeStamp(dob.getText().toString(), "dd-MM-yyyy");
         registerParam.setDateOfBirth(dobs);
+        registerParam.setGender(genderSpin.getSelectedItem().toString());
 
         if (registerParam.isValidPhone()) {
             if (registerParam.isValidEmail()) {

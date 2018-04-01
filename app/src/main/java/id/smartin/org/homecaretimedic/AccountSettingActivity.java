@@ -18,15 +18,20 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import id.smartin.org.homecaretimedic.adapter.GenderSpinnerAdapter;
 import id.smartin.org.homecaretimedic.manager.HomecareSessionManager;
+import id.smartin.org.homecaretimedic.model.GenderOption;
 import id.smartin.org.homecaretimedic.model.User;
 import id.smartin.org.homecaretimedic.model.parammodel.RegisterParam;
 import id.smartin.org.homecaretimedic.model.parammodel.UserProfile;
@@ -65,12 +70,17 @@ public class AccountSettingActivity extends AppCompatActivity {
     ImageButton selectDob;
     @BindView(R.id.dateOfBirth)
     EditText dob;
+    @BindView(R.id.genderSpin)
+    Spinner genderSpin;
 
     private DatePickerDialog datePickerDialog;
     private PickedDateTime pickedDateTime;
     private UserAPIInterface userAPIInterface;
     private HomecareSessionManager homecareSessionManager;
     private User user;
+
+    GenderSpinnerAdapter adapterGender;
+    List<GenderOption> genderOptions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +115,13 @@ public class AccountSettingActivity extends AppCompatActivity {
                 dob.setText(day + "-" + (month + 1) + "-" + year);
             }
         });
+
+        genderOptions = new ArrayList<>();
+        genderOptions.add(new GenderOption(R.drawable.btn_laki_laki, "Laki-Laki"));
+        genderOptions.add(new GenderOption(R.drawable.btn__perempuan, "Perempuan"));
+        adapterGender = new GenderSpinnerAdapter(this, genderOptions);
+        genderSpin.setAdapter(adapterGender);
+
         getUserDetail();
     }
 
@@ -141,9 +158,11 @@ public class AccountSettingActivity extends AppCompatActivity {
                     emailAddress.setTextColor(getColor(R.color.text_color));
                 }
             }
+
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 // other stuffs
             }
+
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // other stuffs
             }
@@ -165,9 +184,11 @@ public class AccountSettingActivity extends AppCompatActivity {
                     phone.setTextColor(getColor(R.color.text_color));
                 }
             }
+
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 // other stuffs
             }
+
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // other stuffs
             }
@@ -176,12 +197,22 @@ public class AccountSettingActivity extends AppCompatActivity {
 
     public void fillTheForm() {
         username.setText(user.getUsername());
+        username.setEnabled(false);
         firstName.setText(user.getFrontName());
         middleName.setText(user.getMiddleName());
         lastName.setText(user.getLastName());
         phone.setText(user.getPhoneNumber());
         emailAddress.setText(user.getEmail());
         dob.setText(ConverterUtility.getDateString(user.getDateBirth()));
+        if (user.getGender()!=null) {
+            if (user.getGender().equals("Laki-Laki")) {
+                genderSpin.setSelection(0);
+            } else {
+                genderSpin.setSelection(1);
+            }
+        } else {
+            genderSpin.setSelection(0);
+        }
     }
 
     @Override
@@ -219,6 +250,7 @@ public class AccountSettingActivity extends AppCompatActivity {
         registerParam.setEmail(emailAddress.getText().toString());
         Long dobs = ConverterUtility.getTimeStamp(dob.getText().toString(), "dd-MM-yyyy");
         registerParam.setDateBirth(dobs);
+        registerParam.setGender(genderSpin.getSelectedItem().toString());
 
         if (registerParam.isValidPhone()) {
             try {
