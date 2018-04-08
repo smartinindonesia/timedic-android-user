@@ -2,6 +2,7 @@ package id.smartin.org.homecaretimedic.mainfragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import id.smartin.org.homecaretimedic.R;
  */
 
 public class RedeemPointFragment extends Fragment {
+    public static final String TAG = "[RedeemPointFragment]";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,5 +25,19 @@ public class RedeemPointFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_redeem_point, container, false);
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+
+        // Make sure that we are currently visible
+        if (this.isVisible()) {
+            Log.d(TAG, "Visible now");
+            if (!isVisibleToUser) {
+                Log.d(TAG, "Not visible anymore.  Stopping audio.");
+                // TODO stop audio playback
+            }
+        }
     }
 }

@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import id.smartin.org.homecaretimedic.mainfragment.yourorderchildfragment.Histor
  */
 
 public class YourOrderFragment extends Fragment {
+    public static final String TAG = "[YourOrderFragment]";
 
     @BindView(R.id.tabs)
     TabLayout tabLayout;
@@ -33,7 +35,6 @@ public class YourOrderFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -45,6 +46,20 @@ public class YourOrderFragment extends Fragment {
         tabLayout.setupWithViewPager(viewPager);
         // Inflate the layout for this fragment
         return layoutView;
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+
+        // Make sure that we are currently visible
+        if (this.isVisible()) {
+            Log.d(TAG, "Visible now");
+            if (!isVisibleToUser) {
+                Log.d(TAG, "Not visible anymore.  Stopping audio.");
+                // TODO stop audio playback
+            }
+        }
     }
 
     private void setupViewPager(ViewPager viewPager) {

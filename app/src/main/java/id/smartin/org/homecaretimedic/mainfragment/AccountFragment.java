@@ -148,6 +148,20 @@ public class AccountFragment extends Fragment {
         return newView;
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+
+        // Make sure that we are currently visible
+        if (this.isVisible()) {
+            Log.d(TAG, "Visible now");
+            if (!isVisibleToUser) {
+                Log.d(TAG, "Not visible anymore.  Stopping audio.");
+                // TODO stop audio playback
+            }
+        }
+    }
+
     private void gotoMarketPlace() {
         Uri uri = Uri.parse("market://details?id=" + getContext().getPackageName());
         Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);

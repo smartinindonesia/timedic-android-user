@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,7 @@ import id.smartin.org.homecaretimedic.screenslidefragment.ScreenSlidePageFragmen
  */
 
 public class HomeFragment extends Fragment {
+    public static final String TAG = "[HomeFragment]";
 
     @BindView(R.id.btnHomecare)
     ImageButton btnHomecare;
@@ -142,6 +144,20 @@ public class HomeFragment extends Fragment {
         btnMedicineRemind.setEnabled(false);
         // Inflate the layout for this fragment
         return vwInflater;
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+
+        // Make sure that we are currently visible
+        if (this.isVisible()) {
+            Log.d(TAG, "Visible now");
+            if (!isVisibleToUser) {
+                Log.d(TAG, "Not visible anymore.  Stopping audio.");
+                // TODO stop audio playback
+            }
+        }
     }
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
