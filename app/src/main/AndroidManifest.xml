@@ -57,6 +57,7 @@
             android:name=".LoginActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:windowSoftInputMode="adjustPan|stateHidden">
+
             <!--
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -176,7 +177,12 @@
             android:name=".RateCaregiverActivity"
             android:label="@string/act_rate_caregiver"
             android:windowSoftInputMode="stateHidden" />
-
+        <activity
+            android:name=".BillingPagesActivity"
+            android:label="@string/act_billing_pages" />
+        <activity
+            android:name=".BillingMethodActivity"
+            android:label="@string/act_billing_method" />
     </application>
 
 </manifest>

@@ -208,7 +208,7 @@
                 android:background="@drawable/bg_gray_rounded_textfield"
                 android:inputType="textEmailAddress"
                 android:paddingLeft="@dimen/calculator_input_padding"
-                android:paddingRight="@dimen/calculator_input_padding"></EditText>
+                android:paddingRight="@dimen/calculator_input_padding"/>
         </LinearLayout>
 
         <LinearLayout

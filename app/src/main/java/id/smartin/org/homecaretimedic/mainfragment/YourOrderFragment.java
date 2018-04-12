@@ -48,6 +48,8 @@ public class YourOrderFragment extends Fragment {
         return layoutView;
     }
 
+
+
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
@@ -55,7 +57,7 @@ public class YourOrderFragment extends Fragment {
         // Make sure that we are currently visible
         if (this.isVisible()) {
             Log.d(TAG, "Visible now");
-            if (!isVisibleToUser) {
+            if (isVisibleToUser && isResumed()) {
                 Log.d(TAG, "Not visible anymore.  Stopping audio.");
                 // TODO stop audio playback
             }

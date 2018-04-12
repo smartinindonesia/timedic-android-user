@@ -14,6 +14,8 @@
     <string name="act_order_detail">Detail Pemesanan</string>
     <string name="act_map_viewer">Detail Lokasi</string>
     <string name="act_rate_caregiver">Rating Perawat</string>
+    <string name="act_billing_pages">Pembayaran</string>
+    <string name="act_billing_method">Pembayaran</string>
 
     <string name="act_medical_record">Medical Record</string>
 
