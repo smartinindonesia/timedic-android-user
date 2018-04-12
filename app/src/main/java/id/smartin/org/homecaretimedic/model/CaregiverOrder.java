@@ -15,7 +15,7 @@ public class CaregiverOrder implements Serializable{
     private String caregiverName;
     @SerializedName("registerNurseNumber")
     private String registerNurseNumber;
-    @SerializedName("caregiverId")
+    @SerializedName("idCaregiver")
     private Long caregiverId;
     @SerializedName("rateStatus")
     private Boolean rateStatus;

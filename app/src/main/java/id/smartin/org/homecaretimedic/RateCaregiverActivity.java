@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -36,6 +37,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RateCaregiverActivity extends AppCompatActivity {
+    public static final String TAG = "[RateCaregiverActivity]";
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.profilePic)
@@ -95,7 +98,8 @@ public class RateCaregiverActivity extends AppCompatActivity {
             }
         });
         caregiverOrder = (CaregiverOrder) getIntent().getSerializableExtra("caregiver");
-        getCaregiverInfos();
+        fillTheForm();
+        //getCaregiverInfos();
     }
 
     @SuppressLint("RestrictedApi")
@@ -127,12 +131,15 @@ public class RateCaregiverActivity extends AppCompatActivity {
         caregiverRateParam.setComment(comment.getText().toString());
     }
 
+    /*
     private void getCaregiverInfos() {
-        if (caregiverInfo != null) {
+        if (caregiverOrder != null) {
             Call<Caregiver> resp = homecareCaregiverAPIInterface.getCaregiver(caregiverOrder.getCaregiverId());
             resp.enqueue(new Callback<Caregiver>() {
                 @Override
                 public void onResponse(Call<Caregiver> call, Response<Caregiver> response) {
+                    Log.i(TAG, "Lewat Sini");
+                    Log.i(TAG, response.raw().toString());
                     caregiverInfo = response.body();
                     fillTheForm();
                 }
@@ -144,9 +151,15 @@ public class RateCaregiverActivity extends AppCompatActivity {
             });
         }
     }
+    */
 
     private void fillTheForm() {
-        caregiverName.setText(caregiverInfo.getFrontName() + " " + caregiverInfo.getMiddleName() + " " + caregiverInfo.getLastName());
+        /*
+        String name = "";
+        if (caregiverInfo.getFrontName())
+        name =  + " " + caregiverInfo.getMiddleName() + " " + caregiverInfo.getLastName()
+        */
+        caregiverName.setText(caregiverOrder.getCaregiverName());
     }
 
 }
