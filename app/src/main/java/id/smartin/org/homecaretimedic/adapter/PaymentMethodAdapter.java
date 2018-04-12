@@ -13,16 +13,15 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.smartin.org.homecaretimedic.R;
-import id.smartin.org.homecaretimedic.model.BillingItem;
-import id.smartin.org.homecaretimedic.tools.TextFormatter;
+import id.smartin.org.homecaretimedic.model.PaymentMethod;
 
-public class BillingItemAdapter extends RecyclerView.Adapter<BillingItemAdapter.MyViewHolder>{
-    private List<BillingItem> billingItems;
+public class PaymentMethodAdapter extends RecyclerView.Adapter<PaymentMethodAdapter.MyViewHolder>{
+    private List<PaymentMethod> paymentMethodList;
     private Context context;
     private Activity activity;
 
-    public BillingItemAdapter(Activity activity, Context context, List<BillingItem> billingItems) {
-        this.billingItems = billingItems;
+    public PaymentMethodAdapter(Activity activity, Context context, List<PaymentMethod> paymentMethodList) {
+        this.paymentMethodList = paymentMethodList;
         this.context = context;
         this.activity = activity;
     }
@@ -30,31 +29,28 @@ public class BillingItemAdapter extends RecyclerView.Adapter<BillingItemAdapter.
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_billing, parent, false);
-        return new BillingItemAdapter.MyViewHolder(itemView);
+                .inflate(R.layout.item_payment_methods, parent, false);
+        return new PaymentMethodAdapter.MyViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        BillingItem billingItem = billingItems.get(position);
-        holder.billingName.setText(billingItem.getItem());
-        holder.billingPrice.setText(TextFormatter.doubleToRupiah(billingItem.getPrice()));
+        PaymentMethod paymentMethod = paymentMethodList.get(position);
+        holder.paymentMethod.setText(paymentMethod.getPaymentMethodName());
     }
 
     @Override
     public int getItemCount() {
-        return billingItems.size();
+        return paymentMethodList.size();
     }
 
-    public BillingItem getItem(int position){
-        return billingItems.get(position);
+    public PaymentMethod getItem(int position){
+        return paymentMethodList.get(position);
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.billingName)
-        public TextView billingName;
-        @BindView(R.id.billingPrice)
-        public TextView billingPrice;
+        @BindView(R.id.paymentMethod)
+        public TextView paymentMethod;
 
         public MyViewHolder(View view) {
             super(view);
