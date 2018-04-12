@@ -1,6 +1,7 @@
 package id.smartin.org.homecaretimedic;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -75,11 +76,15 @@ public class AcceptanceActivity extends AppCompatActivity {
         submitTransaction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                gotoBillingMethodActivity();
+                /*
                 try {
+
                     sendTransaction();
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
+                */
             }
         });
     }
@@ -152,6 +157,7 @@ public class AcceptanceActivity extends AppCompatActivity {
                 if (response.code() == 201) {
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.transaction_success), Toast.LENGTH_LONG).show();
                     finish();
+                    gotoBillingMethodActivity();
                 } else {
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.transaction_failed), Toast.LENGTH_LONG).show();
                 }
@@ -163,5 +169,10 @@ public class AcceptanceActivity extends AppCompatActivity {
                 homecareSessionManager.logout();
             }
         });
+    }
+
+    private void gotoBillingMethodActivity(){
+        Intent intent = new Intent(this, BillingMethodActivity.class);
+        startActivity(intent);
     }
 }

@@ -3,6 +3,8 @@ package id.smartin.org.homecaretimedic.model.submitmodel;
 import java.util.ArrayList;
 import java.util.List;
 
+import id.smartin.org.homecaretimedic.model.Assessment;
+import id.smartin.org.homecaretimedic.model.BillingItem;
 import id.smartin.org.homecaretimedic.model.HomecareService;
 import id.smartin.org.homecaretimedic.model.Klinik;
 import id.smartin.org.homecaretimedic.model.LabPackageItem;
@@ -58,4 +60,15 @@ public class SubmitInfo {
         }
         return price;
     }
+
+    public static List<AssessmentAnswerParam> getPricedAssessment(){
+        List<AssessmentAnswerParam> assessmentAnswerParamList = new ArrayList<>();
+        for (int i = 0; i < assessmentList.size(); i++){
+            if (assessmentList.get(i).getPrice() > 0){
+                assessmentAnswerParamList.add(assessmentList.get(i));
+            }
+        }
+        return assessmentAnswerParamList;
+    }
+
 }

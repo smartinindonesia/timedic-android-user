@@ -2,6 +2,7 @@ package id.smartin.org.homecaretimedic;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -48,6 +50,8 @@ public class OrderDetailsActivity extends AppCompatActivity {
     TextView transactionStatus;
     @BindView(R.id.caregiverHistory)
     RecyclerView caregiverHistory;
+    @BindView(R.id.mainLayout)
+    RelativeLayout mainLayout;
 
     HomecareOrder homecareOrder;
 
@@ -82,9 +86,13 @@ public class OrderDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view, int position) {
                 CaregiverOrder cgs = caregiverHistoryAdapter.getItem(position);
-                Intent intent = new Intent(OrderDetailsActivity.this, RateCaregiverActivity.class);
-                intent.putExtra("caregiver", cgs);
-                startActivity(intent);
+                if (!cgs.getRateStatus()) {
+                    Intent intent = new Intent(OrderDetailsActivity.this, RateCaregiverActivity.class);
+                    intent.putExtra("caregiver", cgs);
+                    startActivity(intent);
+                } else {
+                    Snackbar.make(mainLayout, "Rating sudah pernah dilakukan!", Snackbar.LENGTH_LONG).show();
+                }
             }
 
             @Override
