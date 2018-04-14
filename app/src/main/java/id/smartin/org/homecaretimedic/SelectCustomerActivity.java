@@ -85,6 +85,7 @@ public class SelectCustomerActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        setFonts();
     }
 
     @SuppressLint("RestrictedApi")
@@ -139,5 +140,9 @@ public class SelectCustomerActivity extends AppCompatActivity {
     public void onBackPressed() {
         finish();
         super.onBackPressed();
+    }
+
+    private void setFonts(){
+        ViewFaceUtility.applyFont(btnAddPatient, this, "fonts/Dosis-Regular.otf");
     }
 }

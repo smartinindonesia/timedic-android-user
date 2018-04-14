@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="?attr/actionBarSize"
@@ -7,51 +9,60 @@
     android:padding="@dimen/calculator_input_padding"
     android:scrollbars="horizontal">
 
-    <ScrollView
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/btnSubmitForm"
-        android:layout_marginBottom="0dp">
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
+        android:padding="@dimen/calculator_row_space">
 
         <LinearLayout
+            android:id="@+id/billingLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="@dimen/calculator_row_space">
+            android:background="@color/colorPrimary"
+            android:padding="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
 
             <TextView
+                android:id="@+id/totalCashLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
                 android:text="Total Tagihan"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/billingItems"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <TextView
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Pilih metode pembayaran : "
-                android:textStyle="bold" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/billingMethods"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_below="@+id/totalCashLabel" />
 
         </LinearLayout>
 
-    </ScrollView>
+        <TextView
+            android:id="@+id/paymentMethodLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/billingLayout"
+            android:layout_marginTop="10dp"
+            android:text="Pilih metode pembayaran : "
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/btnSubmitForm"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/orange_selector_button_bg"
-        android:hint="Bayar"
-        android:textColorHint="@color/sign_up_selector_fg" />
+        <ExpandableListView
+            android:id="@+id/billingMethods"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/paymentMethodLabel"
+            android:background="@color/colorPrimary"
+            android:layout_marginBottom="0dp" />
+
+    </RelativeLayout>
 
 </RelativeLayout>

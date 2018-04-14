@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,7 +39,7 @@ public class HomecareActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 SubmitInfo.serviceAvailable = UIConstants.HOMECARE_SERVICE;
-                Intent intent = new Intent(getApplicationContext(), LayananLokasiActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ServiceAndLocationActivity.class);
                 startActivity(intent);
             }
         });

@@ -23,6 +23,7 @@ import id.smartin.org.homecaretimedic.MapSelectorActivity;
 import id.smartin.org.homecaretimedic.R;
 import id.smartin.org.homecaretimedic.model.HomecareService;
 import id.smartin.org.homecaretimedic.model.submitmodel.SubmitInfo;
+import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
 
 /**
  * Created by Hafid on 12/8/2017.
@@ -86,6 +87,8 @@ public class HomecareServiceAdapter extends RecyclerView.Adapter<HomecareService
         public MyViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
+            ViewFaceUtility.applyFont(selectItem, activity, "fonts/Dosis-Regular.otf");
+            ViewFaceUtility.applyFont(serviceName, activity, "fonts/Dosis-Regular.otf");
         }
     }
 }

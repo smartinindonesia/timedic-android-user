@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -34,19 +35,28 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class LayananLokasiActivity extends AppCompatActivity {
-    public static String TAG = "[LayananLokasiActivity]";
+public class ServiceAndLocationActivity extends AppCompatActivity {
+    public static String TAG = "[ServiceAndLocationActivity]";
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.pilihKota)
-    Spinner pilihKota;
+    @BindView(R.id.townSpinner)
+    Spinner townSpinner;
     @BindView(R.id.recycler_homestay)
     RecyclerView recyclerViewHomestay;
     @BindView(R.id.recycler_homevisit)
     RecyclerView recyclerViewHomevisit;
     @BindView(R.id.fab)
     FloatingActionButton fab;
+
+    @BindView(R.id.homestayHeader)
+    TextView homestayHeader;
+    @BindView(R.id.homevisitHeader)
+    TextView homevisitHeader;
+    @BindView(R.id.notifSign)
+    TextView notifSign;
+    @BindView(R.id.selectTownHint)
+    TextView selectTownHint;
 
     private List<HomecareService> homecareServiceListHomevisit;
     private List<HomecareService> homecareServiceListHomestay;
@@ -71,8 +81,8 @@ public class LayananLokasiActivity extends AppCompatActivity {
         homecareServiceListHomestay = new ArrayList<HomecareService>();
         servicePlaceList = new ArrayList<ServicePlace>();
         adapterServicePlace = new ArrayAdapter<ServicePlace>(this, android.R.layout.simple_spinner_item, servicePlaceList);
-        pilihKota.setAdapter(adapterServicePlace);
-        pilihKota.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        townSpinner.setAdapter(adapterServicePlace);
+        townSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 SubmitInfo.selectedServicePlace = (ServicePlace) parent.getItemAtPosition(position);
@@ -106,6 +116,7 @@ public class LayananLokasiActivity extends AppCompatActivity {
             }
         });
         populateLayanan();
+        setFonts();
     }
 
     @Override
@@ -178,5 +189,16 @@ public class LayananLokasiActivity extends AppCompatActivity {
         s0.setNameLocation("Bandung");
         servicePlaceList.add(s0);
         adapterServicePlace.notifyDataSetChanged();
+    }
+
+    private void setFonts(){
+        ArrayList<TextView> arrayListB = new ArrayList<>();
+        ArrayList<TextView> arrayList = new ArrayList<>();
+        arrayListB.add(homestayHeader);
+        arrayListB.add(homevisitHeader);
+        arrayList.add(notifSign);
+        arrayList.add(selectTownHint);
+        ViewFaceUtility.applyFonts(arrayListB, this, "fonts/Dosis-Bold.otf" );
+        ViewFaceUtility.applyFonts(arrayList, this, "fonts/Dosis-Medium.otf" );
     }
 }

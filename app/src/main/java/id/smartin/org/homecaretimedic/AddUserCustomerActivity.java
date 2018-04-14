@@ -15,8 +15,10 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import butterknife.BindView;
@@ -58,6 +60,23 @@ public class AddUserCustomerActivity extends AppCompatActivity {
     ImageButton selectDob;
     @BindView(R.id.addUser)
     Button addUser;
+
+    @BindView(R.id.patientsNameTitle)
+    TextView patientsNameTitle;
+    @BindView(R.id.religionTitle)
+    TextView religionTitle;
+    @BindView(R.id.genderTitle)
+    TextView genderTitle;
+    @BindView(R.id.heightMeasurementTitle)
+    TextView heightMeasurementTitle;
+    @BindView(R.id.weightMeasurementTitle)
+    TextView weightMeasurementTitle;
+    @BindView(R.id.placeOfBirthTitle)
+    TextView placeOfBirthTitle;
+    @BindView(R.id.dateOfBirthTitle)
+    TextView dateOfBirthTitle;
+
+
 
     ArrayAdapter<CharSequence> adapterGender, adapterReligion;
 
@@ -111,21 +130,22 @@ public class AddUserCustomerActivity extends AppCompatActivity {
         addUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (editMode){
+                if (editMode) {
                     editPatientData();
                 } else {
                     sendNewPatientData();
                 }
             }
         });
+        setFonts();
     }
 
-    private void editPatientData(){
+    private void editPatientData() {
         RegPatientParam patient = new RegPatientParam();
-        if (height.getText().toString().equals("")){
+        if (height.getText().toString().equals("")) {
             height.setText("0");
         }
-        if (weight.getText().toString().equals("")){
+        if (weight.getText().toString().equals("")) {
             weight.setText("0");
         }
         patient.setHeight(Double.parseDouble(height.getText().toString()));
@@ -169,10 +189,10 @@ public class AddUserCustomerActivity extends AppCompatActivity {
 
     private void sendNewPatientData() {
         RegPatientParam patient = new RegPatientParam();
-        if (height.getText().toString().equals("")){
+        if (height.getText().toString().equals("")) {
             height.setText("0");
         }
-        if (weight.getText().toString().equals("")){
+        if (weight.getText().toString().equals("")) {
             weight.setText("0");
         }
         patient.setHeight(Double.parseDouble(height.getText().toString()));
@@ -214,7 +234,7 @@ public class AddUserCustomerActivity extends AppCompatActivity {
         });
     }
 
-    public void openEditForm(){
+    public void openEditForm() {
         patientP = (Patient) getIntent().getSerializableExtra("patient_data");
         if (patientP != null) {
             religionsSpinner.setSelection(adapterReligion.getPosition(patientP.getReligion()));
@@ -229,7 +249,7 @@ public class AddUserCustomerActivity extends AppCompatActivity {
         }
     }
 
-    public void initProgressDialog(String message){
+    public void initProgressDialog(String message) {
         progressDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
         progressDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
         progressDialog.setTitleText("Loading...");
@@ -237,13 +257,13 @@ public class AddUserCustomerActivity extends AppCompatActivity {
         progressDialog.setCanceledOnTouchOutside(true);
     }
 
-    public void showProgressDialog(String message){
+    public void showProgressDialog(String message) {
         initProgressDialog(message);
         progressDialog.show();
     }
 
-    public void dissmissProgressDialog(){
-        if (progressDialog.isShowing()){
+    public void dissmissProgressDialog() {
+        if (progressDialog.isShowing()) {
             progressDialog.dismiss();
         }
     }
@@ -273,4 +293,23 @@ public class AddUserCustomerActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
+    private void setFonts(){
+        ArrayList<TextView> arrayList = new ArrayList<>();
+        arrayList.add(patientsNameTitle);
+        arrayList.add(religionTitle);
+        arrayList.add(genderTitle);
+        arrayList.add(heightMeasurementTitle);
+        arrayList.add(weightMeasurementTitle);
+        arrayList.add(placeOfBirthTitle);
+        arrayList.add(dateOfBirthTitle);
+
+        arrayList.add(patientsName);
+        arrayList.add(height);
+        arrayList.add(weight);
+        arrayList.add(dob);
+        arrayList.add(pob);
+        arrayList.add(addUser);
+
+        ViewFaceUtility.applyFonts(arrayList, this, "fonts/Dosis-Medium.otf");
+    }
 }

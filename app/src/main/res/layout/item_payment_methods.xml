@@ -4,11 +4,14 @@
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:orientation="horizontal"
+    android:background="@color/theme_gray"
     android:padding="@dimen/calculator_row_space">
 
     <TextView
         android:id="@+id/paymentMethod"
         android:layout_width="match_parent"
+        android:paddingLeft="25dp"
+        android:paddingRight="10dp"
         android:layout_height="wrap_content"
         android:text="Payment Method"
         android:textSize="@dimen/calculator_hint_size" />

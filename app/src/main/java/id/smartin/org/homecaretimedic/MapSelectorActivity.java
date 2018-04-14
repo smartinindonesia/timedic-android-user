@@ -20,6 +20,7 @@ import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.Status;
@@ -38,6 +39,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -47,6 +50,7 @@ import id.smartin.org.homecaretimedic.model.ServicePlace;
 import id.smartin.org.homecaretimedic.model.submitmodel.PlaceInfo;
 import id.smartin.org.homecaretimedic.model.submitmodel.SubmitInfo;
 import id.smartin.org.homecaretimedic.service.LocationService;
+import id.smartin.org.homecaretimedic.tools.TextFormatter;
 import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
 
 public class MapSelectorActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -60,6 +64,9 @@ public class MapSelectorActivity extends AppCompatActivity implements OnMapReady
     Button btnGoToAssest;
     @BindView(R.id.additionalInfo)
     EditText additionalInfo;
+    @BindView(R.id.addressTitle)
+    TextView addressTitle;
+    EditText autocompletePlaces;
 
     private GoogleMap googleMap;
 
@@ -101,7 +108,7 @@ public class MapSelectorActivity extends AppCompatActivity implements OnMapReady
 
         PlaceAutocompleteFragment places = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
-        EditText autocompletePlaces = (EditText) places.getView().findViewById(R.id.place_autocomplete_search_input);
+        autocompletePlaces = (EditText) places.getView().findViewById(R.id.place_autocomplete_search_input);
         autocompletePlaces.setTextSize(12.0f);
         autocompletePlaces.setHintTextColor(Color.WHITE);
         autocompletePlaces.setTextColor(Color.WHITE);
@@ -142,6 +149,7 @@ public class MapSelectorActivity extends AppCompatActivity implements OnMapReady
         //Intent intenExtras = getIntent();
         homecareService = SubmitInfo.selectedHomecareService;//g.fromJson(intenExtras.getStringExtra("jenis_layanan"), HomecareService.class);
         servicePlace = SubmitInfo.selectedServicePlace;//g.fromJson(intenExtras.getStringExtra("kota_layanan"), ServicePlace.class);
+        setFonts();
     }
 
     @Override
@@ -179,7 +187,7 @@ public class MapSelectorActivity extends AppCompatActivity implements OnMapReady
     };
 
 
-    public void initProgressDialog(){
+    public void initProgressDialog() {
         progressDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
         progressDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
         progressDialog.setTitleText("Loading...");
@@ -187,13 +195,13 @@ public class MapSelectorActivity extends AppCompatActivity implements OnMapReady
         progressDialog.setCanceledOnTouchOutside(true);
     }
 
-    public void showProgressDialog(){
+    public void showProgressDialog() {
         initProgressDialog();
         progressDialog.show();
     }
 
-    public void dissmissProgressDialog(){
-        if (progressDialog.isShowing()){
+    public void dissmissProgressDialog() {
+        if (progressDialog.isShowing()) {
             progressDialog.dismiss();
         }
     }
@@ -289,5 +297,14 @@ public class MapSelectorActivity extends AppCompatActivity implements OnMapReady
                 }
             }
         });
+    }
+
+    private void setFonts() {
+        ArrayList<TextView> arrayList = new ArrayList<>();
+        arrayList.add(autocompletePlaces);
+        arrayList.add(addressTitle);
+        arrayList.add(additionalInfo);
+        arrayList.add(btnGoToAssest);
+        ViewFaceUtility.applyFonts(arrayList, this, "fonts/Dosis-Regular.otf");
     }
 }

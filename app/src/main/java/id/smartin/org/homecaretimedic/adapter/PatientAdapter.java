@@ -26,6 +26,7 @@ import id.smartin.org.homecaretimedic.manager.HomecareSessionManager;
 import id.smartin.org.homecaretimedic.model.Patient;
 import id.smartin.org.homecaretimedic.model.submitmodel.SubmitInfo;
 import id.smartin.org.homecaretimedic.tools.ConverterUtility;
+import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
 import id.smartin.org.homecaretimedic.tools.restservice.APIClient;
 import id.smartin.org.homecaretimedic.tools.restservice.PatientAPIInterface;
 import okhttp3.ResponseBody;
@@ -136,6 +137,12 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.MyViewHo
         public MyViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
+            ViewFaceUtility.applyFont(patientsName, context, "fonts/Dosis-Bold.otf");
+            ViewFaceUtility.applyFont(gender, context, "fonts/Dosis-Regular.otf");
+            ViewFaceUtility.applyFont(dateOfBirth, context, "fonts/Dosis-Regular.otf");
+            ViewFaceUtility.applyFont(edit, context, "fonts/Dosis-Regular.otf");
+            ViewFaceUtility.applyFont(delete, context, "fonts/Dosis-Regular.otf");
+            ViewFaceUtility.applyFont(select, context, "fonts/Dosis-Regular.otf");
         }
     }
 

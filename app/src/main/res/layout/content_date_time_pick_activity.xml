@@ -33,17 +33,18 @@
                 android:textColor="@color/textColorPrimary" />
         </android.support.design.widget.TextInputLayout>
 
-        <Button
+        <ImageButton
             android:id="@+id/btnChooseDate"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1.5"
             android:background="@drawable/sign_in_selector_bg"
-            android:foreground="@drawable/ic_select_date_white" />
+            android:src="@drawable/ic_select_date_white" />
 
     </LinearLayout>
 
     <TextView
+        android:id="@+id/timeSelectionHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Jam Layanan"

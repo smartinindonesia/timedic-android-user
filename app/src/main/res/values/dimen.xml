@@ -16,5 +16,7 @@
     <dimen name="calculator_hint_size">18sp</dimen>
     <dimen name="calculator_row_space">3dp</dimen>
 
+    <dimen name="payment_list_space">0.5dp</dimen>
+
     <dimen name="prof_pic_size">150dp</dimen>
 </resources>

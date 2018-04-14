@@ -12,8 +12,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -60,6 +63,33 @@ public class AcceptanceActivity extends AppCompatActivity {
     @BindView(R.id.totalApproxCash)
     TextView totalApproxCash;
 
+    @BindView(R.id.summaryHeader)
+    TextView summaryHeader;
+    @BindView(R.id.serviceTitle)
+    TextView serviceTitle;
+    @BindView(R.id.serviceLocationTitle)
+    TextView serviceLocationTitle;
+    @BindView(R.id.serviceDateTitle)
+    TextView serviceDateTitle;
+    @BindView(R.id.serviceTimeTitle)
+    TextView serviceTimeTitle;
+    @BindView(R.id.serviceGPSPosTitle)
+    TextView serviceGPSPosTitle;
+    @BindView(R.id.serviceAddressTitle)
+    TextView serviceAddressTitle;
+    @BindView(R.id.thanks1)
+    TextView thanks1;
+    @BindView(R.id.thanks2)
+    TextView thanks2;
+    @BindView(R.id.thanks3)
+    TextView thanks3;
+    @BindView(R.id.thanks4)
+    TextView thanks4;
+    @BindView(R.id.thanks5)
+    TextView thanks5;
+
+
+
     private HomecareTransactionAPIInterface homecareTransactionAPIInterface;
     private HomecareSessionManager homecareSessionManager;
 
@@ -87,6 +117,7 @@ public class AcceptanceActivity extends AppCompatActivity {
                 */
             }
         });
+        setFonts();
     }
 
     public void fillHomecareTransInfo() {
@@ -175,4 +206,33 @@ public class AcceptanceActivity extends AppCompatActivity {
         Intent intent = new Intent(this, BillingMethodActivity.class);
         startActivity(intent);
     }
+
+    private void setFonts(){
+        ArrayList<TextView> arrayList = new ArrayList<>();
+        ArrayList<TextView> arrayListB = new ArrayList<>();
+        arrayListB.add(summaryHeader);
+        arrayListB.add(serviceTitle);
+        arrayListB.add(serviceLocationTitle);
+        arrayListB.add(serviceGPSPosTitle);
+        arrayListB.add(serviceAddressTitle);
+        arrayListB.add(serviceDateTitle);
+        arrayListB.add(serviceTimeTitle);
+        arrayList.add(selectedLayanan);
+        arrayList.add(selectedLocation);
+        arrayList.add(selectedGPSPos);
+        arrayList.add(selectedGPSLocInfo);
+        arrayList.add(selectedDate);
+        arrayList.add(selectedHour);
+        arrayList.add(submitTransaction);
+        arrayList.add(downPayment);
+        arrayList.add(totalApproxCash);
+        arrayList.add(thanks1);
+        arrayList.add(thanks2);
+        arrayList.add(thanks3);
+        arrayList.add(thanks4);
+        arrayList.add(thanks5);
+        ViewFaceUtility.applyFonts(arrayList, this, "fonts/Dosis-Regular.otf");
+        ViewFaceUtility.applyFonts(arrayListB, this, "fonts/Dosis-Bold.otf");
+    }
+
 }

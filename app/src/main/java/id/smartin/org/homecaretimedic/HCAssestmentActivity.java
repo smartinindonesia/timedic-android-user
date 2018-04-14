@@ -62,7 +62,7 @@ public class HCAssestmentActivity extends AppCompatActivity {
         homecareAssessmentAPIInterface = APIClient.getClientWithToken(homecareSessionManager, getApplicationContext()).create(HomecareAssessmentAPIInterface.class);
 
         homecareSessionManager = new HomecareSessionManager(this, getApplicationContext());
-        assestmentAdapter = new AssestmentAdapter(this, assessmentList);
+        assestmentAdapter = new AssestmentAdapter(this, this, assessmentList);
         final RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
@@ -84,6 +84,7 @@ public class HCAssestmentActivity extends AppCompatActivity {
         });
 
         populateSelectedAssessment();
+        setFonts();
     }
 
     @Override
@@ -137,6 +138,10 @@ public class HCAssestmentActivity extends AppCompatActivity {
         finish();
         onBackPressed();
         return true;
+    }
+
+    private void setFonts(){
+        ViewFaceUtility.applyFont(btnSubmit, this, "fonts/Dosis-Regular.otf");
     }
 
 }

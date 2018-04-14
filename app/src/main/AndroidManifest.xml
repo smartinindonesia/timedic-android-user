@@ -103,7 +103,7 @@
             android:name=".HCAssestmentActivity"
             android:label="@string/act_assessment" />
         <activity
-            android:name=".LayananLokasiActivity"
+            android:name=".ServiceAndLocationActivity"
             android:label="@string/act_layanan_lokasi"
             android:windowSoftInputMode="stateHidden" />
         <activity

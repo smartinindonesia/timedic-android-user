@@ -2,11 +2,13 @@ package id.smartin.org.homecaretimedic.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by Hafid on 4/12/2018.
  */
 
-public class BankTransferMethodOpt {
+public class BankTransferMethodOpt implements Serializable {
     @SerializedName("id")
     private Long id;
     @SerializedName("name")
@@ -15,6 +17,17 @@ public class BankTransferMethodOpt {
     private Integer logoDrawable;
     @SerializedName("logoPath")
     private String logoPath;
+
+    public BankTransferMethodOpt(Long id, String methodName) {
+        this.id = id;
+        this.methodName = methodName;
+    }
+
+    public BankTransferMethodOpt(Long id, String methodName, Integer logoDrawable) {
+        this.id = id;
+        this.methodName = methodName;
+        this.logoDrawable = logoDrawable;
+    }
 
     public Long getId() {
         return id;

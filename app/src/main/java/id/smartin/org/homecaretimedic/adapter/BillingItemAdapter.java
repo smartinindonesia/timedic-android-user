@@ -15,6 +15,7 @@ import butterknife.ButterKnife;
 import id.smartin.org.homecaretimedic.R;
 import id.smartin.org.homecaretimedic.model.BillingItem;
 import id.smartin.org.homecaretimedic.tools.TextFormatter;
+import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
 
 public class BillingItemAdapter extends RecyclerView.Adapter<BillingItemAdapter.MyViewHolder>{
     private List<BillingItem> billingItems;
@@ -59,6 +60,8 @@ public class BillingItemAdapter extends RecyclerView.Adapter<BillingItemAdapter.
         public MyViewHolder(View view) {
             super(view);
             ButterKnife.bind(this,view);
+            ViewFaceUtility.applyFont(billingName, activity, "fonts/Dosis-Regular.otf");
+            ViewFaceUtility.applyFont(billingPrice, activity, "fonts/Dosis-Regular.otf");
         }
     }
 }

@@ -40,8 +40,8 @@
                 android:layout_height="25dp"
                 android:layout_gravity="center"
                 android:background="@drawable/sign_in_selector_bg"
-                android:text="Select"
-                android:textColor="@color/sign_in_selector_fg" />
+                android:hint="Select"
+                android:textColorHint="@color/sign_in_selector_fg" />
 
         </LinearLayout>
 

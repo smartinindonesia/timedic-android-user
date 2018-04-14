@@ -1,5 +1,6 @@
 package id.smartin.org.homecaretimedic.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -22,6 +23,7 @@ import id.smartin.org.homecaretimedic.R;
 import id.smartin.org.homecaretimedic.model.Assessment;
 import id.smartin.org.homecaretimedic.model.AssessmentOption;
 import id.smartin.org.homecaretimedic.model.parammodel.AssessmentAnswerParam;
+import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
 
 /**
  * Created by Hafid on 11/2/2017.
@@ -32,10 +34,12 @@ public class AssestmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     private List<Assessment> assessmentList;
     private Context context;
+    private Activity activity;
 
-    public AssestmentAdapter(Context context, List<Assessment> assessmentList) {
+    public AssestmentAdapter(Context context, Activity activity, List<Assessment> assessmentList) {
         this.assessmentList = assessmentList;
         this.context = context;
+        this.activity = activity;
         setHasStableIds(true);
     }
 
@@ -93,6 +97,7 @@ public class AssestmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     rdbtn.setText(assessment.getOptions().get(i).getOption());
                     rdbtn.setTag(assessment.getOptions().get(i));
                     viewHolderOption.option.addView(rdbtn);
+                    ViewFaceUtility.applyFont(rdbtn, activity, "fonts/Dosis-Medium.otf");
                 }
                 if (assessment.getId_multiple_choice() > 0) {
                     viewHolderOption.option.check(assessment.getId_multiple_choice());
@@ -103,7 +108,7 @@ public class AssestmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         int result = viewHolderOption.option.getCheckedRadioButtonId();
                         if (result != -1) {
                             RadioButton b = (RadioButton) viewHolderOption.itemView.findViewById(result);
-                            AssessmentOption res = (AssessmentOption)b.getTag();
+                            AssessmentOption res = (AssessmentOption) b.getTag();
                             assessmentList.get(position).setAnswer(b.getText().toString());
                             assessmentList.get(position).setId_multiple_choice(result);
                             assessmentList.get(position).setSelectedPrice(res.getPriceAdded());
@@ -177,6 +182,8 @@ public class AssestmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         public MyViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
+            ViewFaceUtility.applyFont(assessment, activity, "fonts/Dosis-Medium.otf");
+            ViewFaceUtility.applyFont(answer, activity, "fonts/Dosis-Medium.otf");
         }
     }
 
@@ -189,6 +196,7 @@ public class AssestmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         public MyViewHolderOption(View view) {
             super(view);
             ButterKnife.bind(this, view);
+            ViewFaceUtility.applyFont(assessment, activity, "fonts/Dosis-Medium.otf");
         }
     }
 
@@ -199,6 +207,8 @@ public class AssestmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         public MyViewHolderFile(View view) {
             super(view);
             ButterKnife.bind(this, view);
+            ViewFaceUtility.applyFont(assessment, activity, "fonts/Dosis-Medium.otf");
+
         }
     }
 }

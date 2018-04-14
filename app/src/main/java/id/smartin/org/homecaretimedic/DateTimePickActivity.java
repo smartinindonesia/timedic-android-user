@@ -13,9 +13,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import butterknife.BindView;
@@ -31,11 +35,13 @@ public class DateTimePickActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.btnChooseDate)
-    Button btnChooseDate;
+    ImageButton btnChooseDate;
     @BindView(R.id.gotoNext)
     Button btnGoToNext;
     @BindView(R.id.datePick)
     EditText tglPelayanan;
+    @BindView(R.id.timeSelectionHeader)
+    TextView timeSelectionHeader;
 
     private DatePickerDialog datePickerDialog;
     private PickedDateTime pickedDateTime;
@@ -82,7 +88,7 @@ public class DateTimePickActivity extends AppCompatActivity {
                     Intent intent = new Intent(DateTimePickActivity.this, AcceptanceActivity.class);
                     startActivity(intent);
                     finish();
-                } else if (SubmitInfo.serviceAvailable.equals(UIConstants.CHECKLAB_SERVICE)){
+                } else if (SubmitInfo.serviceAvailable.equals(UIConstants.CHECKLAB_SERVICE)) {
                     Intent intent = new Intent(DateTimePickActivity.this, LabAcceptanceActivity.class);
                     startActivity(intent);
                     finish();
@@ -91,6 +97,7 @@ public class DateTimePickActivity extends AppCompatActivity {
         });
 
         pickedDateTime = new PickedDateTime();
+        setFonts();
     }
 
     public void createBtnLayout() {
@@ -112,24 +119,25 @@ public class DateTimePickActivity extends AppCompatActivity {
 
             buttons[i] = new ButtonModel<String>();
             buttons[i].button = new ToggleButton(this);
-            buttons[i].button.setText(i+":00");
+            buttons[i].button.setText(i + ":00");
             buttons[i].button.setTextSize(8.0f);
 
             buttons[i].button.setTextColor(getResources().getColorStateList(R.color.sign_in_selector_fg));
+            ViewFaceUtility.applyFont(buttons[i].button, this, "fonts/Dosis-Medium.otf");
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 buttons[i].button.setBackground(getResources().getDrawable(R.drawable.green_button_bg));
             } else {
                 buttons[i].button.setBackgroundDrawable(getResources().getDrawable(R.drawable.green_button_bg));
             }
 
-            if (i==8){
+            if (i == 8) {
                 buttons[i].button.setEnabled(false);
             }
 
             LinearLayout blayout = new LinearLayout(this);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             blayout.setLayoutParams(params);
-            blayout.setPadding(2,2,2,2);
+            blayout.setPadding(2, 2, 2, 2);
             blayout.addView(buttons[i].button);
             rowLayout.addView(blayout, param);
 
@@ -140,13 +148,13 @@ public class DateTimePickActivity extends AppCompatActivity {
             buttons[finalI].button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    for (int j = 0; j < buttons.length; j++){
-                        buttons[j].button.setText(j+":00");
+                    for (int j = 0; j < buttons.length; j++) {
+                        buttons[j].button.setText(j + ":00");
                         buttons[j].setOn(false);
                     }
                     buttons[finalI].button.setText("On");
                     buttons[finalI].setOn(true);
-                    pickedDateTime.setTime(""+finalI+":00");
+                    pickedDateTime.setTime("" + finalI + ":00");
                 }
             });
         }
@@ -170,4 +178,14 @@ public class DateTimePickActivity extends AppCompatActivity {
         onBackPressed();
         return true;
     }
+
+    private void setFonts() {
+        ArrayList<TextView> arrayList = new ArrayList<>();
+        arrayList.add(timeSelectionHeader);
+        arrayList.add(btnGoToNext);
+        arrayList.add(tglPelayanan);
+        arrayList.add(timeSelectionHeader);
+        ViewFaceUtility.applyFonts(arrayList, this, "fonts/Dosis-Medium.otf");
+    }
+
 }

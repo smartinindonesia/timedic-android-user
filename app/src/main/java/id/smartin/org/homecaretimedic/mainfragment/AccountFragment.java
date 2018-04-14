@@ -145,6 +145,7 @@ public class AccountFragment extends Fragment {
                 openUrl(Constants.TERM_AND_COND);
             }
         });
+        setFonts();
         return newView;
     }
 
@@ -224,5 +225,9 @@ public class AccountFragment extends Fragment {
                     }
                 });
         LoginManager.getInstance().logOut();
+    }
+
+    private void setFonts(){
+
     }
 }

@@ -34,6 +34,7 @@
                 android:padding="@dimen/calculator_row_space">
 
                 <TextView
+                    android:id="@+id/patientsNameTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.4"
@@ -59,6 +60,7 @@
                 android:padding="@dimen/calculator_row_space">
 
                 <TextView
+                    android:id="@+id/religionTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.4"
@@ -86,6 +88,7 @@
                 android:padding="@dimen/calculator_row_space">
 
                 <TextView
+                    android:id="@+id/genderTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.4"
@@ -113,6 +116,7 @@
                 android:padding="@dimen/calculator_row_space">
 
                 <TextView
+                    android:id="@+id/heightMeasurementTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.4"
@@ -138,6 +142,7 @@
                 android:padding="@dimen/calculator_row_space">
 
                 <TextView
+                    android:id="@+id/weightMeasurementTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.4"
@@ -163,6 +168,7 @@
                 android:padding="@dimen/calculator_row_space">
 
                 <TextView
+                    android:id="@+id/placeOfBirthTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.4"
@@ -188,6 +194,7 @@
                 android:padding="@dimen/calculator_row_space">
 
                 <TextView
+                    android:id="@+id/dateOfBirthTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.4"
