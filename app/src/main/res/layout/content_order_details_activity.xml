@@ -21,6 +21,28 @@
             android:gravity="center"
             android:orientation="vertical">
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginBottom="@dimen/calculator_devider_space"
+                android:layout_marginTop="@dimen/calculator_devider_space"
+                android:background="@color/shadow_clr"/>
+
+            <TextView
+                android:id="@+id/serviceName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Service Name"
+                android:textAlignment="center"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginBottom="@dimen/calculator_devider_space"
+                android:layout_marginTop="@dimen/calculator_devider_space"
+                android:background="@color/shadow_clr"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -28,27 +50,7 @@
                 android:padding="@dimen/calculator_row_space">
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.4"
-                    android:text="Nama Layanan" />
-
-                <TextView
-                    android:id="@+id/serviceName"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/calculator_input_height"
-                    android:layout_weight="0.6"
-                    android:paddingLeft="@dimen/calculator_input_padding"
-                    android:paddingRight="@dimen/calculator_input_padding"></TextView>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="@dimen/calculator_row_space">
-
-                <TextView
+                    android:id="@+id/transactionDateTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.4"
@@ -70,6 +72,7 @@
                 android:padding="@dimen/calculator_row_space">
 
                 <TextView
+                    android:id="@+id/downPaymentTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.4"
@@ -91,6 +94,7 @@
                 android:padding="@dimen/calculator_row_space">
 
                 <TextView
+                    android:id="@+id/totalApproxCashTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.4"
@@ -112,6 +116,7 @@
                 android:padding="@dimen/calculator_row_space">
 
                 <TextView
+                    android:id="@+id/totalCashTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.4"
@@ -133,6 +138,7 @@
                 android:padding="@dimen/calculator_row_space">
 
                 <TextView
+                    android:id="@+id/addressLocTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.4"
@@ -170,6 +176,7 @@
                 android:padding="@dimen/calculator_row_space">
 
                 <TextView
+                    android:id="@+id/transactionStatusTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.4"
@@ -191,6 +198,7 @@
                 android:padding="@dimen/calculator_row_space">
 
                 <TextView
+                    android:id="@+id/caregiverHistoryTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.4"

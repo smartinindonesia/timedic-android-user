@@ -23,6 +23,8 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.smartin.org.homecaretimedic.manager.HomecareSessionManager;
@@ -59,6 +61,8 @@ public class RateCaregiverActivity extends AppCompatActivity {
     TextView charIndices;
     @BindView(R.id.submitRate)
     Button submitRate;
+    @BindView(R.id.instruction)
+    TextView instruction;
 
     CaregiverRateParam caregiverRateParam = new CaregiverRateParam();
     CaregiverOrder caregiverOrder;
@@ -99,6 +103,7 @@ public class RateCaregiverActivity extends AppCompatActivity {
         });
         caregiverOrder = (CaregiverOrder) getIntent().getSerializableExtra("caregiver");
         fillTheForm();
+        setFonts();
         //getCaregiverInfos();
     }
 
@@ -160,6 +165,18 @@ public class RateCaregiverActivity extends AppCompatActivity {
         name =  + " " + caregiverInfo.getMiddleName() + " " + caregiverInfo.getLastName()
         */
         caregiverName.setText(caregiverOrder.getCaregiverName());
+    }
+
+    private void setFonts(){
+        ViewFaceUtility.applyFont(caregiverName, this, "fonts/Dosis-Bold.otf");
+        ArrayList<TextView> arrayList = new ArrayList<>();
+        arrayList.add(caregiverDescription);
+        arrayList.add(caregiverPrevRate);
+        arrayList.add(comment);
+        arrayList.add(charIndices);
+        arrayList.add(submitRate);
+        arrayList.add(instruction);
+        ViewFaceUtility.applyFonts(arrayList, this, "fonts/Dosis-Medium.otf");
     }
 
 }

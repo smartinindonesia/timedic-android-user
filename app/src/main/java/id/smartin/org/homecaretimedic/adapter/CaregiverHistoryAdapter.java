@@ -14,6 +14,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.smartin.org.homecaretimedic.R;
 import id.smartin.org.homecaretimedic.model.CaregiverOrder;
+import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
 
 /**
  * Created by Hafid on 3/27/2018.
@@ -60,6 +61,7 @@ public class CaregiverHistoryAdapter extends RecyclerView.Adapter<CaregiverHisto
         public MyViewHolder(View view) {
             super(view);
             ButterKnife.bind(this,view);
+            ViewFaceUtility.applyFont(caregiverName, activity, "fonts/Dosis-Medium.otf");
         }
     }
 }

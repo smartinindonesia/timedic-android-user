@@ -17,6 +17,8 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.smartin.org.homecaretimedic.adapter.CaregiverHistoryAdapter;
@@ -52,6 +54,21 @@ public class OrderDetailsActivity extends AppCompatActivity {
     RecyclerView caregiverHistory;
     @BindView(R.id.mainLayout)
     RelativeLayout mainLayout;
+
+    @BindView(R.id.transactionDateTitle)
+    TextView transactionDateTitle;
+    @BindView(R.id.downPaymentTitle)
+    TextView downPaymentTitle;
+    @BindView(R.id.totalApproxCashTitle)
+    TextView totalApproxCashTitle;
+    @BindView(R.id.totalCashTitle)
+    TextView totalCashTitle;
+    @BindView(R.id.addressLocTitle)
+    TextView addressLocTitle;
+    @BindView(R.id.transactionStatusTitle)
+    TextView transactionStatusTitle;
+    @BindView(R.id.caregiverHistoryTitle)
+    TextView caregiverHistoryTitle;
 
     HomecareOrder homecareOrder;
 
@@ -100,6 +117,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
 
             }
         }));
+        setFonts();
     }
 
     @SuppressLint("RestrictedApi")
@@ -137,5 +155,25 @@ public class OrderDetailsActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
+    private void setFonts(){
+        ViewFaceUtility.applyFont(serviceName, this, "fonts/Dosis-Bold.otf");
+        ArrayList<TextView> arrayList = new ArrayList<>();
+
+        arrayList.add(transactionDate);
+        arrayList.add(downPayment);
+        arrayList.add(totalCash);
+        arrayList.add(addressLoc);
+        arrayList.add(mapLocation);
+        arrayList.add(transactionStatus);
+
+        arrayList.add(transactionDateTitle);
+        arrayList.add(downPaymentTitle);
+        arrayList.add(totalApproxCashTitle);
+        arrayList.add(totalCashTitle);
+        arrayList.add(addressLocTitle);
+        arrayList.add(transactionStatusTitle);
+        arrayList.add(caregiverHistoryTitle);
+        ViewFaceUtility.applyFonts(arrayList, this, "fonts/Dosis-Medium.otf");
+    }
 }
 
