@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +41,15 @@ public class CalculatorBBI extends AppCompatActivity {
     @BindView(R.id.mainLayout)
     RelativeLayout mainLayout;
 
+    @BindView(R.id.genderSpinTitle)
+    TextView genderSpinTitle;
+    @BindView(R.id.heightTextTitle)
+    TextView heightTextTitle;
+    @BindView(R.id.btnCalculateTitle)
+    TextView btnCalculateTitle;
+    @BindView(R.id.btnResetTitle)
+    TextView btnResetTitle;
+
     GenderSpinnerAdapter adapterGender;
     List<GenderOption> genderOptions;
 
@@ -54,7 +64,7 @@ public class CalculatorBBI extends AppCompatActivity {
         genderOptions = new ArrayList<>();
         genderOptions.add(new GenderOption(R.drawable.btn_laki_laki, "Laki-laki"));
         genderOptions.add(new GenderOption(R.drawable.btn__perempuan, "Perempuan"));
-        adapterGender = new GenderSpinnerAdapter(this, genderOptions);
+        adapterGender = new GenderSpinnerAdapter(this, this, genderOptions);
         genderSpinner.setAdapter(adapterGender);
         btnCalculateBBI.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,6 +78,7 @@ public class CalculatorBBI extends AppCompatActivity {
                 resetForm();
             }
         });
+        setFonts();
     }
 
     private void calculateBBI() {
@@ -81,11 +92,11 @@ public class CalculatorBBI extends AppCompatActivity {
         }
     }
 
-    private boolean validateForm(){
+    private boolean validateForm() {
         return !heigthText.getText().toString().equals("");
     }
 
-    private void resetForm(){
+    private void resetForm() {
         heigthText.setText("");
     }
 
@@ -106,5 +117,15 @@ public class CalculatorBBI extends AppCompatActivity {
         finish();
         onBackPressed();
         return true;
+    }
+
+    private void setFonts() {
+        ArrayList<TextView> arrayList = new ArrayList<>();
+        arrayList.add(genderSpinTitle);
+        arrayList.add(heightTextTitle);
+        arrayList.add(btnCalculateTitle);
+        arrayList.add(btnResetTitle);
+        arrayList.add(heigthText);
+        ViewFaceUtility.applyFonts(arrayList, this, "fonts/Dosis-Medium.otf");
     }
 }

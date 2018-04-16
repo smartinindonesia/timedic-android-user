@@ -1,5 +1,6 @@
 package id.smartin.org.homecaretimedic.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import java.util.List;
 
 import id.smartin.org.homecaretimedic.R;
 import id.smartin.org.homecaretimedic.model.GenderOption;
+import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
 
 /**
  * Created by Hafid on 2/5/2018.
@@ -19,12 +21,14 @@ import id.smartin.org.homecaretimedic.model.GenderOption;
 
 public class GenderSpinnerAdapter extends BaseAdapter {
     Context context;
+    Activity activity;
     List<GenderOption> genderOptionList;
     LayoutInflater inflter;
 
-    public GenderSpinnerAdapter(Context applicationContext, List<GenderOption> genderOptions) {
+    public GenderSpinnerAdapter(Context applicationContext, Activity activity, List<GenderOption> genderOptions) {
         this.context = applicationContext;
         this.genderOptionList = genderOptions;
+        this.activity = activity;
         inflter = (LayoutInflater.from(applicationContext));
     }
 
@@ -51,6 +55,7 @@ public class GenderSpinnerAdapter extends BaseAdapter {
         TextView names = (TextView) view.findViewById(R.id.spinnerText);
         icon.setImageResource(genderOption.getIconId());
         names.setText(genderOption.getGender());
+        ViewFaceUtility.applyFont(names, activity,"fonts/Dosis-Medium.otf");
         return view;
     }
 }

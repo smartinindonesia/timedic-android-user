@@ -28,6 +28,8 @@ import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.smartin.org.homecaretimedic.AccountSettingActivity;
@@ -36,6 +38,7 @@ import id.smartin.org.homecaretimedic.R;
 import id.smartin.org.homecaretimedic.config.Constants;
 import id.smartin.org.homecaretimedic.manager.HomecareSessionManager;
 import id.smartin.org.homecaretimedic.model.AppSetting;
+import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
 
 
 /**
@@ -52,8 +55,6 @@ public class AccountFragment extends Fragment {
     LinearLayout logoutBtn;
     @BindView(R.id.btnRateApp)
     LinearLayout btnRateApp;
-    @BindView(R.id.accountSetting)
-    TextView accountSetting;
     @BindView(R.id.btnChangePassword)
     LinearLayout btnChangePassword;
     @BindView(R.id.btnPushNotification)
@@ -64,6 +65,23 @@ public class AccountFragment extends Fragment {
     LinearLayout btnPrivacy;
     @BindView(R.id.btnTermAndCond)
     LinearLayout btnTermAndCond;
+
+    @BindView(R.id.accountSetting)
+    TextView accountSetting;
+    @BindView(R.id.changePasswordText)
+    TextView changePasswordText;
+    @BindView(R.id.languageText)
+    TextView languageText;
+    @BindView(R.id.pushNotifText)
+    TextView pushNotifText;
+    @BindView(R.id.termAndCondText)
+    TextView termAndCondText;
+    @BindView(R.id.policyAndPrivacyText)
+    TextView policyAndPrivacyText;
+    @BindView(R.id.rateAppText)
+    TextView rateAppText;
+    @BindView(R.id.logoutText)
+    TextView logoutText;
 
     private HomecareSessionManager homecareSessionManager;
     private AppSetting appSetting;
@@ -168,7 +186,8 @@ public class AccountFragment extends Fragment {
         Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
         // To count with Play market backstack, After pressing back button,
         // to taken back to our application, we need to add following flags to intent.
-        goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
+        goToMarket.addFlags(
+                Intent.FLAG_ACTIVITY_NO_HISTORY |
                 Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
                 Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
         try {
@@ -228,6 +247,15 @@ public class AccountFragment extends Fragment {
     }
 
     private void setFonts(){
-
+        ArrayList<TextView> arrayList = new ArrayList<>();
+        arrayList.add(accountSetting);
+        arrayList.add(changePasswordText);
+        arrayList.add(languageText);
+        arrayList.add(pushNotifText);
+        arrayList.add(termAndCondText);
+        arrayList.add(policyAndPrivacyText);
+        arrayList.add(rateAppText);
+        arrayList.add(logoutText);
+        ViewFaceUtility.applyFonts(arrayList, getActivity(), "fonts/Dosis-Medium.otf");
     }
 }

@@ -211,7 +211,7 @@ public class SignUpActivity extends AppCompatActivity {
         genderOptions = new ArrayList<>();
         genderOptions.add(new GenderOption(R.drawable.btn_laki_laki, "Laki-Laki"));
         genderOptions.add(new GenderOption(R.drawable.btn__perempuan, "Perempuan"));
-        adapterGender = new GenderSpinnerAdapter(this, genderOptions);
+        adapterGender = new GenderSpinnerAdapter(this, this, genderOptions);
         genderSpin.setAdapter(adapterGender);
     }
 

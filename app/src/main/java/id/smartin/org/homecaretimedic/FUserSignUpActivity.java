@@ -229,9 +229,11 @@ public class FUserSignUpActivity extends AppCompatActivity {
                     retypePassword.setTextColor(getColor(R.color.text_color));
                 }
             }
+
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 // other stuffs
             }
+
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // other stuffs
             }
@@ -240,7 +242,7 @@ public class FUserSignUpActivity extends AppCompatActivity {
         genderOptions = new ArrayList<>();
         genderOptions.add(new GenderOption(R.drawable.btn_laki_laki, "Laki-Laki"));
         genderOptions.add(new GenderOption(R.drawable.btn__perempuan, "Perempuan"));
-        adapterGender = new GenderSpinnerAdapter(this, genderOptions);
+        adapterGender = new GenderSpinnerAdapter(this, this, genderOptions);
         genderSpin.setAdapter(adapterGender);
 
         fillTheForm();

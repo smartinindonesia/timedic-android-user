@@ -1,5 +1,6 @@
 package id.smartin.org.homecaretimedic.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import java.util.List;
 
 import id.smartin.org.homecaretimedic.R;
 import id.smartin.org.homecaretimedic.model.AlphaCalcActivity;
+import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
 
 /**
  * Created by Hafid on 2/15/2018.
@@ -19,12 +21,14 @@ import id.smartin.org.homecaretimedic.model.AlphaCalcActivity;
 
 public class AlphaCalcSpinnerAdapter extends BaseAdapter {
     Context context;
+    Activity activityG;
     List<AlphaCalcActivity> alphaCalcActivities;
     LayoutInflater inflter;
 
-    public AlphaCalcSpinnerAdapter (Context applicationContext, List<AlphaCalcActivity> alphaCalcActivities) {
+    public AlphaCalcSpinnerAdapter (Context applicationContext, Activity activityG, List<AlphaCalcActivity> alphaCalcActivities) {
         this.context = applicationContext;
         this.alphaCalcActivities = alphaCalcActivities;
+        this.activityG = activityG;
         inflter = (LayoutInflater.from(applicationContext));
     }
 
@@ -49,6 +53,7 @@ public class AlphaCalcSpinnerAdapter extends BaseAdapter {
         view = inflter.inflate(R.layout.item_spinner_icon_red, null);
         ImageView icon = (ImageView) view.findViewById(R.id.spinnerIcon);
         TextView names = (TextView) view.findViewById(R.id.spinnerText);
+        ViewFaceUtility.applyFont(names, activityG, "fonts/Dosis-Medium.otf");
         icon.setImageResource(activity.getResourceId());
         names.setText(activity.getActname());
         return view;

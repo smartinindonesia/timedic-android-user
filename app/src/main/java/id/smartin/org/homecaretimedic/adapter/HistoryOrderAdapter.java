@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -18,6 +19,7 @@ import id.smartin.org.homecaretimedic.OrderDetailsActivity;
 import id.smartin.org.homecaretimedic.R;
 import id.smartin.org.homecaretimedic.model.HomecareOrder;
 import id.smartin.org.homecaretimedic.tools.ConverterUtility;
+import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
 
 /**
  * Created by Hafid on 11/25/2017.
@@ -86,6 +88,14 @@ public class HistoryOrderAdapter extends RecyclerView.Adapter<HistoryOrderAdapte
         public MyViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
+            ViewFaceUtility.applyFont(serviceName, activity, "fonts/Dosis-Bold.otf");
+            ArrayList<TextView> arrayList = new ArrayList<>();
+            arrayList.add(transactionDate);
+            arrayList.add(orderDescription);
+            arrayList.add(patientsName);
+            arrayList.add(transactionStatus);
+            arrayList.add(caregiverNum);
+            ViewFaceUtility.applyFonts(arrayList, activity, "fonts/Dosis-Medium.otf");
         }
     }
 }

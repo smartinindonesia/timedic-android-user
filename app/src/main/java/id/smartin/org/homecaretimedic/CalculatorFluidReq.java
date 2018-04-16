@@ -11,11 +11,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import id.smartin.org.homecaretimedic.tools.CalculatorUtility;
+import id.smartin.org.homecaretimedic.tools.TextFormatter;
 import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
 
 public class CalculatorFluidReq extends AppCompatActivity {
@@ -32,6 +36,13 @@ public class CalculatorFluidReq extends AppCompatActivity {
     LinearLayout btnReset;
     @BindView(R.id.btnCalculate)
     LinearLayout btnCalculate;
+
+    @BindView(R.id.weightTexText)
+    TextView weightTexText;
+    @BindView(R.id.btnCalculateTitle)
+    TextView btnCalculateTitle;
+    @BindView(R.id.btnResetTitle)
+    TextView btnResetTitle;
 
     SweetAlertDialog sweetAlertDialog;
 
@@ -54,6 +65,7 @@ public class CalculatorFluidReq extends AppCompatActivity {
                 calculateFluidReq();
             }
         });
+        setFonts();
     }
 
     private void calculateFluidReq() {
@@ -93,5 +105,14 @@ public class CalculatorFluidReq extends AppCompatActivity {
         finish();
         onBackPressed();
         return true;
+    }
+
+    private void setFonts() {
+        ArrayList<TextView> arrayList = new ArrayList<>();
+        arrayList.add(weightTex);
+        arrayList.add(weightTexText);
+        arrayList.add(btnCalculateTitle);
+        arrayList.add(btnResetTitle);
+        ViewFaceUtility.applyFonts(arrayList, this, "fonts/Dosis-Medium.otf");
     }
 }

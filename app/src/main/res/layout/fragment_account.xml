@@ -52,6 +52,7 @@
                     android:src="@drawable/ic_change_password" />
 
                 <TextView
+                    android:id="@+id/changePasswordText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="12"
@@ -80,6 +81,7 @@
                     android:src="@drawable/ic_languages" />
 
                 <TextView
+                    android:id="@+id/languageText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="12"
@@ -113,6 +115,7 @@
                         android:src="@drawable/ic_push_notification" />
 
                     <TextView
+                        android:id="@+id/pushNotifText"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="12"
@@ -157,6 +160,7 @@
                     android:src="@drawable/ic_terms_and_conditions" />
 
                 <TextView
+                    android:id="@+id/termAndCondText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="12"
@@ -185,6 +189,7 @@
                     android:src="@drawable/ic_privacy_policy" />
 
                 <TextView
+                    android:id="@+id/policyAndPrivacyText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="12"
@@ -221,6 +226,7 @@
                     android:src="@drawable/ic_rate_app" />
 
                 <TextView
+                    android:id="@+id/rateAppText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="12"
@@ -256,6 +262,7 @@
                     android:src="@drawable/ic_logout" />
 
                 <TextView
+                    android:id="@+id/logoutText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="12"
