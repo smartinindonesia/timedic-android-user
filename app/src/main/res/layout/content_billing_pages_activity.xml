@@ -3,15 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="?attr/actionBarSize"
-    android:gravity="center"
     android:orientation="vertical"
-    android:padding="@dimen/calculator_input_padding"
+    android:padding="@dimen/global_page_padding_normal"
     android:scrollbars="horizontal">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/btnSubmitForm"
         android:layout_marginBottom="0dp">
 
         <LinearLayout
@@ -20,207 +18,90 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_marginBottom="@dimen/calculator_devider_space"
-                android:layout_marginTop="@dimen/calculator_devider_space"
-                android:background="@color/shadow_clr"/>
-
             <TextView
+                android:id="@+id/cashTotal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/calculator_input_height"
+                android:background="@drawable/edittext_border"
+                android:gravity="center"
+                android:text="Total Tagihan" />
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Ringkasan"
-                android:textAlignment="center"
-                android:textStyle="bold" />
+                android:layout_marginBottom="@dimen/calculator_input_padding"
+                android:layout_marginTop="@dimen/calculator_input_padding"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/payment_list_space">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_marginBottom="@dimen/calculator_devider_space"
-                android:layout_marginTop="@dimen/calculator_devider_space"
-                android:background="@color/shadow_clr"/>
+                <TextView
+                    android:id="@+id/paymentMethod"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.85"
+                    android:gravity="center_vertical"
+                    android:text="Payment Method"
+                    android:textSize="@dimen/calculator_hint_size" />
+
+                <ImageView
+                    android:id="@+id/paymentLogo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.15"
+                    android:gravity="center_vertical"
+                    android:scaleType="fitCenter" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/calculator_input_padding"
+                android:layout_marginTop="@dimen/calculator_input_padding"
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/billAccountTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Layanan"
-                    android:textStyle="bold" />
+                    android:text="No. Rekening" />
 
-                <TextView
-                    android:id="@+id/selectedLayanan"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="Selected Layanan" />
-
-                <TextView
+                <EditText
+                    android:id="@+id/billAccount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Lokasi"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/selectedLokasi"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Selected Lokasi" />
+                    android:background="@drawable/edittext_border"
+                    android:hint="Masukkan nomor rekening anda"
+                    android:inputType="number"
+                    android:padding="4dp" />
             </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:background="@color/transparentColor" />
-
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/calculator_input_padding"
+                android:layout_marginTop="@dimen/calculator_input_padding"
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/billAccountUserTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Posisi GPS"
-                    android:textStyle="bold" />
+                    android:text="Nama Pemilik Rekening" />
 
-                <TextView
-                    android:id="@+id/selectedGPSPos"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="(latitude, longitude)" />
-
-                <TextView
+                <EditText
+                    android:id="@+id/billAccountUser"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Keterangan Lokasi"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/selectedKetLokasi"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Info Lokasi" />
+                    android:background="@drawable/edittext_border"
+                    android:hint="Masukkan nama pemilik rekening sesuai buku tabungan"
+                    android:inputType="number"
+                    android:padding="4dp" />
             </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:background="@color/transparentColor" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Tanggal Layanan"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/selectedTanggal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="Selected Date" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Waktu Layanan"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/selectedJamLayanan"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Selected Time" />
-            </LinearLayout>
-
-            <TextView
-                style="@style/Base.TextAppearance.AppCompat.Headline"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/thanks_page_msg1"
-                android:textAlignment="center"
-                android:textSize="12sp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/thanks_page_msg2"
-                android:textAlignment="center"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/downPayment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/theme_orange"
-                android:text="@string/thanks_page_price"
-                android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.AppCompat"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/thanks_page_msg3"
-                android:textAlignment="center"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/totalApproxCash"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/thanks_page_price"
-                android:textColor="@color/theme_green"
-                android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.AppCompat"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/thanks_page_msg4"
-                android:textAlignment="center"
-                android:textSize="12sp" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="10dp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/thanks_page_msg5"
-                android:textAlignment="center"
-                android:textSize="12sp" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="30dp" />
 
         </LinearLayout>
 
     </ScrollView>
-
-    <Button
-        android:id="@+id/btnSubmitForm"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/sign_up_selector_bg"
-        android:hint="Setuju"
-        android:layout_alignParentBottom="true"
-        android:textColorHint="@color/sign_up_selector_fg" />
 
 </RelativeLayout>

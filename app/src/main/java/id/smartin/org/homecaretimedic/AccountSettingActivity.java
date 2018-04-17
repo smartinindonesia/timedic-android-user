@@ -5,6 +5,7 @@ import android.annotation.TargetApi;
 import android.app.DatePickerDialog;
 import android.os.Build;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -80,6 +81,23 @@ public class AccountSettingActivity extends AppCompatActivity {
     @BindView(R.id.profPic)
     ImageView profPic;
 
+    @BindView(R.id.usernameTitle)
+    TextView usernameTitle;
+    @BindView(R.id.firstNameTitle)
+    TextView frontNameTitle;
+    @BindView(R.id.middleNameTitle)
+    TextView middleNameTitle;
+    @BindView(R.id.lastNameTitle)
+    TextView lastNameTitle;
+    @BindView(R.id.phoneUserTitle)
+    TextView phoneUserTitle;
+    @BindView(R.id.emailAddressTitle)
+    TextView emailAddressTitle;
+    @BindView(R.id.dateOfBirthTitle)
+    TextView dateOfBirthTitle;
+    @BindView(R.id.genderSpinTitle)
+    TextView genderSpinTitle;
+
     private DatePickerDialog datePickerDialog;
     private PickedDateTime pickedDateTime;
     private UserAPIInterface userAPIInterface;
@@ -131,14 +149,14 @@ public class AccountSettingActivity extends AppCompatActivity {
                 if (s.length() > 0) {
                     if (email.matches(emailPattern)) {
                         emailAddress.setBackground(getDrawable(R.drawable.bg_green_rounded_textfield));
-                        emailAddress.setTextColor(getColor(R.color.btn_on_text));
+                        emailAddress.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.btn_on_text));
                     } else {
                         emailAddress.setBackground(getDrawable(R.drawable.bg_red_rounded_textfield));
-                        emailAddress.setTextColor(getColor(R.color.btn_on_text));
+                        emailAddress.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.btn_on_text));
                     }
                 } else {
                     emailAddress.setBackground(getDrawable(R.drawable.bg_gray_rounded_textfield));
-                    emailAddress.setTextColor(getColor(R.color.text_color));
+                    emailAddress.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.text_color));
                 }
             }
 
@@ -157,14 +175,14 @@ public class AccountSettingActivity extends AppCompatActivity {
                 if (s.length() > 0) {
                     if (android.util.Patterns.PHONE.matcher(num).matches()) {
                         phone.setBackground(getDrawable(R.drawable.bg_green_rounded_textfield));
-                        phone.setTextColor(getColor(R.color.btn_on_text));
+                        phone.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.btn_on_text));
                     } else {
                         phone.setBackground(getDrawable(R.drawable.bg_red_rounded_textfield));
-                        phone.setTextColor(getColor(R.color.btn_on_text));
+                        phone.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.btn_on_text));
                     }
                 } else {
                     phone.setBackground(getDrawable(R.drawable.bg_gray_rounded_textfield));
-                    phone.setTextColor(getColor(R.color.text_color));
+                    phone.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.text_color));
                 }
             }
 
@@ -184,6 +202,7 @@ public class AccountSettingActivity extends AppCompatActivity {
         genderSpin.setAdapter(adapterGender);
 
         getUserDetail();
+        setFonts();
     }
 
     public void getUserDetail() {
@@ -302,5 +321,26 @@ public class AccountSettingActivity extends AppCompatActivity {
                 call.cancel();
             }
         });
+    }
+
+    private void setFonts() {
+        ArrayList<TextView> arrayList = new ArrayList<>();
+        arrayList.add(usernameTitle);
+        arrayList.add(username);
+        arrayList.add(frontNameTitle);
+        arrayList.add(firstName);
+        arrayList.add(middleNameTitle);
+        arrayList.add(middleName);
+        arrayList.add(lastName);
+        arrayList.add(lastNameTitle);
+        arrayList.add(phoneUserTitle);
+        arrayList.add(phone);
+        arrayList.add(emailAddress);
+        arrayList.add(emailAddressTitle);
+        arrayList.add(dateOfBirthTitle);
+        arrayList.add(dob);
+        arrayList.add(genderSpinTitle);
+        arrayList.add(btnEdit);
+        ViewFaceUtility.applyFonts(arrayList, this, "fonts/Dosis-Medium.otf");
     }
 }

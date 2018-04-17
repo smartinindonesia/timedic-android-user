@@ -54,6 +54,18 @@ public class HomecareActivity extends AppCompatActivity {
         setFontView();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SubmitInfo.clearAllData();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        SubmitInfo.clearAllData();
+    }
+
     private void setFontView(){
         ViewFaceUtility.applyFont(btnPerawat, this, "fonts/Dosis-Regular.otf");
         ViewFaceUtility.applyFont(btnFisioterapis, this, "fonts/Dosis-Regular.otf");

@@ -112,7 +112,8 @@
         <activity android:name=".MedicalResActivity" />
         <activity
             android:name=".DateTimePickActivity"
-            android:label="@string/act_date_time_pick" />
+            android:label="@string/act_date_time_pick"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".SignUpActivity"
             android:label="@string/act_sign_up" />
@@ -183,6 +184,7 @@
         <activity
             android:name=".BillingMethodActivity"
             android:label="@string/act_billing_method" />
+        <activity android:name=".BankTransferPageActivity"></activity>
     </application>
 
 </manifest>

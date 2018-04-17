@@ -244,7 +244,7 @@ public class AddUserCustomerActivity extends AppCompatActivity {
             weight.setText(String.valueOf(patientP.getWeight()));
             dob.setText(ConverterUtility.getDateString(patientP.getDateOfBirth()));
             pob.setText(patientP.getPlaceOfBirth());
-            addUser.setText("Edit Pasien");
+            addUser.setHint("Edit Pasien");
             editMode = true;
         }
     }

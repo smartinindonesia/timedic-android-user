@@ -15,20 +15,16 @@ import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.smartin.org.homecaretimedic.adapter.BillingItemAdapter;
-import id.smartin.org.homecaretimedic.adapter.CaregiverHistoryAdapter;
 import id.smartin.org.homecaretimedic.adapter.ExpandablePaymentMethodAdpt;
-import id.smartin.org.homecaretimedic.adapter.PaymentMethodAdapter;
-import id.smartin.org.homecaretimedic.model.BankTransferMethodOpt;
+import id.smartin.org.homecaretimedic.model.PaymentMethodChild;
 import id.smartin.org.homecaretimedic.model.BillingItem;
 import id.smartin.org.homecaretimedic.model.PaymentMethod;
 import id.smartin.org.homecaretimedic.model.submitmodel.SubmitInfo;
@@ -52,7 +48,7 @@ public class BillingMethodActivity extends AppCompatActivity {
 
     ExpandablePaymentMethodAdpt listAdapter;
     List<PaymentMethod> listDataHeader = new ArrayList<>();
-    HashMap<PaymentMethod, List<BankTransferMethodOpt>> listDataChild = new HashMap<PaymentMethod, List<BankTransferMethodOpt>>();
+    HashMap<PaymentMethod, List<PaymentMethodChild>> listDataChild = new HashMap<PaymentMethod, List<PaymentMethodChild>>();
 
     private BillingItemAdapter billingItemAdapter;
     private List<BillingItem> billingItems = new ArrayList<>();
@@ -128,10 +124,10 @@ public class BillingMethodActivity extends AppCompatActivity {
         listDataHeader.add(new PaymentMethod((long) 1, "Transfer Bank (Cek Otomatis)"));
 
         // Adding child data
-        List<BankTransferMethodOpt> bankTransfer = new ArrayList<BankTransferMethodOpt>();
-        bankTransfer.add(new BankTransferMethodOpt((long) 1, "BCA", R.drawable.bank_bca));
-        bankTransfer.add(new BankTransferMethodOpt((long) 2, "Mandiri", R.drawable.bank_mandiri));
-        bankTransfer.add(new BankTransferMethodOpt((long) 2, "BNI", R.drawable.bank_bni));
+        List<PaymentMethodChild> bankTransfer = new ArrayList<PaymentMethodChild>();
+        bankTransfer.add(new PaymentMethodChild((long) 1, "BCA", R.drawable.bank_bca));
+        bankTransfer.add(new PaymentMethodChild((long) 2, "Mandiri", R.drawable.bank_mandiri));
+        bankTransfer.add(new PaymentMethodChild((long) 2, "BNI", R.drawable.bank_bni));
 
         listDataChild.put(listDataHeader.get(0), bankTransfer); // Header, Child data
         //listAdapter.notifyDataSetChanged();

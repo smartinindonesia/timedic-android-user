@@ -8,7 +8,7 @@ import java.io.Serializable;
  * Created by Hafid on 4/12/2018.
  */
 
-public class BankTransferMethodOpt implements Serializable {
+public class PaymentMethodChild implements Serializable {
     @SerializedName("id")
     private Long id;
     @SerializedName("name")
@@ -18,12 +18,12 @@ public class BankTransferMethodOpt implements Serializable {
     @SerializedName("logoPath")
     private String logoPath;
 
-    public BankTransferMethodOpt(Long id, String methodName) {
+    public PaymentMethodChild(Long id, String methodName) {
         this.id = id;
         this.methodName = methodName;
     }
 
-    public BankTransferMethodOpt(Long id, String methodName, Integer logoDrawable) {
+    public PaymentMethodChild(Long id, String methodName, Integer logoDrawable) {
         this.id = id;
         this.methodName = methodName;
         this.logoDrawable = logoDrawable;

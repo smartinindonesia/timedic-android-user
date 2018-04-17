@@ -13,7 +13,7 @@ public class TextFormatter {
     public static String doubleToRupiah(double value){
         DecimalFormat kursIndonesia = (DecimalFormat) DecimalFormat.getCurrencyInstance();
         DecimalFormatSymbols formatRp = new DecimalFormatSymbols();
-        formatRp.setCurrencySymbol("Rp. ");
+        formatRp.setCurrencySymbol("Rp ");
         formatRp.setMonetaryDecimalSeparator(',');
         formatRp.setGroupingSeparator('.');
         kursIndonesia.setDecimalFormatSymbols(formatRp);
@@ -27,4 +27,5 @@ public class TextFormatter {
         int year = mcurrentTime.get(Calendar.YEAR);
         return day + "/" + (month + 1) + "/" + year;
     }
+
 }

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -85,6 +86,27 @@ public class SignUpActivity extends AppCompatActivity {
     @BindView(R.id.genderSpin)
     Spinner genderSpin;
 
+    @BindView(R.id.usernameTitle)
+    TextView usernameTitle;
+    @BindView(R.id.passwordTitle)
+    TextView passwordTitle;
+    @BindView(R.id.rePasswordTitle)
+    TextView rePasswordTitle;
+    @BindView(R.id.firstNameTitle)
+    TextView frontNameTitle;
+    @BindView(R.id.middleNameTitle)
+    TextView middleNameTitle;
+    @BindView(R.id.lastNameTitle)
+    TextView lastNameTitle;
+    @BindView(R.id.phoneUserTitle)
+    TextView phoneUserTitle;
+    @BindView(R.id.emailAddressTitle)
+    TextView emailAddressTitle;
+    @BindView(R.id.genderSpinTitle)
+    TextView genderSpinTitle;
+    @BindView(R.id.dateOfBirthTitle)
+    TextView dobTitle;
+
     GenderSpinnerAdapter adapterGender;
     List<GenderOption> genderOptions;
 
@@ -118,14 +140,14 @@ public class SignUpActivity extends AppCompatActivity {
                 if (s.length() > 0) {
                     if (email.matches(emailPattern)) {
                         emailAddress.setBackground(getDrawable(R.drawable.bg_green_rounded_textfield));
-                        emailAddress.setTextColor(getColor(R.color.btn_on_text));
+                        emailAddress.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.btn_on_text));
                     } else {
                         emailAddress.setBackground(getDrawable(R.drawable.bg_red_rounded_textfield));
-                        emailAddress.setTextColor(getColor(R.color.btn_on_text));
+                        emailAddress.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.btn_on_text));
                     }
                 } else {
                     emailAddress.setBackground(getDrawable(R.drawable.bg_gray_rounded_textfield));
-                    emailAddress.setTextColor(getColor(R.color.text_color));
+                    emailAddress.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.text_color));
                 }
             }
 
@@ -144,14 +166,14 @@ public class SignUpActivity extends AppCompatActivity {
                 if (s.length() > 0) {
                     if (android.util.Patterns.PHONE.matcher(num).matches()) {
                         phone.setBackground(getDrawable(R.drawable.bg_green_rounded_textfield));
-                        phone.setTextColor(getColor(R.color.btn_on_text));
+                        phone.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.btn_on_text));
                     } else {
                         phone.setBackground(getDrawable(R.drawable.bg_red_rounded_textfield));
-                        phone.setTextColor(getColor(R.color.btn_on_text));
+                        phone.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.btn_on_text));
                     }
                 } else {
                     phone.setBackground(getDrawable(R.drawable.bg_gray_rounded_textfield));
-                    phone.setTextColor(getColor(R.color.text_color));
+                    phone.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.text_color));
                 }
             }
 
@@ -188,14 +210,14 @@ public class SignUpActivity extends AppCompatActivity {
                 if (s.length() > 0) {
                     if (pass.equals(rePass)) {
                         retypePassword.setBackground(getDrawable(R.drawable.bg_green_rounded_textfield));
-                        retypePassword.setTextColor(getColor(R.color.btn_on_text));
+                        retypePassword.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.btn_on_text));
                     } else {
                         retypePassword.setBackground(getDrawable(R.drawable.bg_red_rounded_textfield));
-                        retypePassword.setTextColor(getColor(R.color.btn_on_text));
+                        retypePassword.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.btn_on_text));
                     }
                 } else {
                     retypePassword.setBackground(getDrawable(R.drawable.bg_gray_rounded_textfield));
-                    retypePassword.setTextColor(getColor(R.color.text_color));
+                    retypePassword.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.text_color));
                 }
             }
 
@@ -213,6 +235,8 @@ public class SignUpActivity extends AppCompatActivity {
         genderOptions.add(new GenderOption(R.drawable.btn__perempuan, "Perempuan"));
         adapterGender = new GenderSpinnerAdapter(this, this, genderOptions);
         genderSpin.setAdapter(adapterGender);
+
+        setFonts();
     }
 
     @SuppressLint("RestrictedApi")
@@ -296,5 +320,32 @@ public class SignUpActivity extends AppCompatActivity {
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(url));
         startActivity(i);
+    }
+
+    private void setFonts(){
+        ArrayList<TextView> arrayList = new ArrayList<>();
+        arrayList.add(usernameTitle);
+        arrayList.add(username);
+        arrayList.add(passwordTitle);
+        arrayList.add(password);
+        arrayList.add(rePasswordTitle);
+        arrayList.add(retypePassword);
+        arrayList.add(frontNameTitle);
+        arrayList.add(firstName);
+        arrayList.add(middleNameTitle);
+        arrayList.add(middleName);
+        arrayList.add(lastNameTitle);
+        arrayList.add(lastName);
+        arrayList.add(phoneUserTitle);
+        arrayList.add(phone);
+        arrayList.add(emailAddressTitle);
+        arrayList.add(emailAddress);
+        arrayList.add(dobTitle);
+        arrayList.add(dob);
+        arrayList.add(genderSpinTitle);
+        arrayList.add(checkAgreement);
+        arrayList.add(agreementLink);
+        arrayList.add(signUP);
+        ViewFaceUtility.applyFonts(arrayList, this, "fonts/Dosis-Medium.otf");
     }
 }

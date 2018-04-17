@@ -14,15 +14,15 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.smartin.org.homecaretimedic.R;
-import id.smartin.org.homecaretimedic.model.BankTransferMethodOpt;
+import id.smartin.org.homecaretimedic.model.PaymentMethodChild;
 
 public class PaymentMethodChildAdapter extends RecyclerView.Adapter<PaymentMethodChildAdapter.MyViewHolder>{
-    private List<BankTransferMethodOpt> bankTransferMethodOptList;
+    private List<PaymentMethodChild> paymentMethodChildList;
     private Context context;
     private Activity activity;
 
-    public PaymentMethodChildAdapter(Activity activity, Context context, List<BankTransferMethodOpt> bankTransferMethodOptList) {
-        this.bankTransferMethodOptList = bankTransferMethodOptList;
+    public PaymentMethodChildAdapter(Activity activity, Context context, List<PaymentMethodChild> paymentMethodChildList) {
+        this.paymentMethodChildList = paymentMethodChildList;
         this.context = context;
         this.activity = activity;
     }
@@ -36,17 +36,17 @@ public class PaymentMethodChildAdapter extends RecyclerView.Adapter<PaymentMetho
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        BankTransferMethodOpt billingMethod = bankTransferMethodOptList.get(position);
+        PaymentMethodChild billingMethod = paymentMethodChildList.get(position);
         holder.paymentMethod.setText(billingMethod.getMethodName());
     }
 
     @Override
     public int getItemCount() {
-        return bankTransferMethodOptList.size();
+        return paymentMethodChildList.size();
     }
 
-    public BankTransferMethodOpt getItem(int position){
-        return bankTransferMethodOptList.get(position);
+    public PaymentMethodChild getItem(int position){
+        return paymentMethodChildList.get(position);
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

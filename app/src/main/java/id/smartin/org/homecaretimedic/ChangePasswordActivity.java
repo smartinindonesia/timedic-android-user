@@ -3,6 +3,7 @@ package id.smartin.org.homecaretimedic;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,9 +15,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -75,23 +78,26 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 if (s.length() > 0) {
                     if (pass.equals(rePass)) {
                         retypePassword.setBackground(getDrawable(R.drawable.bg_green_rounded_textfield));
-                        retypePassword.setTextColor(getColor(R.color.btn_on_text));
+                        retypePassword.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.btn_on_text));
                     } else {
                         retypePassword.setBackground(getDrawable(R.drawable.bg_red_rounded_textfield));
-                        retypePassword.setTextColor(getColor(R.color.btn_on_text));
+                        retypePassword.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.btn_on_text));
                     }
                 } else {
                     retypePassword.setBackground(getDrawable(R.drawable.edittext_border));
-                    retypePassword.setTextColor(getColor(R.color.text_color));
+                    retypePassword.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.text_color));
                 }
             }
+
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 // other stuffs
             }
+
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // other stuffs
             }
         });
+        setFonts();
     }
 
     @Override
@@ -176,5 +182,14 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Jaringan bermasalah!", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void setFonts() {
+        ArrayList<TextView> arrayList = new ArrayList<>();
+        arrayList.add(oldPassword);
+        arrayList.add(password);
+        arrayList.add(retypePassword);
+        arrayList.add(btnUpdate);
+        ViewFaceUtility.applyFonts(arrayList, this, "fonts/Dosis-Medium.otf");
     }
 }

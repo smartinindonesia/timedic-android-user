@@ -80,7 +80,7 @@
                 android:id="@+id/charIndices"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="x/255"
+                android:hint="0/255"
                 android:textAlignment="textEnd"
                 android:gravity="end" />
 

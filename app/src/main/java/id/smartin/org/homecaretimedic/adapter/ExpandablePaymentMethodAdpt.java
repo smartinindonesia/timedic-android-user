@@ -2,8 +2,6 @@ package id.smartin.org.homecaretimedic.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,12 +16,11 @@ import com.bumptech.glide.request.RequestOptions;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.smartin.org.homecaretimedic.R;
-import id.smartin.org.homecaretimedic.model.BankTransferMethodOpt;
+import id.smartin.org.homecaretimedic.model.PaymentMethodChild;
 import id.smartin.org.homecaretimedic.model.PaymentMethod;
 import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
 
@@ -41,11 +38,11 @@ public class ExpandablePaymentMethodAdpt extends BaseExpandableListAdapter {
     private Context _context;
     private List<PaymentMethod> _listDataHeader; // header titles
     // child data in format of header title, child title
-    private HashMap<PaymentMethod, List<BankTransferMethodOpt>> _listDataChild;
+    private HashMap<PaymentMethod, List<PaymentMethodChild>> _listDataChild;
 
     public ExpandablePaymentMethodAdpt(Context context, Activity activity,
                                        List<PaymentMethod> listDataHeader,
-                                       HashMap<PaymentMethod, List<BankTransferMethodOpt>> listChildData) {
+                                       HashMap<PaymentMethod, List<PaymentMethodChild>> listChildData) {
         this._context = context;
         this._listDataHeader = listDataHeader;
         this._listDataChild = listChildData;
@@ -108,7 +105,7 @@ public class ExpandablePaymentMethodAdpt extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean b, View convertView, ViewGroup viewGroup) {
-        final BankTransferMethodOpt childText = (BankTransferMethodOpt) getChild(groupPosition, childPosition);
+        final PaymentMethodChild childText = (PaymentMethodChild) getChild(groupPosition, childPosition);
         ChildViewHolder viewHolder;
         if (convertView == null) {
             convertView = vi.inflate(R.layout.item_payment_method_child, null);

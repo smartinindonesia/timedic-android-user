@@ -19,6 +19,7 @@
             android:padding="@dimen/calculator_row_space">
 
             <TextView
+                android:id="@+id/usernameTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.4"
@@ -44,6 +45,7 @@
             android:padding="@dimen/calculator_row_space">
 
             <TextView
+                android:id="@+id/passwordTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.4"
@@ -69,6 +71,7 @@
             android:padding="@dimen/calculator_row_space">
 
             <TextView
+                android:id="@+id/rePasswordTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.4"
@@ -94,6 +97,7 @@
             android:padding="@dimen/calculator_row_space">
 
             <TextView
+                android:id="@+id/firstNameTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.4"
@@ -119,6 +123,7 @@
             android:padding="@dimen/calculator_row_space">
 
             <TextView
+                android:id="@+id/middleNameTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.4"
@@ -144,6 +149,7 @@
             android:padding="@dimen/calculator_row_space">
 
             <TextView
+                android:id="@+id/lastNameTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.4"
@@ -169,6 +175,7 @@
             android:padding="@dimen/calculator_row_space">
 
             <TextView
+                android:id="@+id/phoneUserTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.4"
@@ -194,6 +201,7 @@
             android:padding="@dimen/calculator_row_space">
 
             <TextView
+                android:id="@+id/emailAddressTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.4"
@@ -219,6 +227,7 @@
             android:padding="@dimen/calculator_row_space">
 
             <TextView
+                android:id="@+id/dateOfBirthTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.4"
@@ -264,6 +273,7 @@
             android:padding="@dimen/calculator_row_space">
 
             <TextView
+                android:id="@+id/genderSpinTitle"
                 android:layout_width="0dp"
                 android:layout_weight="0.4"
                 android:layout_height="wrap_content"

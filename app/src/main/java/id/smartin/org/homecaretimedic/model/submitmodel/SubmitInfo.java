@@ -3,10 +3,8 @@ package id.smartin.org.homecaretimedic.model.submitmodel;
 import java.util.ArrayList;
 import java.util.List;
 
-import id.smartin.org.homecaretimedic.model.Assessment;
-import id.smartin.org.homecaretimedic.model.BillingItem;
 import id.smartin.org.homecaretimedic.model.HomecareService;
-import id.smartin.org.homecaretimedic.model.Klinik;
+import id.smartin.org.homecaretimedic.model.Clinic;
 import id.smartin.org.homecaretimedic.model.LabPackageItem;
 import id.smartin.org.homecaretimedic.model.LabServices;
 import id.smartin.org.homecaretimedic.model.Patient;
@@ -35,17 +33,17 @@ public class SubmitInfo {
     public static ArrayList<Patient> registeredPatient = new ArrayList<>(); // User yang ingin didaftarkan
     public static PickedDateTime selectedDateTime; //Tanggal dan waktu layanan yg dipilih
     public static User selectedCareGiver;
-    public static Klinik selectedCareClinic;
+    public static Clinic selectedCareClinic;
     public static List<AssessmentAnswerParam> assessmentList = new ArrayList<>();
     public static List<LabPackageItem> selectedLabPackages = new ArrayList<>();
     public static List<LabServices> selectedLabServices = new ArrayList<>();
 
-    public void clearAllData(){
-        selectedLabServices = null;
+    public static void clearAllData(){
+        selectedLabServices.clear();
         registeredPatient.clear();
-        selectedDateTime = null;
-        selectedCareGiver = null;
-        selectedCareClinic = null;
+        selectedDateTime = new PickedDateTime();
+        selectedCareGiver = new User();
+        selectedCareClinic = new Clinic();
         assessmentList.clear();
         selectedLabPackages.clear();
         selectedLabServices.clear();
