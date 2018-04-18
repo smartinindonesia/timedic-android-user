@@ -1,6 +1,7 @@
 package id.smartin.org.homecaretimedic;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -79,6 +80,13 @@ public class BillingMethodActivity extends AppCompatActivity {
 
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                /*
+                Intent intent = new Intent(BillingMethodActivity.this, BillingPagesActivity.class);
+                PaymentMethodChild pc = (PaymentMethodChild) listAdapter.getChild(groupPosition, childPosition);
+                intent.putExtra("PaymentMethod", pc);
+                */
+                Intent intent = new Intent(BillingMethodActivity.this, BankTransferPageActivity.class);
+                startActivity(intent);
                 return false;
             }
         });

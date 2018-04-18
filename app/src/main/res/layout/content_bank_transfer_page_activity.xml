@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="?attr/actionBarSize"
+    android:orientation="vertical"
+    android:padding="@dimen/global_page_billing_padding"
+    android:scrollbars="horizontal">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/expirityDateTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="SEGERA LAKUKAN PEMBAYARAN SEBELUM " />
+
+            <TextView
+                android:id="@+id/expirityDate"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:text="tanggal" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="40dp" />
+
+            <TextView
+                android:id="@+id/accountBillReceiverTitle"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:text="Transfer pembayaran ke nomor rekening:" />
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/calculator_input_padding"
+                android:layout_marginTop="@dimen/calculator_input_padding"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/payment_list_space">
+
+                <ImageView
+                    android:id="@+id/paymentLogo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.15"
+                    android:gravity="center_vertical"
+                    android:scaleType="fitCenter" />
+
+                <TextView
+                    android:id="@+id/paymentAccountBillReceiver"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.85"
+                    android:gravity="center_vertical"
+                    android:text="No. Rekening"
+                    android:textSize="@dimen/calculator_hint_size" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/accountBillReceiver"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:text="a/n receiver" />
+
+            <TextView
+                android:id="@+id/accountBillReceiverCopy"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:textColor="@color/blue_link_color"
+                android:text="Salin no. Rekening" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="30dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/calculator_input_padding"
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/calculator_input_padding">
+
+                <TextView
+                    android:id="@+id/totalPaidPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Jumlah yang harus dibayar" />
+
+                <TextView
+                    android:id="@+id/paidPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edittext_border"
+                    android:hint="Rp 0,00"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:padding="4dp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/paidPriceNotif"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:text="Transfer sampai 3 digit terakhir. Perbedaan nominal menghambat proses verifikasi." />
+
+            <TextView
+                android:id="@+id/paidPriceCopy"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:textColor="@color/blue_link_color"
+                android:text="Salin Jumlah" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

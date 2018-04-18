@@ -6,6 +6,7 @@
     <dimen name="global_page_padding_normal">10dp</dimen>
     <dimen name="global_page_padding_large">20dp</dimen>
     <dimen name="global_page_small_pad">40dp</dimen>
+    <dimen name="global_page_billing_padding">30dp</dimen>
     <dimen name="fab_margin">5dp</dimen>
     <dimen name="icn_sz">80dp</dimen>
 

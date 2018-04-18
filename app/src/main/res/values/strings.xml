@@ -73,6 +73,7 @@ setelah kami melakukan kunjungan kerumah anda
     <string name="cek_lab_notification">Masukkan jenis-jenis tes yang anda inginkan dibawah ini</string>
     <string name="cek_lab_notification2">Upload gambar jika anda memiliki rujukan dokter</string>
 
+    <string name="billing_notifsign">Demi keamanan transaksi Anda, pastikan untuk tidak menginformasikan bukti dan data pembayaran kepada pihak manapun.</string>
     <!-- Youtube Message -->
     <string name="player_error">Error initializing YouTube player: %s</string>
     <string name="seek_to">Jump To</string>
