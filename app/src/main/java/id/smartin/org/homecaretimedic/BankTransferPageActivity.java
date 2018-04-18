@@ -129,7 +129,7 @@ public class BankTransferPageActivity extends AppCompatActivity {
         arrayList.add(paidPriceNotif);
         arrayList.add(paidPriceCopy);
         ViewFaceUtility.applyFonts(arrayList, this, "fonts/Dosis-Medium.otf");
-        ViewFaceUtility.applyFont(expirityDate, this, "fonts/Dosis-ExtraBold.otf");
+        ViewFaceUtility.applyFont(expirityDateTitle, this, "fonts/Dosis-ExtraBold.otf");
     }
 
     private void copyToClipboard(String text) {
