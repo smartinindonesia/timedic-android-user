@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.smartin.org.homecaretimedic.manager.HomecareSessionManager;
+import id.smartin.org.homecaretimedic.model.PaymentMethodChild;
 import id.smartin.org.homecaretimedic.tools.PaymentUtility;
 import id.smartin.org.homecaretimedic.tools.TextFormatter;
 import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
@@ -57,6 +58,7 @@ public class BankTransferPageActivity extends AppCompatActivity {
 
     private Double price;
     private String accountReceiver;
+    private PaymentMethodChild paymentMethodChild;
 
     private HomecareSessionManager homecareSessionManager;
 

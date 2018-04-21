@@ -1,6 +1,7 @@
 package id.smartin.org.homecaretimedic;
 
 import android.annotation.SuppressLint;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.facebook.login.LoginManager;
@@ -30,10 +32,15 @@ import butterknife.ButterKnife;
 import id.smartin.org.homecaretimedic.manager.HomecareSessionManager;
 import id.smartin.org.homecaretimedic.model.Caregiver;
 import id.smartin.org.homecaretimedic.model.CaregiverOrder;
+import id.smartin.org.homecaretimedic.model.CaregiverRate;
+import id.smartin.org.homecaretimedic.model.HomecareClinic;
+import id.smartin.org.homecaretimedic.model.HomecareOrder;
 import id.smartin.org.homecaretimedic.model.parammodel.CaregiverRateParam;
 import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
 import id.smartin.org.homecaretimedic.tools.restservice.APIClient;
 import id.smartin.org.homecaretimedic.tools.restservice.HomecareCaregiverAPIInterface;
+import id.smartin.org.homecaretimedic.tools.restservice.RateAPIInterface;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -64,12 +71,17 @@ public class RateCaregiverActivity extends AppCompatActivity {
     @BindView(R.id.instruction)
     TextView instruction;
 
-    CaregiverRateParam caregiverRateParam = new CaregiverRateParam();
+    @BindView(R.id.mainLayout)
+    RelativeLayout mainLayout;
+
+    CaregiverRate caregiverRateParam = new CaregiverRate();
     CaregiverOrder caregiverOrder;
     Caregiver caregiverInfo;
+    HomecareOrder homecareOrder;
 
     private HomecareCaregiverAPIInterface homecareCaregiverAPIInterface;
     private HomecareSessionManager homecareSessionManager;
+    private RateAPIInterface rateAPIInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,8 +89,6 @@ public class RateCaregiverActivity extends AppCompatActivity {
         setContentView(R.layout.activity_rate_caregiver);
         ButterKnife.bind(this);
         createTitleBar();
-        homecareSessionManager = new HomecareSessionManager(this, getApplicationContext());
-        homecareCaregiverAPIInterface = APIClient.getClientWithToken(homecareSessionManager, getApplicationContext()).create(HomecareCaregiverAPIInterface.class);
         comment.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -102,7 +112,11 @@ public class RateCaregiverActivity extends AppCompatActivity {
             }
         });
         caregiverOrder = (CaregiverOrder) getIntent().getSerializableExtra("caregiver");
+        homecareOrder = (HomecareOrder) getIntent().getSerializableExtra("order");
         fillTheForm();
+        homecareSessionManager = new HomecareSessionManager(this, getApplicationContext());
+        homecareCaregiverAPIInterface = APIClient.getClientWithToken(homecareSessionManager, getApplicationContext()).create(HomecareCaregiverAPIInterface.class);
+        rateAPIInterface = APIClient.getClientWithToken(homecareSessionManager, getApplicationContext()).create(RateAPIInterface.class);
         setFonts();
         //getCaregiverInfos();
     }
@@ -132,31 +146,31 @@ public class RateCaregiverActivity extends AppCompatActivity {
     }
 
     private void postRate() {
-        caregiverRateParam.setRate((double) rating.getNumStars());
+        caregiverRateParam.setRate(rating.getNumStars());
         caregiverRateParam.setComment(comment.getText().toString());
-    }
-
-    /*
-    private void getCaregiverInfos() {
-        if (caregiverOrder != null) {
-            Call<Caregiver> resp = homecareCaregiverAPIInterface.getCaregiver(caregiverOrder.getCaregiverId());
-            resp.enqueue(new Callback<Caregiver>() {
-                @Override
-                public void onResponse(Call<Caregiver> call, Response<Caregiver> response) {
-                    Log.i(TAG, "Lewat Sini");
-                    Log.i(TAG, response.raw().toString());
-                    caregiverInfo = response.body();
-                    fillTheForm();
+        caregiverRateParam.setIdAppUser(homecareSessionManager.getUserDetail());
+        Caregiver caregiver = new Caregiver();
+        caregiver.setId(caregiverOrder.getCaregiverId());
+        caregiverRateParam.setIdHomecareCaregiver(caregiver);
+        caregiverRateParam.setIdHomeCareTransaction(homecareOrder.getId());
+        Call<ResponseBody> resp = rateAPIInterface.submetRate(caregiverRateParam);
+        resp.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.code() == 201){
+                    Snackbar.make(mainLayout, "Komentar dan saran telah terkirim!", Snackbar.LENGTH_LONG).show();
+                    submitRate.setEnabled(false);
+                } else{
+                    Snackbar.make(mainLayout, "Komentar dan saran gagal terkirim!", Snackbar.LENGTH_LONG).show();
                 }
+            }
 
-                @Override
-                public void onFailure(Call<Caregiver> call, Throwable t) {
-                    homecareSessionManager.logout();
-                }
-            });
-        }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Snackbar.make(mainLayout, "Jaringan bermasalah!", Snackbar.LENGTH_LONG).show();
+            }
+        });
     }
-    */
 
     private void fillTheForm() {
         /*
@@ -167,7 +181,7 @@ public class RateCaregiverActivity extends AppCompatActivity {
         caregiverName.setText(caregiverOrder.getCaregiverName());
     }
 
-    private void setFonts(){
+    private void setFonts() {
         ViewFaceUtility.applyFont(caregiverName, this, "fonts/Dosis-Bold.otf");
         ArrayList<TextView> arrayList = new ArrayList<>();
         arrayList.add(caregiverDescription);

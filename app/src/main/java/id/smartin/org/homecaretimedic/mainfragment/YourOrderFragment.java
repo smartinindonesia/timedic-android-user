@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,7 @@ import butterknife.ButterKnife;
 import id.smartin.org.homecaretimedic.R;
 import id.smartin.org.homecaretimedic.mainfragment.yourorderchildfragment.ActiveOrder;
 import id.smartin.org.homecaretimedic.mainfragment.yourorderchildfragment.HistoryOrder;
+import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
 
 /**
  * Created by Hafid on 8/22/2017.
@@ -45,6 +47,7 @@ public class YourOrderFragment extends Fragment {
         setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
         // Inflate the layout for this fragment
+        setFonts();
         return layoutView;
     }
 
@@ -102,6 +105,31 @@ public class YourOrderFragment extends Fragment {
         @Override
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
+        }
+    }
+
+    private void setFonts(){
+        setTabsFont();
+    }
+
+    public void setTabsFont() {
+
+        ViewGroup vg = (ViewGroup) tabLayout.getChildAt(0);
+        int tabsCount = vg.getChildCount();
+
+        for (int j = 0; j < tabsCount; j++) {
+            ViewGroup vgTab = (ViewGroup) vg.getChildAt(j);
+
+            int tabChildsCount = vgTab.getChildCount();
+
+            for (int i = 0; i < tabChildsCount; i++) {
+                View tabViewChild = vgTab.getChildAt(i);
+                if (tabViewChild instanceof TextView) {
+                    //Put your font in assests folder
+                    //assign name of the font here (Must be case sensitive)
+                    ViewFaceUtility.applyFont((TextView) tabViewChild, getActivity(), "fonts/BalooBhaina-Regular.ttf");
+                }
+            }
         }
     }
 }

@@ -23,11 +23,18 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.smartin.org.homecaretimedic.adapter.CaregiverHistoryAdapter;
 import id.smartin.org.homecaretimedic.customuicompt.RecyclerTouchListener;
+import id.smartin.org.homecaretimedic.manager.HomecareSessionManager;
 import id.smartin.org.homecaretimedic.model.CaregiverOrder;
 import id.smartin.org.homecaretimedic.model.HomecareOrder;
 import id.smartin.org.homecaretimedic.tools.ConverterUtility;
 import id.smartin.org.homecaretimedic.tools.TextFormatter;
 import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
+import id.smartin.org.homecaretimedic.tools.restservice.APIClient;
+import id.smartin.org.homecaretimedic.tools.restservice.HomecareTransactionAPIInterface;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class OrderDetailsActivity extends AppCompatActivity {
     public static String TAG = "[OrderDetailsActivity]";
@@ -36,8 +43,12 @@ public class OrderDetailsActivity extends AppCompatActivity {
     Toolbar toolbar;
     @BindView(R.id.serviceName)
     TextView serviceName;
-    @BindView(R.id.transactionDate)
-    TextView transactionDate;
+    @BindView(R.id.orderNumber)
+    TextView orderNumber;
+    @BindView(R.id.transactionVisitDate)
+    TextView transactionVisitDate;
+    @BindView(R.id.transactionOrderDate)
+    TextView transactionOrderDate;
     @BindView(R.id.downPayment)
     TextView downPayment;
     @BindView(R.id.totalApproxCash)
@@ -55,8 +66,12 @@ public class OrderDetailsActivity extends AppCompatActivity {
     @BindView(R.id.mainLayout)
     RelativeLayout mainLayout;
 
-    @BindView(R.id.transactionDateTitle)
-    TextView transactionDateTitle;
+    @BindView(R.id.orderNumberTitle)
+    TextView orderNumberTitle;
+    @BindView(R.id.transactionOrderDateTitle)
+    TextView transactionOrderDateTitle;
+    @BindView(R.id.transactionVisitDateTitle)
+    TextView transactionVisitDateTitle;
     @BindView(R.id.downPaymentTitle)
     TextView downPaymentTitle;
     @BindView(R.id.totalApproxCashTitle)
@@ -73,6 +88,8 @@ public class OrderDetailsActivity extends AppCompatActivity {
     HomecareOrder homecareOrder;
 
     CaregiverHistoryAdapter caregiverHistoryAdapter;
+    HomecareSessionManager homecareSessionManager;
+    HomecareTransactionAPIInterface homecareTransactionAPIInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +109,9 @@ public class OrderDetailsActivity extends AppCompatActivity {
             }
         });
 
+        homecareSessionManager = new HomecareSessionManager(this, this);
+        homecareTransactionAPIInterface = APIClient.getClientWithToken(homecareSessionManager, getApplicationContext()).create(HomecareTransactionAPIInterface.class);
+
         caregiverHistoryAdapter = new CaregiverHistoryAdapter(this, this, homecareOrder.getCaregiverArrayList());
         final RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
@@ -106,6 +126,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
                 if (!cgs.getRateStatus()) {
                     Intent intent = new Intent(OrderDetailsActivity.this, RateCaregiverActivity.class);
                     intent.putExtra("caregiver", cgs);
+                    intent.putExtra("order", homecareOrder);
                     startActivity(intent);
                 } else {
                     Snackbar.make(mainLayout, "Rating sudah pernah dilakukan!", Snackbar.LENGTH_LONG).show();
@@ -118,6 +139,12 @@ public class OrderDetailsActivity extends AppCompatActivity {
             }
         }));
         setFonts();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getOrderDetails();
     }
 
     @SuppressLint("RestrictedApi")
@@ -134,7 +161,9 @@ public class OrderDetailsActivity extends AppCompatActivity {
 
     public void fillPage() {
         serviceName.setText(homecareOrder.getSelectedService());
-        transactionDate.setText(ConverterUtility.getDateString(homecareOrder.getDate()));
+        orderNumber.setText(homecareOrder.getOrderNumber());
+        transactionOrderDate.setText(ConverterUtility.getDateString(homecareOrder.getTransactionDate()));
+        transactionVisitDate.setText(ConverterUtility.getDateString(homecareOrder.getDate()));
         downPayment.setText(TextFormatter.doubleToRupiah(homecareOrder.getPrepaidPrice()));
         totalApproxCash.setText(TextFormatter.doubleToRupiah(homecareOrder.getPredictionPrice()));
         totalCash.setText(TextFormatter.doubleToRupiah(homecareOrder.getFixedPrice()));
@@ -155,24 +184,46 @@ public class OrderDetailsActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
-    private void setFonts(){
+    private void getOrderDetails() {
+        Call<HomecareOrder> resp = homecareTransactionAPIInterface.getTransactionById(homecareOrder.getId());
+        resp.enqueue(new Callback<HomecareOrder>() {
+            @Override
+            public void onResponse(Call<HomecareOrder> call, Response<HomecareOrder> response) {
+                homecareOrder = response.body();
+                caregiverHistoryAdapter = new CaregiverHistoryAdapter(OrderDetailsActivity.this, getApplicationContext(), homecareOrder.getCaregiverArrayList());
+                caregiverHistory.setAdapter(caregiverHistoryAdapter);
+                fillPage();
+            }
+
+            @Override
+            public void onFailure(Call<HomecareOrder> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void setFonts() {
         ViewFaceUtility.applyFont(serviceName, this, "fonts/Dosis-Bold.otf");
         ArrayList<TextView> arrayList = new ArrayList<>();
 
-        arrayList.add(transactionDate);
+        arrayList.add(transactionVisitDate);
+        arrayList.add(transactionOrderDate);
         arrayList.add(downPayment);
         arrayList.add(totalCash);
         arrayList.add(addressLoc);
         arrayList.add(mapLocation);
         arrayList.add(transactionStatus);
+        arrayList.add(orderNumber);
 
-        arrayList.add(transactionDateTitle);
+        arrayList.add(transactionVisitDateTitle);
+        arrayList.add(transactionOrderDateTitle);
         arrayList.add(downPaymentTitle);
         arrayList.add(totalApproxCashTitle);
         arrayList.add(totalCashTitle);
         arrayList.add(addressLocTitle);
         arrayList.add(transactionStatusTitle);
         arrayList.add(caregiverHistoryTitle);
+        arrayList.add(orderNumberTitle);
         ViewFaceUtility.applyFonts(arrayList, this, "fonts/Dosis-Medium.otf");
     }
 }

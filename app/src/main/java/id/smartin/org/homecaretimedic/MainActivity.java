@@ -13,6 +13,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 
@@ -27,6 +29,7 @@ import id.smartin.org.homecaretimedic.mainfragment.RedeemPointFragment;
 import id.smartin.org.homecaretimedic.mainfragment.YourOrderFragment;
 import id.smartin.org.homecaretimedic.manager.HomecareSessionManager;
 import id.smartin.org.homecaretimedic.model.User;
+import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
 import id.smartin.org.homecaretimedic.tools.restservice.APIClient;
 import id.smartin.org.homecaretimedic.tools.restservice.UserAPIInterface;
 import okhttp3.ResponseBody;
@@ -65,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcons();
         sendFCMTokenToServer();
+        setFonts();
     }
 
     private void sendFCMTokenToServer(){
@@ -146,5 +150,29 @@ public class MainActivity extends AppCompatActivity {
         mActionbar.setCustomView(view, params);
     }
 
+    private void setFonts(){
+        setTabsFont();
+    }
+
+    public void setTabsFont() {
+
+        ViewGroup vg = (ViewGroup) tabLayout.getChildAt(0);
+        int tabsCount = vg.getChildCount();
+
+        for (int j = 0; j < tabsCount; j++) {
+            ViewGroup vgTab = (ViewGroup) vg.getChildAt(j);
+
+            int tabChildsCount = vgTab.getChildCount();
+
+            for (int i = 0; i < tabChildsCount; i++) {
+                View tabViewChild = vgTab.getChildAt(i);
+                if (tabViewChild instanceof TextView) {
+                    //Put your font in assests folder
+                    //assign name of the font here (Must be case sensitive)
+                    ViewFaceUtility.applyFont((TextView) tabViewChild, this, "fonts/BalooBhaina-Regular.ttf");
+                }
+            }
+        }
+    }
 }
 

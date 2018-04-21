@@ -12,8 +12,12 @@ import java.util.ArrayList;
 public class HomecareOrder implements Serializable{
     @SerializedName("id")
     private Long id;
+    @SerializedName("orderNumber")
+    private String orderNumber;
     @SerializedName("date")
     private Long date;
+    @SerializedName("dateOrderIn")
+    private Long transactionDate;
     @SerializedName("fixedPrice")
     private Double fixedPrice;
     @SerializedName("predictionPrice")
@@ -44,6 +48,11 @@ public class HomecareOrder implements Serializable{
     private String fullAddress;
     @SerializedName("selectedService")
     private String selectedService;
+    @SerializedName("paymentFixedPriceStatusId")
+    private HomecareTransactionStatus paymentFixedPriceStatusId;
+    @SerializedName("paymentPrepaidPriceStatusId")
+    private HomecareTransactionStatus paymentPrepaidPriceStatusId;
+
 
     public Long getId() {
         return id;
@@ -179,5 +188,37 @@ public class HomecareOrder implements Serializable{
 
     public void setCaregiverArrayList(ArrayList<CaregiverOrder> caregiverArrayList) {
         this.caregiverArrayList = caregiverArrayList;
+    }
+
+    public String getOrderNumber() {
+        return orderNumber;
+    }
+
+    public void setOrderNumber(String orderNumber) {
+        this.orderNumber = orderNumber;
+    }
+
+    public Long getTransactionDate() {
+        return transactionDate;
+    }
+
+    public void setTransactionDate(Long transactionDate) {
+        this.transactionDate = transactionDate;
+    }
+
+    public HomecareTransactionStatus getPaymentFixedPriceStatusId() {
+        return paymentFixedPriceStatusId;
+    }
+
+    public void setPaymentFixedPriceStatusId(HomecareTransactionStatus paymentFixedPriceStatusId) {
+        this.paymentFixedPriceStatusId = paymentFixedPriceStatusId;
+    }
+
+    public HomecareTransactionStatus getPaymentPrepaidPriceStatusId() {
+        return paymentPrepaidPriceStatusId;
+    }
+
+    public void setPaymentPrepaidPriceStatusId(HomecareTransactionStatus paymentPrepaidPriceStatusId) {
+        this.paymentPrepaidPriceStatusId = paymentPrepaidPriceStatusId;
     }
 }

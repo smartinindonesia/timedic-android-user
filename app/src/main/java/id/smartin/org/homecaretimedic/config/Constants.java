@@ -55,6 +55,10 @@ public class Constants {
     //CAREGIVER
     public static final String ROUTE_CAREGIVER = "/api/caregiver/";
 
+    //RATING
+    public static final String ROUTE_RATE_POST = "/api/caregiverRate";
+    public static final String ROUTE_RATE_GET = "/api/getCaregiverRateByIdCaregiver/";
+
     //API managing
     public static final String YOUTUBE_API_KEY = "AIzaSyCs06OoysZqT-UN1-er9Ob7q6cXzVPnViY";
     public static final String YOUTUBE_CHANNEL = "UCjDX29cI6EMpGwAIOER4vvg";

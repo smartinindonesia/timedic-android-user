@@ -23,7 +23,7 @@ public interface HomecareTransactionAPIInterface {
     Call<ResponseBody> getAllTransaction();
 
     @GET(Constants.ROUTE_TRANSACTION + "{id}")
-    Call<ResponseBody> getTransactionById(@Path(value = "id", encoded = true) Long id);
+    Call<HomecareOrder> getTransactionById(@Path(value = "id", encoded = true) Long id);
 
     @DELETE(Constants.ROUTE_TRANSACTION + "{id}")
     Call<ResponseBody> deleteTransactionById(@Path(value = "id", encoded = true) Long id);

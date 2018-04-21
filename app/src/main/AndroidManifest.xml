@@ -184,7 +184,8 @@
         <activity
             android:name=".BillingMethodActivity"
             android:label="@string/act_billing_method" />
-        <activity android:name=".BankTransferPageActivity"></activity>
+        <activity android:name=".BankTransferPageActivity" />
+        <activity android:name=".ChatAdminActivity"></activity>
     </application>
 
 </manifest>

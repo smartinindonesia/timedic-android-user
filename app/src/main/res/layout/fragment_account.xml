@@ -17,11 +17,29 @@
             android:orientation="vertical"
             android:padding="10dp">
 
-            <TextView
-                android:id="@+id/accountSetting"
+            <LinearLayout
+                android:id="@+id/btnAccountSetting"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Setting Akun" />
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_account_setting" />
+
+                <TextView
+                    android:id="@+id/accountSetting"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="12"
+                    android:text="Setting Akun" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -100,9 +118,9 @@
                 android:layout_height="wrap_content">
 
                 <LinearLayout
-                    android:layout_alignParentLeft="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
                     android:background="?attr/selectableItemBackground"
                     android:clickable="true"
                     android:gravity="center"
@@ -125,9 +143,9 @@
 
                 <Switch
                     android:id="@+id/turnNotification"
-                    android:layout_alignParentRight="true"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true" />
 
             </RelativeLayout>
 

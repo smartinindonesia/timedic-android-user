@@ -50,14 +50,58 @@
                 android:padding="@dimen/calculator_row_space">
 
                 <TextView
-                    android:id="@+id/transactionDateTitle"
+                    android:id="@+id/orderNumberTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.4"
-                    android:text="Tanggal" />
+                    android:text="Nomor Pemesanan" />
 
                 <TextView
-                    android:id="@+id/transactionDate"
+                    android:id="@+id/orderNumber"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/calculator_input_height"
+                    android:layout_weight="0.6"
+                    android:paddingLeft="@dimen/calculator_input_padding"
+                    android:paddingRight="@dimen/calculator_input_padding"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/calculator_row_space">
+
+                <TextView
+                    android:id="@+id/transactionOrderDateTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
+                    android:text="Tanggal Pemesanan" />
+
+                <TextView
+                    android:id="@+id/transactionOrderDate"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/calculator_input_height"
+                    android:layout_weight="0.6"
+                    android:paddingLeft="@dimen/calculator_input_padding"
+                    android:paddingRight="@dimen/calculator_input_padding"></TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/calculator_row_space">
+
+                <TextView
+                    android:id="@+id/transactionVisitDateTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
+                    android:text="Tanggal Kunjungan" />
+
+                <TextView
+                    android:id="@+id/transactionVisitDate"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/calculator_input_height"
                     android:layout_weight="0.6"

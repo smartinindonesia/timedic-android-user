@@ -57,6 +57,8 @@ public class AccountFragment extends Fragment {
     LinearLayout btnRateApp;
     @BindView(R.id.btnChangePassword)
     LinearLayout btnChangePassword;
+    @BindView(R.id.btnAccountSetting)
+    LinearLayout btnAccountSetting;
     @BindView(R.id.btnPushNotification)
     RelativeLayout btnPushNotif;
     @BindView(R.id.turnNotification)
@@ -117,7 +119,7 @@ public class AccountFragment extends Fragment {
                 signOut();
             }
         });
-        accountSetting.setOnClickListener(new View.OnClickListener() {
+        btnAccountSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), AccountSettingActivity.class);
