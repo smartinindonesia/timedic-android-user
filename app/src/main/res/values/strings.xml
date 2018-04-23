@@ -65,6 +65,7 @@ dan menjawab seluruh pertanyaan-pertanyaan anda
 setelah kami melakukan kunjungan kerumah anda
     </string>
     <string name="thanks_page_msg5">TiMedic - Kami Rawat di Rumah Anda</string>
+    <string name="thanks_page_msg6">Pesanan anda sedang kami proses. Tim akan segera menghubungi anda. Terimakasih telah menggunakan layanan kami.</string>
 
     <string name="term_of_agreement">Saya menyetujui persyaratan dan ketentuan yang berlaku pada tautan di bawah ini </string>
     <string name="term_of_agreement_link"><u>Persyaratan dan Ketentuan</u></string>
@@ -74,6 +75,7 @@ setelah kami melakukan kunjungan kerumah anda
     <string name="cek_lab_notification2">Upload gambar jika anda memiliki rujukan dokter</string>
 
     <string name="billing_notifsign">Demi keamanan transaksi Anda, pastikan untuk tidak menginformasikan bukti dan data pembayaran kepada pihak manapun.</string>
+
     <!-- Youtube Message -->
     <string name="player_error">Error initializing YouTube player: %s</string>
     <string name="seek_to">Jump To</string>

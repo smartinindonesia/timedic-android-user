@@ -272,22 +272,34 @@ public class SignUpActivity extends AppCompatActivity {
         registerParam.setDateOfBirth(dobs);
         registerParam.setGender(genderSpin.getSelectedItem().toString());
         if (retypePassword.getText().toString().equals(password.getText().toString())) {
-            if (registerParam.isValidPhone()) {
-                if (registerParam.isValidEmail()) {
-                    if (checkAgreement.isChecked()) {
-                        try {
-                            postData(registerParam);
-                        } catch (UnsupportedEncodingException e) {
-                            Toast.makeText(getApplicationContext(), "Parameter tidak benar!", Toast.LENGTH_LONG).show();
+            if (registerParam.isValidUsername()) {
+                if (!registerParam.isUsernameContainSpace()) {
+                    if (!registerParam.isFirstNameEmpty()) {
+                        if (registerParam.isValidPhone()) {
+                            if (registerParam.isValidEmail()) {
+                                if (checkAgreement.isChecked()) {
+                                    try {
+                                        postData(registerParam);
+                                    } catch (UnsupportedEncodingException e) {
+                                        Toast.makeText(getApplicationContext(), "Parameter tidak benar!", Toast.LENGTH_LONG).show();
+                                    }
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "Anda belum menyetujui pernyataan persetujuan!", Toast.LENGTH_LONG).show();
+                                }
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Email tidak valid!", Toast.LENGTH_LONG).show();
+                            }
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Nomor HP tidak valid!", Toast.LENGTH_LONG).show();
                         }
                     } else {
-                        Toast.makeText(getApplicationContext(), "Anda belum menyetujui pernyataan persetujuan!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Nama depan tidak boleh kosong!", Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    Toast.makeText(getApplicationContext(), "Email tidak valid!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Username tidak boleh mengandung spasi!", Toast.LENGTH_LONG).show();
                 }
             } else {
-                Toast.makeText(getApplicationContext(), "Nomor HP tidak valid!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Username tidak boleh kosong!", Toast.LENGTH_LONG).show();
             }
         } else {
             Toast.makeText(getApplicationContext(), "Pastikan password anda benar!", Toast.LENGTH_LONG).show();

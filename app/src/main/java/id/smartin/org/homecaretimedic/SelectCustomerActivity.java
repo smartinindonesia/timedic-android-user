@@ -138,7 +138,6 @@ public class SelectCustomerActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        finish();
         super.onBackPressed();
     }
 

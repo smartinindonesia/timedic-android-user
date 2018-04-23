@@ -3,6 +3,7 @@ package id.smartin.org.homecaretimedic;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -65,6 +66,10 @@ public class OrderDetailsActivity extends AppCompatActivity {
     RecyclerView caregiverHistory;
     @BindView(R.id.mainLayout)
     RelativeLayout mainLayout;
+    @BindView(R.id.downPaymentStatus)
+    TextView downPaymentStatus;
+    @BindView(R.id.totalCashStatus)
+    TextView totalCashStatus;
 
     @BindView(R.id.orderNumberTitle)
     TextView orderNumberTitle;
@@ -170,6 +175,22 @@ public class OrderDetailsActivity extends AppCompatActivity {
         addressLoc.setText(homecareOrder.getFullAddress());
         mapLocation.setText("(" + homecareOrder.getLocationLatitude() + "," + homecareOrder.getLocationLongitude() + ")");
         transactionStatus.setText(homecareOrder.getHomecareTransactionStatus().getStatus());
+        if (homecareOrder.getPaymentFixedPriceStatusId() != null) {
+            totalCashStatus.setText(homecareOrder.getPaymentFixedPriceStatusId().getStatus());
+            if (homecareOrder.getPaymentFixedPriceStatusId().getId() == 1){
+                totalCashStatus.setBackground(ContextCompat.getDrawable(this, R.drawable.green_button_background));
+            } else if (homecareOrder.getPaymentFixedPriceStatusId().getId() == 2) {
+                totalCashStatus.setBackground(ContextCompat.getDrawable(this, R.drawable.red_button_background));
+            }
+        }
+        if (homecareOrder.getPaymentPrepaidPriceStatusId() != null) {
+            downPaymentStatus.setText(homecareOrder.getPaymentPrepaidPriceStatusId().getStatus());
+            if (homecareOrder.getPaymentPrepaidPriceStatusId().getId() == 1){
+                downPaymentStatus.setBackground(ContextCompat.getDrawable(this, R.drawable.green_button_background));
+            } else if (homecareOrder.getPaymentPrepaidPriceStatusId().getId() == 2) {
+                downPaymentStatus.setBackground(ContextCompat.getDrawable(this, R.drawable.red_button_background));
+            }
+        }
     }
 
     @Override
@@ -213,6 +234,8 @@ public class OrderDetailsActivity extends AppCompatActivity {
         arrayList.add(addressLoc);
         arrayList.add(mapLocation);
         arrayList.add(transactionStatus);
+        arrayList.add(downPaymentStatus);
+        arrayList.add(totalCashStatus);
         arrayList.add(orderNumber);
 
         arrayList.add(transactionVisitDateTitle);
@@ -224,6 +247,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
         arrayList.add(transactionStatusTitle);
         arrayList.add(caregiverHistoryTitle);
         arrayList.add(orderNumberTitle);
+
         ViewFaceUtility.applyFonts(arrayList, this, "fonts/Dosis-Medium.otf");
     }
 }

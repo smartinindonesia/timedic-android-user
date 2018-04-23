@@ -282,14 +282,12 @@ public class AddUserCustomerActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        finish();
         onBackPressed();
         return true;
     }
 
     @Override
     public void onBackPressed() {
-        finish();
         super.onBackPressed();
     }
 

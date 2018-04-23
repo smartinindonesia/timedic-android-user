@@ -95,9 +95,8 @@ public class ServiceAndLocationActivity extends AppCompatActivity {
         });
         recyclerViewHomestay.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 3);
-
         recyclerViewHomestay.setLayoutManager(layoutManager);
-        recyclerViewHomestay.addItemDecoration(new GridSpacingItemDecoration(3, GridSpacingItemDecoration.dpToPx(1), true, 0));
+        //recyclerViewHomestay.addItemDecoration(new GridSpacingItemDecoration(3, GridSpacingItemDecoration.dpToPx(0), true, 0));
         recyclerViewHomestay.setItemAnimator(new DefaultItemAnimator());
         adapterServiceHomestay = new HomecareServiceAdapter(this, getApplicationContext(), homecareServiceListHomestay);
         recyclerViewHomestay.setAdapter(adapterServiceHomestay);
@@ -105,7 +104,7 @@ public class ServiceAndLocationActivity extends AppCompatActivity {
         recyclerViewHomevisit.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager2 = new GridLayoutManager(getApplicationContext(), 3);
         recyclerViewHomevisit.setLayoutManager(layoutManager2);
-        recyclerViewHomevisit.addItemDecoration(new GridSpacingItemDecoration(3, GridSpacingItemDecoration.dpToPx(1), true, 0));
+        //recyclerViewHomevisit.addItemDecoration(new GridSpacingItemDecoration(3, GridSpacingItemDecoration.dpToPx(0), true, 0));
         recyclerViewHomevisit.setItemAnimator(new DefaultItemAnimator());
         adapterServiceHomevisit = new HomecareServiceAdapter(this, getApplicationContext(), homecareServiceListHomevisit);
         recyclerViewHomevisit.setAdapter(adapterServiceHomevisit);
@@ -139,7 +138,6 @@ public class ServiceAndLocationActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        finish();
         onBackPressed();
         return true;
     }

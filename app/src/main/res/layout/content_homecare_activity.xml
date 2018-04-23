@@ -20,41 +20,89 @@
         android:textColorHint="@color/theme_black"
         android:gravity="start|center_vertical" />
 
-    <Button
-        android:id="@+id/btnCeklab"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:backgroundTintMode="src_over"
-        android:drawableLeft="@drawable/btn_homecare_ceklab"
-        android:hint="Cek Laboratorium"
-        android:textAlignment="viewStart"
-        android:textColorHint="@color/theme_black"
-        android:gravity="start|center_vertical"/>
+        android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/btnFisioterapis"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:backgroundTintMode="src_over"
-        android:drawableLeft="@drawable/btn_homecare_fisioterapis"
-        android:hint="Fisioterapis"
-        android:textAlignment="viewStart"
-        android:textColorHint="@color/theme_black"
-        android:gravity="start|center_vertical"/>
+        <Button
+            android:id="@+id/btnCeklab"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:backgroundTintMode="src_over"
+            android:drawableLeft="@drawable/btn_homecare_ceklab"
+            android:hint="Cek Laboratorium"
+            android:textAlignment="viewStart"
+            android:enabled="false"
+            android:textColorHint="@color/theme_black"
+            android:gravity="start|center_vertical"/>
 
-    <Button
-        android:id="@+id/btnBidan"
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:elevation="2dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/upcoming" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:backgroundTintMode="src_over"
-        android:drawableLeft="@drawable/btn_homecare_bidan"
-        android:hint="Bidan"
-        android:textAlignment="viewStart"
-        android:textColorHint="@color/theme_black"
-        android:gravity="start|center_vertical"/>
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btnFisioterapis"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:backgroundTintMode="src_over"
+            android:drawableLeft="@drawable/btn_homecare_fisioterapis"
+            android:hint="Fisioterapis"
+            android:enabled="false"
+            android:textAlignment="viewStart"
+            android:textColorHint="@color/theme_black"
+            android:gravity="start|center_vertical"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:elevation="2dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/upcoming" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btnBidan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:backgroundTintMode="src_over"
+            android:drawableLeft="@drawable/btn_homecare_bidan"
+            android:hint="Bidan"
+            android:enabled="false"
+            android:textAlignment="viewStart"
+            android:textColorHint="@color/theme_black"
+            android:gravity="start|center_vertical"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:elevation="2dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/upcoming" />
+
+    </RelativeLayout>
 
 </LinearLayout>
 

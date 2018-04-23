@@ -12,6 +12,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Created by Hafid on 1/20/2018.
@@ -36,4 +37,10 @@ public interface HomecareTransactionAPIInterface {
 
     @GET(Constants.ROUTE_ACTIVE_ORDER + "{id}")
     Call<List<HomecareOrder>> getActiveOrder(@Path(value = "id", encoded = true) Long id);
+
+    @GET(Constants.ROUTE_ACTIVE_ORDER_PAGINATION)//page, size, sort, sortField, idUser
+    Call<ResponseBody> getActiveOrderPage(@Query("page") Integer page, @Query("size") Integer size, @Query("sort") String sortType, @Query("sortField") String sortField, @Query("idUser") Long idUser);
+
+    @GET(Constants.ROUTE_HISTORY_ORDER_PAGINATION)//page, size, sort, sortField, idUser
+    Call<ResponseBody> getHistoryOrderPage(@Query("page") Integer page, @Query("size") Integer size, @Query("sort") String sortType, @Query("sortField") String sortField, @Query("idUser") Long idUser);
 }

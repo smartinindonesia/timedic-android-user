@@ -103,11 +103,43 @@ public class RegisterParam {
         return isTrue;
     }
 
+    public boolean isValidUsername() {
+        if (username != null) {
+            if (username.trim().isEmpty()) {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isUsernameContainSpace(){
+        if (username.contains(" ")){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isFirstNameEmpty(){
+        if (firstname != null) {
+            if (firstname.trim().isEmpty()) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return true;
+        }
+    }
+
     public boolean isValidEmail() {
         return (!TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches());
     }
 
-    public boolean passwordValidator(String password){
+    public boolean passwordValidator(String password) {
         return this.password.equals(password);
     }
 

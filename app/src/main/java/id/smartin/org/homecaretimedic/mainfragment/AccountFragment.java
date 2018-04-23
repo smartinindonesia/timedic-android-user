@@ -162,7 +162,7 @@ public class AccountFragment extends Fragment {
         btnTermAndCond.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openUrl(Constants.TERM_AND_COND);
+                openUrl(Constants.PRIVACY_STATEMENT);
             }
         });
         setFonts();

@@ -76,7 +76,6 @@ public class HCAssestmentActivity extends AppCompatActivity {
                     SubmitInfo.assessmentList = assestmentAdapter.getAssesmentAnswerParams();
                     Intent acceptanceIntent = new Intent(HCAssestmentActivity.this, DateTimePickActivity.class);
                     startActivity(acceptanceIntent);
-                    finish();
                 } else {
                     Snackbar.make(mainLayout, getResources().getString(R.string.null_assessment), Snackbar.LENGTH_LONG).show();
                 }
@@ -135,7 +134,6 @@ public class HCAssestmentActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        finish();
         onBackPressed();
         return true;
     }

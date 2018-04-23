@@ -21,6 +21,7 @@ public class SubmitInfo {
      * Submit State
      */
     public static boolean EDIT_STATE = false;
+    public static boolean FINISH_STATE = false;
 
     /*GLOBAL FOR EVERY SERVICE*/
     public static ServicePlace selectedServicePlace; //Lokasi layanan
@@ -47,6 +48,11 @@ public class SubmitInfo {
         assessmentList.clear();
         selectedLabPackages.clear();
         selectedLabServices.clear();
+        FINISH_STATE = true;
+    }
+
+    public static boolean isFinishTransaction() {
+        return FINISH_STATE;
     }
 
     public static double getAssessmentPrice(){

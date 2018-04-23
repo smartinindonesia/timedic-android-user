@@ -68,6 +68,54 @@ public class HistoryOrderAdapter extends RecyclerView.Adapter<HistoryOrderAdapte
         return homecareOrderList.size();
     }
 
+    public void add(HomecareOrder mc) {
+        homecareOrderList.add(mc);
+        notifyItemInserted(homecareOrderList.size() - 1);
+    }
+
+    public void addAll(List<HomecareOrder> mcList) {
+        for (HomecareOrder mc : mcList) {
+            add(mc);
+        }
+    }
+
+    public void remove(HomecareOrder city) {
+        int position = homecareOrderList.indexOf(city);
+        if (position > -1) {
+            homecareOrderList.remove(position);
+            notifyItemRemoved(position);
+        }
+    }
+
+    public void clear() {
+        while (getItemCount() > 0) {
+            remove(getItem(0));
+        }
+    }
+
+    public boolean isEmpty() {
+        return getItemCount() == 0;
+    }
+
+    public void addLoadingFooter() {
+        add(new HomecareOrder());
+    }
+
+    public void removeLoadingFooter() {
+
+        int position = homecareOrderList.size() - 1;
+        HomecareOrder item = getItem(position);
+
+        if (item != null) {
+            homecareOrderList.remove(position);
+            notifyItemRemoved(position);
+        }
+    }
+
+    public HomecareOrder getItem(int position) {
+        return homecareOrderList.get(position);
+    }
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.serviceName)

@@ -60,11 +60,10 @@
                 android:text="HOMESTAY"
                 android:textColor="@color/textColorSecondary" />
 
-
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_homestay"
                 android:layout_width="match_parent"
-                android:background="@color/black_overlay"
+                android:background="@color/colorPrimary"
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
@@ -93,7 +92,7 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_homevisit"
                 android:layout_width="match_parent"
-                android:background="@color/black_overlay"
+                android:background="@color/colorPrimary"
                 android:layout_height="wrap_content" />
 
         </LinearLayout>

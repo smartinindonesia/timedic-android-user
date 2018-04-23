@@ -62,7 +62,6 @@ public class HomecareServiceAdapter extends RecyclerView.Adapter<HomecareService
                 SubmitInfo.selectedHomecareService = homecareService;
                 Intent intent = new Intent(context, MapSelectorActivity.class);
                 activity.startActivity(intent);
-                activity.finish();
             }
         });
     }

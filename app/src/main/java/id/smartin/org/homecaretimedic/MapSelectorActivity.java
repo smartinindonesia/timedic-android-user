@@ -142,7 +142,6 @@ public class MapSelectorActivity extends AppCompatActivity implements OnMapReady
                 placeInfo.setAdditionInfo(additionalInfo.getText().toString());
                 SubmitInfo.selectedPlaceInfo = placeInfo;
                 startActivity(intent);
-                finish();
             }
         });
 
@@ -166,7 +165,6 @@ public class MapSelectorActivity extends AppCompatActivity implements OnMapReady
 
     @Override
     public void onBackPressed() {
-        finish();
         super.onBackPressed();
     }
 

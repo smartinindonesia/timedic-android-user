@@ -3,10 +3,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="?attr/actionBarSize"
-    android:gravity="center"
     android:orientation="vertical"
+    android:gravity="center"
     android:paddingLeft="30dp"
     android:paddingRight="30dp">
+
+    <TextView
+        android:id="@+id/notifSign"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pilih tanggal dan waktu kunjungan untuk pemeriksaan"
+        android:textAlignment="center"
+        android:textSize="18sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="30dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,6 +26,7 @@
         android:orientation="horizontal">
 
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/datePickInputLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textColorHint="@color/textColorPrimary"
@@ -54,7 +67,9 @@
         android:id="@+id/btnLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"></LinearLayout>
+        android:orientation="vertical">
+
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"

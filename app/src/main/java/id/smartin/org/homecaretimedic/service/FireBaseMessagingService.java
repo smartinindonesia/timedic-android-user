@@ -87,7 +87,7 @@ public class FireBaseMessagingService extends FirebaseMessagingService {
                                     .bigText(msg))
                     .setContentTitle(title)
                     .setContentText(msg)
-                    .setSmallIcon(R.drawable.timedic_splash_logo)
+                    .setSmallIcon(R.drawable.ic_launcher)
                     .setWhen(when).setAutoCancel(true)
                     .setSound(defaultSoundUri);
         }

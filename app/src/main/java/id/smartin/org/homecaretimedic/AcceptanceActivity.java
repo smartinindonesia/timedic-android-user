@@ -89,7 +89,6 @@ public class AcceptanceActivity extends AppCompatActivity {
     TextView thanks5;
 
 
-
     private HomecareTransactionAPIInterface homecareTransactionAPIInterface;
     private HomecareSessionManager homecareSessionManager;
 
@@ -106,15 +105,14 @@ public class AcceptanceActivity extends AppCompatActivity {
         submitTransaction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                gotoBillingMethodActivity();
-                /*
+                //gotoBillingMethodActivity();
                 try {
 
                     sendTransaction();
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                */
+
             }
         });
         setFonts();
@@ -151,7 +149,6 @@ public class AcceptanceActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        finish();
         super.onBackPressed();
     }
 
@@ -176,7 +173,7 @@ public class AcceptanceActivity extends AppCompatActivity {
         homecareTransParam.setLocationLongitude(SubmitInfo.selectedPlaceInfo.getLongitude());
         homecareTransParam.setTransactionDescription("Mobile Transaction");
         homecareTransParam.setAssessmentList(SubmitInfo.assessmentList);
-        homecareTransParam.setHomecareTransactionStatus(new HomecareTransactionStatus((long) 2));
+        homecareTransParam.setHomecareTransactionStatus(new HomecareTransactionStatus((long) 8));
         homecareTransParam.setHomecarePatientId(SubmitInfo.registeredPatient.get(0));
         homecareTransParam.setPaymentMethod(new PaymentMethod((long) 1));
         homecareTransParam.setSelectedService(SubmitInfo.selectedHomecareService.getServiceName());
@@ -187,8 +184,10 @@ public class AcceptanceActivity extends AppCompatActivity {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.code() == 201) {
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.transaction_success), Toast.LENGTH_LONG).show();
+                    gotoThanksPage();
                     finish();
-                    gotoBillingMethodActivity();
+                    SubmitInfo.clearAllData();
+                    //gotoBillingMethodActivity();
                 } else {
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.transaction_failed), Toast.LENGTH_LONG).show();
                 }
@@ -202,12 +201,17 @@ public class AcceptanceActivity extends AppCompatActivity {
         });
     }
 
-    private void gotoBillingMethodActivity(){
+    private void gotoBillingMethodActivity() {
         Intent intent = new Intent(this, BillingMethodActivity.class);
         startActivity(intent);
     }
 
-    private void setFonts(){
+    private void gotoThanksPage(){
+        Intent intent = new Intent(this, ThanksPageActivity.class);
+        startActivity(intent);
+    }
+
+    private void setFonts() {
         ArrayList<TextView> arrayList = new ArrayList<>();
         ArrayList<TextView> arrayListB = new ArrayList<>();
         arrayListB.add(summaryHeader);

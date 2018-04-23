@@ -97,15 +97,15 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.MyViewHo
             @Override
             public void onClick(View v) {
                 if (SubmitInfo.serviceAvailable.equals(UIConstants.HOMECARE_SERVICE)){
+                    SubmitInfo.registeredPatient.clear();
                     SubmitInfo.registeredPatient.add(patient);
                     Intent intent = new Intent(context, HCAssestmentActivity.class);
                     context.startActivity(intent);
-                    context.finish();
                 } else if (SubmitInfo.serviceAvailable.equals(UIConstants.CHECKLAB_SERVICE)){
+                    SubmitInfo.registeredPatient.clear();
                     SubmitInfo.registeredPatient.add(patient);
                     Intent intent = new Intent(context, DateTimePickActivity.class);
                     context.startActivity(intent);
-                    context.finish();
                 }
             }
         });

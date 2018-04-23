@@ -56,6 +56,9 @@ public class AssestmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             case 3:
                 itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.assestment_item_file, parent, false);
                 return new AssestmentAdapter.MyViewHolderFile(itemView);
+            case 4:
+                itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.assestment_item_number, parent, false);
+                return new AssestmentAdapter.MyViewHolderNumber(itemView);
             default:
                 return null;
         }
@@ -122,6 +125,28 @@ public class AssestmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 MyViewHolderFile viewHolderFile = (MyViewHolderFile) holder;
                 viewHolderFile.assessment.setText(assessment.getQuestions());
                 break;
+
+            case 4:
+                MyViewHolderNumber viewHolderNumber = (MyViewHolderNumber) holder;
+                viewHolderNumber.assessment.setText(assessment.getQuestions());
+                viewHolderNumber.answer.setText(assessment.getAnswer());
+                viewHolderNumber.answer.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        assessmentList.get(position).setAnswer(charSequence.toString());
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                });
+                break;
             default:
                 break;
         }
@@ -180,6 +205,20 @@ public class AssestmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         public EditText answer;
 
         public MyViewHolder(View view) {
+            super(view);
+            ButterKnife.bind(this, view);
+            ViewFaceUtility.applyFont(assessment, activity, "fonts/Dosis-Medium.otf");
+            ViewFaceUtility.applyFont(answer, activity, "fonts/Dosis-Medium.otf");
+        }
+    }
+
+    public class MyViewHolderNumber extends RecyclerView.ViewHolder {
+        @BindView(R.id.question)
+        public TextView assessment;
+        @BindView(R.id.answer)
+        public EditText answer;
+
+        public MyViewHolderNumber(View view) {
             super(view);
             ButterKnife.bind(this, view);
             ViewFaceUtility.applyFont(assessment, activity, "fonts/Dosis-Medium.otf");

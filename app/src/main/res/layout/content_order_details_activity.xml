@@ -3,12 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="?attr/actionBarSize"
+    android:background="@color/colorPrimary"
     android:gravity="center"
     android:orientation="vertical"
     android:paddingBottom="30dp"
     android:paddingLeft="30dp"
     android:paddingRight="30dp"
-    android:background="@color/colorPrimary"
     android:scrollbars="horizontal">
 
     <ScrollView
@@ -26,7 +26,7 @@
                 android:layout_height="2dp"
                 android:layout_marginBottom="@dimen/calculator_devider_space"
                 android:layout_marginTop="@dimen/calculator_devider_space"
-                android:background="@color/shadow_clr"/>
+                android:background="@color/shadow_clr" />
 
             <TextView
                 android:id="@+id/serviceName"
@@ -41,7 +41,7 @@
                 android:layout_height="2dp"
                 android:layout_marginBottom="@dimen/calculator_devider_space"
                 android:layout_marginTop="@dimen/calculator_devider_space"
-                android:background="@color/shadow_clr"/>
+                android:background="@color/shadow_clr" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -62,7 +62,7 @@
                     android:layout_height="@dimen/calculator_input_height"
                     android:layout_weight="0.6"
                     android:paddingLeft="@dimen/calculator_input_padding"
-                    android:paddingRight="@dimen/calculator_input_padding"/>
+                    android:paddingRight="@dimen/calculator_input_padding" />
             </LinearLayout>
 
             <LinearLayout
@@ -84,7 +84,7 @@
                     android:layout_height="@dimen/calculator_input_height"
                     android:layout_weight="0.6"
                     android:paddingLeft="@dimen/calculator_input_padding"
-                    android:paddingRight="@dimen/calculator_input_padding"></TextView>
+                    android:paddingRight="@dimen/calculator_input_padding" />
             </LinearLayout>
 
             <LinearLayout
@@ -106,7 +106,7 @@
                     android:layout_height="@dimen/calculator_input_height"
                     android:layout_weight="0.6"
                     android:paddingLeft="@dimen/calculator_input_padding"
-                    android:paddingRight="@dimen/calculator_input_padding"></TextView>
+                    android:paddingRight="@dimen/calculator_input_padding" />
             </LinearLayout>
 
             <LinearLayout
@@ -126,9 +126,20 @@
                     android:id="@+id/downPayment"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/calculator_input_height"
-                    android:layout_weight="0.6"
+                    android:layout_weight="0.4"
                     android:paddingLeft="@dimen/calculator_input_padding"
-                    android:paddingRight="@dimen/calculator_input_padding"></TextView>
+                    android:paddingRight="@dimen/calculator_input_padding" />
+
+                <TextView
+                    android:id="@+id/downPaymentStatus"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.2"
+                    android:gravity="center"
+                    android:textColor="@color/button_text_color"
+                    android:paddingLeft="@dimen/calculator_input_padding"
+                    android:paddingRight="@dimen/calculator_input_padding" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -150,7 +161,7 @@
                     android:layout_height="@dimen/calculator_input_height"
                     android:layout_weight="0.6"
                     android:paddingLeft="@dimen/calculator_input_padding"
-                    android:paddingRight="@dimen/calculator_input_padding"></TextView>
+                    android:paddingRight="@dimen/calculator_input_padding" />
             </LinearLayout>
 
             <LinearLayout
@@ -170,9 +181,20 @@
                     android:id="@+id/totalCash"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/calculator_input_height"
-                    android:layout_weight="0.6"
+                    android:layout_weight="0.4"
                     android:paddingLeft="@dimen/calculator_input_padding"
-                    android:paddingRight="@dimen/calculator_input_padding"></TextView>
+                    android:paddingRight="@dimen/calculator_input_padding" />
+
+                <TextView
+                    android:id="@+id/totalCashStatus"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.2"
+                    android:gravity="center"
+                    android:textColor="@color/button_text_color"
+                    android:paddingLeft="@dimen/calculator_input_padding"
+                    android:paddingRight="@dimen/calculator_input_padding" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -191,8 +213,8 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:layout_weight="0.6"
+                    android:orientation="vertical"
                     android:padding="@dimen/calculator_row_space">
 
                     <TextView
@@ -200,15 +222,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/calculator_input_height"
                         android:paddingLeft="@dimen/calculator_input_padding"
-                        android:paddingRight="@dimen/calculator_input_padding"/>
+                        android:paddingRight="@dimen/calculator_input_padding" />
 
                     <TextView
                         android:id="@+id/mapLocation"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/blue_link_color"
                         android:paddingLeft="@dimen/calculator_input_padding"
-                        android:paddingRight="@dimen/calculator_input_padding"/>
+                        android:paddingRight="@dimen/calculator_input_padding"
+                        android:textColor="@color/blue_link_color" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -232,7 +254,7 @@
                     android:layout_height="@dimen/calculator_input_height"
                     android:layout_weight="0.6"
                     android:paddingLeft="@dimen/calculator_input_padding"
-                    android:paddingRight="@dimen/calculator_input_padding"></TextView>
+                    android:paddingRight="@dimen/calculator_input_padding" />
             </LinearLayout>
 
             <LinearLayout
@@ -251,8 +273,7 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/caregiverHistory"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                </android.support.v7.widget.RecyclerView>
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 

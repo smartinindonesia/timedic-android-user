@@ -39,6 +39,8 @@ public class Constants {
     public static final String ROUTE_TRANSACTION = "/api/transactions/homecare/";
     public static final String ROUTE_ACTIVE_ORDER = "/api/orderactive/homecare/";
     public static final String ROUTE_HISTORY_ORDER = "/api/history/homecare/";
+    public static final String ROUTE_ACTIVE_ORDER_PAGINATION = "/api/transactionOrderActiveWithPaginationByField";
+    public static final String ROUTE_HISTORY_ORDER_PAGINATION = "/api/transactionOrderHistoryWithPaginationByField";
 
     public static final String ROUTE_ASSESTMENTLIST = "/api/assessments/";
     public static final String ROUTE_ASSESTMENTS_BY_ID_SERVICES = "/api/assessments/findbyidservices/";
@@ -75,7 +77,7 @@ public class Constants {
     public static final String SECURITY_ALGO = "AES";
 
     //WEB
-    public static final String TERM_AND_COND = "https://timedic.id/";
-    public static final String PRIVACY_STATEMENT = "https://timedic.id/";
+    public static final String TERM_AND_COND = "https://timedic.id/#privacyAndPolicy";
+    public static final String PRIVACY_STATEMENT = "https://timedic.id/#privacyAndPolicy";
 
 }
