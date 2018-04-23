@@ -170,7 +170,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
         transactionOrderDate.setText(ConverterUtility.getDateString(homecareOrder.getTransactionDate()));
         transactionVisitDate.setText(ConverterUtility.getDateString(homecareOrder.getDate()));
         downPayment.setText(TextFormatter.doubleToRupiah(homecareOrder.getPrepaidPrice()));
-        totalApproxCash.setText(TextFormatter.doubleToRupiah(homecareOrder.getPredictionPrice()));
+        totalApproxCash.setText(homecareOrder.getPredictionPrice());
         totalCash.setText(TextFormatter.doubleToRupiah(homecareOrder.getFixedPrice()));
         addressLoc.setText(homecareOrder.getFullAddress());
         mapLocation.setText("(" + homecareOrder.getLocationLatitude() + "," + homecareOrder.getLocationLongitude() + ")");

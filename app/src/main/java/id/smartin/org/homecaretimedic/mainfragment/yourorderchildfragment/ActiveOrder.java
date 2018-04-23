@@ -55,6 +55,8 @@ public class ActiveOrder extends Fragment {
     private Integer maxPage = 0;
     private boolean isLoading = false;
 
+    private boolean _hasLoadedOnce = false;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,9 +65,7 @@ public class ActiveOrder extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        page = 0;
-        homecareOrderList.clear();
-        getActiveOrderPagination();
+        resetData();
     }
 
     @Override
@@ -165,5 +165,24 @@ public class ActiveOrder extends Fragment {
             this.page++;
             this.getActiveOrderPagination();
         }
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isFragmentVisible_) {
+        super.setUserVisibleHint(true);
+
+        if (this.isVisible()) {
+            // we check that the fragment is becoming visible
+            if (isFragmentVisible_ && !_hasLoadedOnce) {
+                resetData();
+                _hasLoadedOnce = true;
+            }
+        }
+    }
+
+    private void resetData(){
+        page = 0;
+        homecareOrderList.clear();
+        getActiveOrderPagination();
     }
 }

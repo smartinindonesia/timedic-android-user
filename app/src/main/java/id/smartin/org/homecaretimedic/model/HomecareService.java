@@ -20,6 +20,8 @@ public class HomecareService {
     private String serviceUrlIcon;
     @SerializedName("visitCost")
     private Double visitCost;
+    @SerializedName("priceRange")
+    private Double priceRange;
 
     public Integer getId() {
         return id;
@@ -67,5 +69,13 @@ public class HomecareService {
 
     public void setVisitCost(Double visitCost) {
         this.visitCost = visitCost;
+    }
+
+    public Double getPriceRange() {
+        return priceRange;
+    }
+
+    public void setPriceRange(Double priceRange) {
+        this.priceRange = priceRange;
     }
 }

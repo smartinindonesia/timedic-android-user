@@ -45,6 +45,8 @@ public class HistoryOrder extends Fragment {
     @BindView(R.id.loadingBar)
     ProgressBar loadingBar;
 
+    private boolean _hasLoadedOnce = false;
+
     private HomecareSessionManager homecareSessionManager;
     private List<HomecareOrder> homecareOrderList = new ArrayList<>();
     private HistoryOrderAdapter historyOrderAdapter;
@@ -64,10 +66,8 @@ public class HistoryOrder extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        //resetData();
         //getHistoryOrder()
-        page = 0;
-        homecareOrderList.clear();
-        getHistoryOrderPagination();
     }
 
     @Override
@@ -167,5 +167,24 @@ public class HistoryOrder extends Fragment {
                 homecareSessionManager.logout();
             }
         });
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isFragmentVisible_) {
+        super.setUserVisibleHint(true);
+
+        if (this.isVisible()) {
+            // we check that the fragment is becoming visible
+            if (isFragmentVisible_ && !_hasLoadedOnce) {
+                resetData();
+                _hasLoadedOnce = true;
+            }
+        }
+    }
+
+    private void resetData(){
+        page = 0;
+        homecareOrderList.clear();
+        getHistoryOrderPagination();
     }
 }

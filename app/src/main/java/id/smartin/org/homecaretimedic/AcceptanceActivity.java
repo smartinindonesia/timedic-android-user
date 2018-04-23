@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -126,7 +127,7 @@ public class AcceptanceActivity extends AppCompatActivity {
         selectedDate.setText(SubmitInfo.selectedDateTime.getDate());
         selectedHour.setText(SubmitInfo.selectedDateTime.getTime());
         downPayment.setText(TextFormatter.doubleToRupiah(SubmitInfo.selectedHomecareService.getVisitCost()));
-        totalApproxCash.setText(TextFormatter.doubleToRupiah(SubmitInfo.getAssessmentPrice()));
+        totalApproxCash.setText(TextFormatter.doubleToRupiah(SubmitInfo.selectedHomecareService.getPriceRange()) + " s.d " + TextFormatter.doubleToRupiah(SubmitInfo.selectedHomecareService.getPriceRange() + 100000));
     }
 
     @SuppressLint("RestrictedApi")
@@ -166,8 +167,15 @@ public class AcceptanceActivity extends AppCompatActivity {
         calendar.add(Calendar.HOUR, 1);
         homecareTransParam.setExpiredTransactionTime(calendar.getTimeInMillis());
         homecareTransParam.setPrepaidPrice(SubmitInfo.selectedHomecareService.getVisitCost());
-        homecareTransParam.setFixedPrice(0);
-        homecareTransParam.setPredictionPrice(SubmitInfo.getAssessmentPrice());
+        if (SubmitInfo.selectedHomecareService.getServiceCategory().equals("homevisit")) {
+            homecareTransParam.setFixedPrice(SubmitInfo.selectedHomecareService.getPriceRange());
+        } else {
+            homecareTransParam.setFixedPrice(0.0);
+        }
+        if (SubmitInfo.selectedHomecareService.getServiceName().equals("Perawatan Luka")) {
+            homecareTransParam.setFixedPrice(0.0);
+        }
+        homecareTransParam.setPredictionPrice(TextFormatter.doubleToRupiah(SubmitInfo.selectedHomecareService.getPriceRange()) + " s.d " + TextFormatter.doubleToRupiah(SubmitInfo.selectedHomecareService.getPriceRange() + 100000));
         homecareTransParam.setReceiptPath("");
         homecareTransParam.setLocationLatitude(SubmitInfo.selectedPlaceInfo.getLatitude());
         homecareTransParam.setLocationLongitude(SubmitInfo.selectedPlaceInfo.getLongitude());
@@ -206,7 +214,7 @@ public class AcceptanceActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void gotoThanksPage(){
+    private void gotoThanksPage() {
         Intent intent = new Intent(this, ThanksPageActivity.class);
         startActivity(intent);
     }

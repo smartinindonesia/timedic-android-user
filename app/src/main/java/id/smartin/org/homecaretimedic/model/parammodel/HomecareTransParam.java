@@ -19,19 +19,19 @@ public class HomecareTransParam {
     @SerializedName("date")
     private Long date;
     @SerializedName("fixedPrice")
-    private double fixedPrice;
+    private Double fixedPrice;
     @SerializedName("predictionPrice")
-    private double predictionPrice;
+    private String predictionPrice;
     @SerializedName("prepaidPrice")
-    private double prepaidPrice;
+    private Double prepaidPrice;
     @SerializedName("expiredTransactionTime")
     private Long expiredTransactionTime;
     @SerializedName("receiptPath")
     private String receiptPath;
     @SerializedName("locationLatitude")
-    private double locationLatitude;
+    private Double locationLatitude;
     @SerializedName("locationLongitude")
-    private double locationLongitude;
+    private Double locationLongitude;
     @SerializedName("transactionDescription")
     private String transactionDescription;
     @SerializedName("homecareAssessmentRecordList")
@@ -63,19 +63,19 @@ public class HomecareTransParam {
         this.date = date;
     }
 
-    public double getPredictionPrice() {
+    public String getPredictionPrice() {
         return predictionPrice;
     }
 
-    public void setPredictionPrice(double predictionPrice) {
+    public void setPredictionPrice(String predictionPrice) {
         this.predictionPrice = predictionPrice;
     }
 
-    public double getPrepaidPrice() {
+    public Double getPrepaidPrice() {
         return prepaidPrice;
     }
 
-    public void setPrepaidPrice(double prepaidPrice) {
+    public void setPrepaidPrice(Double prepaidPrice) {
         this.prepaidPrice = prepaidPrice;
     }
 
@@ -95,19 +95,19 @@ public class HomecareTransParam {
         this.receiptPath = receiptPath;
     }
 
-    public double getLocationLatitude() {
+    public Double getLocationLatitude() {
         return locationLatitude;
     }
 
-    public void setLocationLatitude(double locationLatitude) {
+    public void setLocationLatitude(Double locationLatitude) {
         this.locationLatitude = locationLatitude;
     }
 
-    public double getLocationLongitude() {
+    public Double getLocationLongitude() {
         return locationLongitude;
     }
 
-    public void setLocationLongitude(double locationLongitude) {
+    public void setLocationLongitude(Double locationLongitude) {
         this.locationLongitude = locationLongitude;
     }
 
@@ -135,11 +135,11 @@ public class HomecareTransParam {
         this.paymentMethod = paymentMethod;
     }
 
-    public double getFixedPrice() {
+    public Double getFixedPrice() {
         return fixedPrice;
     }
 
-    public void setFixedPrice(double fixedPrice) {
+    public void setFixedPrice(Double fixedPrice) {
         this.fixedPrice = fixedPrice;
     }
 

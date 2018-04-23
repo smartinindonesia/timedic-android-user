@@ -21,7 +21,7 @@ public class HomecareOrder implements Serializable{
     @SerializedName("fixedPrice")
     private Double fixedPrice;
     @SerializedName("predictionPrice")
-    private Double predictionPrice;
+    private String predictionPrice;
     @SerializedName("prepaidPrice")
     private Double prepaidPrice;
     @SerializedName("expiredTransactionTime")
@@ -78,11 +78,11 @@ public class HomecareOrder implements Serializable{
         this.fixedPrice = fixedPrice;
     }
 
-    public Double getPredictionPrice() {
+    public String getPredictionPrice() {
         return predictionPrice;
     }
 
-    public void setPredictionPrice(Double predictionPrice) {
+    public void setPredictionPrice(String predictionPrice) {
         this.predictionPrice = predictionPrice;
     }
 
