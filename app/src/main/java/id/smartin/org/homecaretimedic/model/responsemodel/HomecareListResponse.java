@@ -1,5 +1,7 @@
 package id.smartin.org.homecaretimedic.model.responsemodel;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
@@ -18,7 +20,8 @@ import okhttp3.ResponseBody;
  * Created by Hafid on 4/22/2018.
  */
 
-public class HomeCareListResponse {
+public class HomecareListResponse {
+    public static final String TAG = "HomecareListResponse";
 
     private ResponseBody response;
     private ArrayList<HomecareOrder> homecareOrders;
@@ -28,9 +31,11 @@ public class HomeCareListResponse {
     public void convertResponse() throws JSONException, IOException {
         JSONArray arr = new JSONArray(response.string());
         String homecareOrderArr = arr.getJSONArray(0).toString();
-        String norItem = arr.getJSONArray(1).toString();
+        Log.i(TAG, homecareOrderArr);
+        String norItem = arr.getJSONObject(1).toString();
+        Log.i(TAG, norItem);
         TypeToken<ArrayList<HomecareOrder>> token = new TypeToken<ArrayList<HomecareOrder>>() {};
-        homecareOrderArr = g.fromJson(homecareOrderArr, token.getType());
+        homecareOrders = g.fromJson(homecareOrderArr, token.getType());
         PageItem p = g.fromJson(norItem, PageItem.class);
         numberOfRow = p.getNumOfRows();
     }

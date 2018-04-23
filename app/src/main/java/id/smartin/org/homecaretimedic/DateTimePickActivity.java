@@ -27,6 +27,8 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.LinkedList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -77,16 +79,17 @@ public class DateTimePickActivity extends AppCompatActivity implements DatePicke
                 int day = mcurrentTime.get(Calendar.DAY_OF_MONTH) + 2;
                 int month = mcurrentTime.get(Calendar.MONTH);
                 int year = mcurrentTime.get(Calendar.YEAR);
-                Calendar nextWeek = Calendar.getInstance();
-                nextWeek.add(Calendar.DATE, 14);
+                Calendar next2Week = Calendar.getInstance();
+                next2Week.add(Calendar.DATE, 14);
                 Calendar minDate = Calendar.getInstance();
                 minDate.add(Calendar.DATE, 2);
 
                 Calendar now = Calendar.getInstance();
                 DatePickerDialog dpd = DatePickerDialog.newInstance(DateTimePickActivity.this, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH));
                 dpd.setMinDate(minDate);
-                dpd.setMaxDate(nextWeek);
+                dpd.setMaxDate(next2Week);
                 dpd.show(getFragmentManager(), "Datepickerdialog");
+                dpd.setDisabledDays(getSundayList(minDate, next2Week));
 
                 tglPelayanan.setText(day + "-" + (month + 1) + "-" + year);
             }
@@ -118,6 +121,25 @@ public class DateTimePickActivity extends AppCompatActivity implements DatePicke
 
         pickedDateTime = new PickedDateTime();
         setFonts();
+    }
+
+    private Calendar[] getSundayList(Calendar cAux, Calendar gc){
+        List<Calendar> dayslist= new LinkedList<Calendar>();
+        Calendar[] daysArray;
+        while ( cAux.getTimeInMillis() <= gc.getTimeInMillis()) {
+            if (cAux.get(Calendar.DAY_OF_WEEK) == 1) {
+                Calendar c = Calendar.getInstance();
+                c.setTimeInMillis(cAux.getTimeInMillis());
+                dayslist.add(c);
+            }
+            cAux.setTimeInMillis(cAux.getTimeInMillis() + (24*60*60*1000));
+        }
+        daysArray = new Calendar[dayslist.size()];
+        for (int i = 0; i<daysArray.length;i++)
+        {
+            daysArray[i]=dayslist.get(i);
+        }
+        return daysArray;
     }
 
     private void disableButton(ButtonModel<String>[] buttons, int start, int end){

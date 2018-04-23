@@ -32,6 +32,8 @@ public class HistoryOrderAdapter extends RecyclerView.Adapter<HistoryOrderAdapte
     private Context context;
     private Activity activity;
 
+    private boolean isLoadingAdded = false;
+
     public HistoryOrderAdapter(Activity activity, Context context, List<HomecareOrder> homecareOrders) {
         this.homecareOrderList = homecareOrders;
         this.context = context;
@@ -65,7 +67,7 @@ public class HistoryOrderAdapter extends RecyclerView.Adapter<HistoryOrderAdapte
 
     @Override
     public int getItemCount() {
-        return homecareOrderList.size();
+        return homecareOrderList == null ? 0 : homecareOrderList.size();
     }
 
     public void add(HomecareOrder mc) {
@@ -88,6 +90,7 @@ public class HistoryOrderAdapter extends RecyclerView.Adapter<HistoryOrderAdapte
     }
 
     public void clear() {
+        isLoadingAdded = false;
         while (getItemCount() > 0) {
             remove(getItem(0));
         }
@@ -102,6 +105,7 @@ public class HistoryOrderAdapter extends RecyclerView.Adapter<HistoryOrderAdapte
     }
 
     public void removeLoadingFooter() {
+        isLoadingAdded = false;
 
         int position = homecareOrderList.size() - 1;
         HomecareOrder item = getItem(position);
