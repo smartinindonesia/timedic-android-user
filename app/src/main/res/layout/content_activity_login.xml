@@ -102,7 +102,7 @@
                 android:id="@+id/btnSignup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/sign_up_selector_bg"
+                android:background="@drawable/sign_up_blue_selector_bg"
                 android:hint="Sign Up"
                 android:textColorHint="@color/sign_up_selector_fg" />
 
@@ -110,19 +110,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="4dp" />
 
-            <com.shaishavgandhi.loginbuttons.GooglePlusButton
+            <ImageButton
                 android:id="@+id/btnGoogleSignIn"
-                android:text="Google"
+                android:padding="15dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:social="google" />
+                android:layout_height="50dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/btn_google_login_selector"/>
 
-            <com.shaishavgandhi.loginbuttons.FacebookButton
+            <ImageButton
                 android:id="@+id/btnFacebookSignIn"
-                android:text="Facebook"
+                android:padding="15dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:social="facebook" />
+                android:layout_height="50dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/btn_facebook_login_selector"/>
 
             <TextView
                 android:id="@+id/forgotPassword"

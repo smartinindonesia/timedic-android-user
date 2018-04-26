@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -213,6 +214,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
                 homecareOrder = response.body();
                 caregiverHistoryAdapter = new CaregiverHistoryAdapter(OrderDetailsActivity.this, getApplicationContext(), homecareOrder.getCaregiverArrayList());
                 caregiverHistory.setAdapter(caregiverHistoryAdapter);
+                caregiverHistoryAdapter.notifyDataSetChanged();
                 fillPage();
             }
 

@@ -46,7 +46,7 @@
         android:padding="6dp"
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
-        android:background="@color/colorPrimaryTransparent"
+        android:background="@color/theme_blue"
         android:weightSum="4">
 
         <ImageButton
@@ -71,14 +71,17 @@
             android:layout_weight="1">
 
             <TextView
+                android:id="@+id/pointTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Point : "
-                android:textColor="@color/textColorPrimary"/>
+                android:textColor="@color/textColorSecondary"/>
 
             <TextView
+                android:id="@+id/point"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/textColorPrimary"
                 android:background="@color/windowBackground"
                 />
         </LinearLayout>

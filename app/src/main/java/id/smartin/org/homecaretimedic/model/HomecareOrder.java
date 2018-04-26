@@ -134,6 +134,7 @@ public class HomecareOrder implements Serializable{
         this.transactionDescription = transactionDescription;
     }
 
+
     public ArrayList<Assessment> getHomecareAssessmentRecordList() {
         return homecareAssessmentRecordList;
     }
@@ -158,6 +159,14 @@ public class HomecareOrder implements Serializable{
         this.homecarePatientId = homecarePatientId;
     }
 
+    public ArrayList<CaregiverOrder> getCaregiverArrayList() {
+        return caregiverArrayList;
+    }
+
+    public void setCaregiverArrayList(ArrayList<CaregiverOrder> caregiverArrayList) {
+        this.caregiverArrayList = caregiverArrayList;
+    }
+
     public PaymentMethod getPaymentMethodId() {
         return paymentMethodId;
     }
@@ -180,14 +189,6 @@ public class HomecareOrder implements Serializable{
 
     public void setSelectedService(String selectedService) {
         this.selectedService = selectedService;
-    }
-
-    public ArrayList<CaregiverOrder> getCaregiverArrayList() {
-        return caregiverArrayList;
-    }
-
-    public void setCaregiverArrayList(ArrayList<CaregiverOrder> caregiverArrayList) {
-        this.caregiverArrayList = caregiverArrayList;
     }
 
     public String getOrderNumber() {

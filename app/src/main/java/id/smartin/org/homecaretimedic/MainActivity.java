@@ -46,6 +46,10 @@ public class MainActivity extends AppCompatActivity {
     TabLayout tabLayout;
     @BindView(R.id.viewpager)
     ViewPager viewPager;
+    @BindView(R.id.point)
+    TextView point;
+    @BindView(R.id.pointTitle)
+    TextView pointTitle;
 
     private int[] tabIcons = {
             R.drawable.ic_tab_home,
@@ -151,6 +155,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setFonts(){
+        ArrayList<TextView> arrayList = new ArrayList<>();
+        arrayList.add(point);
+        arrayList.add(pointTitle);
+        ViewFaceUtility.applyFonts(arrayList, this, "fonts/BalooBhaina-Regular.ttf");
         setTabsFont();
     }
 

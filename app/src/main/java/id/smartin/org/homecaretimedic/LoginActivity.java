@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -83,9 +84,9 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.btnSignIn)
     Button signIn;
     @BindView(R.id.btnGoogleSignIn)
-    GooglePlusButton btnGoogleSignIn;
+    ImageButton btnGoogleSignIn;
     @BindView(R.id.btnFacebookSignIn)
-    FacebookButton btnFacebookSignIn;
+    ImageButton btnFacebookSignIn;
     @BindView(R.id.emailAddress)
     EditText username;
     @BindView(R.id.password)
@@ -152,8 +153,6 @@ public class LoginActivity extends AppCompatActivity {
     public void setFonts() {
         ArrayList<TextView> tvs = new ArrayList<>();
         tvs.add(signIn);
-        tvs.add(btnGoogleSignIn);
-        tvs.add(btnFacebookSignIn);
         tvs.add(username);
         tvs.add(signUp);
         tvs.add(password);

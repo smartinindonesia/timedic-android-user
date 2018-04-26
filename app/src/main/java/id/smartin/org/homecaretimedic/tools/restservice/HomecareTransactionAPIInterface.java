@@ -3,6 +3,7 @@ package id.smartin.org.homecaretimedic.tools.restservice;
 import java.util.List;
 
 import id.smartin.org.homecaretimedic.config.Constants;
+import id.smartin.org.homecaretimedic.model.CaregiverOrder;
 import id.smartin.org.homecaretimedic.model.HomecareOrder;
 import id.smartin.org.homecaretimedic.model.parammodel.HomecareTransParam;
 import okhttp3.ResponseBody;
@@ -38,9 +39,14 @@ public interface HomecareTransactionAPIInterface {
     @GET(Constants.ROUTE_ACTIVE_ORDER + "{id}")
     Call<List<HomecareOrder>> getActiveOrder(@Path(value = "id", encoded = true) Long id);
 
-    @GET(Constants.ROUTE_ACTIVE_ORDER_PAGINATION)//page, size, sort, sortField, idUser
+    @GET(Constants.ROUTE_ACTIVE_ORDER_PAGINATION)
+//page, size, sort, sortField, idUser
     Call<ResponseBody> getActiveOrderPage(@Query("page") Integer page, @Query("size") Integer size, @Query("sort") String sortType, @Query("sortField") String sortField, @Query("idUser") Long idUser);
 
-    @GET(Constants.ROUTE_HISTORY_ORDER_PAGINATION)//page, size, sort, sortField, idUser
+    @GET(Constants.ROUTE_HISTORY_ORDER_PAGINATION)
+//page, size, sort, sortField, idUser
     Call<ResponseBody> getHistoryOrderPage(@Query("page") Integer page, @Query("size") Integer size, @Query("sort") String sortType, @Query("sortField") String sortField, @Query("idUser") Long idUser);
+
+    @GET(Constants.ROUTE_HISTORY_CAREGIVER_TRX + "{id}")
+    Call<List<CaregiverOrder>> getCaregiverListOfTrx(@Path(value = "id", encoded = true) Long id);
 }
