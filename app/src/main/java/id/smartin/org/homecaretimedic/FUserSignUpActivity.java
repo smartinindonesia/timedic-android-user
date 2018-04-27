@@ -168,6 +168,10 @@ public class FUserSignUpActivity extends AppCompatActivity {
             @TargetApi(Build.VERSION_CODES.M)
             public void afterTextChanged(Editable s) {
                 String email = emailAddress.getText().toString().trim();
+                Integer paddingTop = emailAddress.getPaddingTop();
+                Integer paddingBottom = emailAddress.getPaddingBottom();
+                Integer paddingLeft = emailAddress.getPaddingLeft();
+                Integer paddingRight = emailAddress.getPaddingRight();
                 if (s.length() > 0) {
                     if (email.matches(emailPattern)) {
                         emailAddress.setBackground(getDrawable(R.drawable.bg_green_rounded_textfield));
@@ -180,6 +184,7 @@ public class FUserSignUpActivity extends AppCompatActivity {
                     emailAddress.setBackground(getDrawable(R.drawable.bg_gray_rounded_textfield));
                     emailAddress.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.text_color));
                 }
+                emailAddress.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
             }
 
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -194,6 +199,10 @@ public class FUserSignUpActivity extends AppCompatActivity {
             @TargetApi(Build.VERSION_CODES.M)
             public void afterTextChanged(Editable s) {
                 String num = phone.getText().toString().trim();
+                Integer paddingTop = phone.getPaddingTop();
+                Integer paddingBottom = phone.getPaddingBottom();
+                Integer paddingLeft = phone.getPaddingLeft();
+                Integer paddingRight = phone.getPaddingRight();
                 if (s.length() > 0) {
                     if (android.util.Patterns.PHONE.matcher(num).matches()) {
                         phone.setBackground(getDrawable(R.drawable.bg_green_rounded_textfield));
@@ -206,6 +215,7 @@ public class FUserSignUpActivity extends AppCompatActivity {
                     phone.setBackground(getDrawable(R.drawable.bg_gray_rounded_textfield));
                     phone.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.text_color));
                 }
+                phone.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
             }
 
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -238,6 +248,10 @@ public class FUserSignUpActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 String pass = password.getText().toString();
                 String rePass = retypePassword.getText().toString();
+                Integer paddingTop = retypePassword.getPaddingTop();
+                Integer paddingBottom = retypePassword.getPaddingBottom();
+                Integer paddingLeft = retypePassword.getPaddingLeft();
+                Integer paddingRight = retypePassword.getPaddingRight();
                 if (s.length() > 0) {
                     if (pass.equals(rePass)) {
                         retypePassword.setBackground(getDrawable(R.drawable.bg_green_rounded_textfield));
@@ -250,6 +264,7 @@ public class FUserSignUpActivity extends AppCompatActivity {
                     retypePassword.setBackground(getDrawable(R.drawable.bg_gray_rounded_textfield));
                     retypePassword.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.text_color));
                 }
+                retypePassword.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
             }
 
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

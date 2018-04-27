@@ -75,6 +75,10 @@ public class ChangePasswordActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 String pass = password.getText().toString();
                 String rePass = retypePassword.getText().toString();
+                Integer paddingTop = retypePassword.getPaddingTop();
+                Integer paddingBottom = retypePassword.getPaddingBottom();
+                Integer paddingLeft = retypePassword.getPaddingLeft();
+                Integer paddingRight = retypePassword.getPaddingRight();
                 if (s.length() > 0) {
                     if (pass.equals(rePass)) {
                         retypePassword.setBackground(getDrawable(R.drawable.bg_green_rounded_textfield));
@@ -87,6 +91,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
                     retypePassword.setBackground(getDrawable(R.drawable.edittext_border));
                     retypePassword.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.text_color));
                 }
+                retypePassword.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
             }
 
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
