@@ -42,6 +42,7 @@ public class DBHelperAlarmModel extends SQLiteOpenHelper {
                         AlarmModel.T_STATUS + T_INTEGER +
                         ")"
         );
+        timeListTable.onCreate(sqLiteDatabase);
     }
 
     @Override
@@ -64,7 +65,7 @@ public class DBHelperAlarmModel extends SQLiteOpenHelper {
         return true;
     }
 
-    public boolean insertAlarm(AlarmModel newData) {
+    public long insertAlarm(AlarmModel newData) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(AlarmModel.T_INTERVAL_DAY, newData.getIntervalDay());
@@ -74,19 +75,18 @@ public class DBHelperAlarmModel extends SQLiteOpenHelper {
         contentValues.put(AlarmModel.T_NUM_OF_MEDICINE, newData.getNumOfMedicine());
         contentValues.put(AlarmModel.T_STARTING_DATE, newData.getStartingDate());
         contentValues.put(AlarmModel.T_STATUS, newData.getStatus().getId());
-        db.insert(AlarmModel.T_ALARM_MODEL, null, contentValues);
-        return true;
+        return db.insert(AlarmModel.T_ALARM_MODEL, null, contentValues);
     }
 
-    public Integer deleteAlarm(AlarmModel alarm) {
+    public Integer deleteAlarm() {
         SQLiteDatabase db = this.getWritableDatabase();
         timeListTable.deleteAll();
-        return db.delete(alarm.T_ALARM_MODEL,
+        return db.delete(AlarmModel.T_ALARM_MODEL,
                 "id = ? ",
-                new String[]{alarm.getId().toString()});
+                new String[]{alarmModel.getId().toString()});
     }
 
-    public AlarmModel getAlarmModel(Long id) {
+    public AlarmModel getAlarmModel() {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(AlarmModel.T_ALARM_MODEL,
@@ -100,7 +100,7 @@ public class DBHelperAlarmModel extends SQLiteOpenHelper {
                         AlarmModel.T_STARTING_DATE,
                         AlarmModel.T_STATUS},
                 AlarmModel.T_ALARM_ID + "=?",
-                new String[]{id.toString()
+                new String[]{alarmModel.getId().toString()
                 }, null, null, null, null);
 
         if (cursor != null)
@@ -132,7 +132,7 @@ public class DBHelperAlarmModel extends SQLiteOpenHelper {
         String selectQuery = "SELECT  * FROM " + AlarmModel.T_ALARM_MODEL + " ORDER BY " +
                 AlarmModel.T_ALARM_ID + " DESC";
 
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         if (cursor.moveToFirst()) {
@@ -169,10 +169,6 @@ public class DBHelperAlarmModel extends SQLiteOpenHelper {
         cursor.close();
         // return count
         return count;
-    }
-
-    public AlarmModel getAlarmModel() {
-        return alarmModel;
     }
 
     public void setAlarmModel(AlarmModel alarmModel) {

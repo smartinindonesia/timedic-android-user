@@ -32,7 +32,7 @@ public class VarConst {
         return genderOptions;
     }
 
-    public static List<MedicineType> getType() {
+    public static List<MedicineType> getMedType() {
         List<MedicineType> types = new ArrayList<>();
         types.add(new MedicineType(0,"Tablet",0));
         types.add(new MedicineType(1,"Kapsul",0));

@@ -89,7 +89,7 @@ public class DateTimePickActivity extends AppCompatActivity implements DatePicke
                 dpd.setMinDate(minDate);
                 dpd.setMaxDate(next2Week);
                 dpd.show(getFragmentManager(), "Datepickerdialog");
-                dpd.setDisabledDays(getSundayList(minDate, next2Week));
+                //dpd.setDisabledDays(getSundayList(minDate, next2Week));
 
                 tglPelayanan.setText(day + "-" + (month + 1) + "-" + year);
             }

@@ -15,11 +15,13 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import id.smartin.org.homecaretimedic.R;
 import id.smartin.org.homecaretimedic.model.Reminder;
 import id.smartin.org.homecaretimedic.model.utilitymodel.AlarmModel;
 import id.smartin.org.homecaretimedic.tools.ConverterUtility;
 import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
+import id.smartin.org.homecaretimedic.tools.sqlitehelper.DBHelperAlarmModel;
 
 /**
  * Created by Hafid on 8/23/2017.
@@ -31,11 +33,13 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.MyView
     private List<AlarmModel> reminderList;
     private Activity activity;
     private Context context;
+    private ReminderAdapter adapter;
 
     public ReminderAdapter(Context context, Activity activity, List<AlarmModel> reminderList) {
         this.reminderList = reminderList;
         this.activity = activity;
         this.context = context;
+        this.adapter = this;
     }
 
     @Override
@@ -47,11 +51,17 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.MyView
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        AlarmModel remind = reminderList.get(position);
+        final AlarmModel remind = reminderList.get(position);
+        final DBHelperAlarmModel dbHelperAlarmModel = new DBHelperAlarmModel(context, remind);
         holder.medicineName.setText(remind.getMedicineName());
         holder.dose.setText(remind.getNumOfMedicine() + "x" + remind.getIntervalTime() + " " + remind.getMedicineShape() + "/" + remind.getIntervalDay() + " hari");
-        holder.treatmentDate.setText("");
-        holder.status.setText(remind.getStatus().getStatus());
+        holder.treatmentDate.setText("Dimulai tanggal " + remind.getStartingDate());
+        String status = "";
+        if (remind.getStatus().getId() == 1) {
+            holder.status.setText("Alarm aktif");
+        } else {
+            holder.status.setText("Alarm mati");
+        }
         holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,7 +71,23 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.MyView
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                SweetAlertDialog sdialog = new SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE);
+                sdialog.setTitleText("Apakah anda yakin?");
+                sdialog.setContentText("Data tidak dapat dikembalikan setelah terhapus!");
+                sdialog.setConfirmText("Ya");
+                sdialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        sDialog.dismiss();
+                        int result = dbHelperAlarmModel.deleteAlarm();
+                        if (result > 0) {
+                            resetData();
+                        }
+                    }
+                });
+                sdialog.setCancelable(true);
+                sdialog.setCancelText("Tidak");
+                sdialog.show();
             }
         });
     }
@@ -69,6 +95,16 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.MyView
     @Override
     public int getItemCount() {
         return reminderList.size();
+    }
+
+    public void resetData() {
+        DBHelperAlarmModel dbHelperAlarmModel = new DBHelperAlarmModel(context, new AlarmModel());
+        reminderList.clear();
+        List<AlarmModel> temp = dbHelperAlarmModel.getAllAlarm();
+        for (int i = 0; i < temp.size(); i++) {
+            reminderList.add(temp.get(i));
+        }
+        adapter.notifyDataSetChanged();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

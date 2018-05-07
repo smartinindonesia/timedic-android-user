@@ -63,7 +63,7 @@ public class Constants {
     public static final String ROUTE_RATE_GET = "/api/getCaregiverRateByIdCaregiver/";
 
     //LOCAL DB SETTING
-    public static final String LOCALDB_NAME = "";
+    public static final String LOCALDB_NAME = "id.smartin.org.homecaretimedic.timedicalarm";
     public static final Integer LOCALDB_VERSION = 1;
 
     //API managing

@@ -28,6 +28,7 @@ import id.smartin.org.homecaretimedic.customuicompt.RecyclerTouchListener;
 import id.smartin.org.homecaretimedic.model.Reminder;
 import id.smartin.org.homecaretimedic.model.utilitymodel.AlarmModel;
 import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
+import id.smartin.org.homecaretimedic.tools.sqlitehelper.DBHelperAlarmModel;
 
 public class MedicineReminderActivity extends AppCompatActivity {
 
@@ -43,13 +44,15 @@ public class MedicineReminderActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
+    private DBHelperAlarmModel dbHelperAlarmModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_medicine_reminder);
         ButterKnife.bind(this);
         createTitleBar();
-        createReminderItem();
+        dbHelperAlarmModel = new DBHelperAlarmModel(this, new AlarmModel());
         addReminderItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,15 +79,14 @@ public class MedicineReminderActivity extends AppCompatActivity {
             }
         }));
         reminderAdapter.notifyDataSetChanged();
+
         setFonts();
     }
 
-    public void createReminderItem() {
-
-    }
-
-    public void addReminderItem() {
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        resetRecycler();
     }
 
     @SuppressLint("RestrictedApi")
@@ -99,13 +101,22 @@ public class MedicineReminderActivity extends AppCompatActivity {
         mActionbar.setDisplayShowCustomEnabled(true);
     }
 
+    public void resetRecycler() {
+        reminderList.clear();
+        List<AlarmModel> temp = dbHelperAlarmModel.getAllAlarm();
+        for (int i = 0; i < temp.size(); i++) {
+            reminderList.add(temp.get(i));
+        }
+        reminderAdapter.notifyDataSetChanged();
+    }
+
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
     }
 
-    private void setFonts(){
+    private void setFonts() {
         ViewFaceUtility.applyFont(addReminderItem, this, "fonts/Dosis-Medium.otf");
     }
 }

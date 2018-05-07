@@ -82,6 +82,7 @@
                     android:padding="@dimen/global_page_padding_normal">
 
                     <TextView
+                        android:id="@+id/doseTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Dosis"
@@ -130,20 +131,24 @@
                             android:textSize="12sp" />
 
                         <Spinner
+                            android:id="@+id/unitMeasure"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="2"/>
+                            android:layout_height="@dimen/calculator_input_height"
+                            android:layout_weight="2"
+                            android:background="@drawable/bg_blue_rounded_field" />
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
+
                         <TextView
+                            android:id="@+id/perText"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.5"
-                            android:text="per"/>
+                            android:text="per" />
 
                         <EditText
                             android:id="@+id/numOfDays"
@@ -155,10 +160,11 @@
                             android:textSize="12sp" />
 
                         <TextView
+                            android:id="@+id/dayText"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
-                            android:text=" hari"/>
+                            android:text=" hari" />
                     </LinearLayout>
 
 
@@ -196,6 +202,7 @@
                     android:padding="@dimen/global_page_padding_normal">
 
                     <TextView
+                        android:id="@+id/scheduleTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Jadwal"
@@ -227,6 +234,7 @@
                             android:enabled="false"
                             android:hint="Tanggal mulai pengobatan"
                             android:textSize="12sp" />
+
                     </android.support.design.widget.TextInputLayout>
 
                     <ImageButton
@@ -265,6 +273,7 @@
                     android:padding="@dimen/global_page_padding_normal">
 
                     <TextView
+                        android:id="@+id/alarmStatusTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Status Alarm"
@@ -288,11 +297,13 @@
                         android:orientation="horizontal">
 
                         <RadioButton
+                            android:id="@+id/onStatus"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="aktifkan" />
 
                         <RadioButton
+                            android:id="@+id/offStatus"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="matikan" />
@@ -308,6 +319,7 @@
             android:layout_height="10dp" />
 
         <Button
+            android:id="@+id/btnSetAlarm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/orange_selector_button_bg"
