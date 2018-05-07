@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.InputFilter;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -29,6 +30,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.smartin.org.homecaretimedic.adapter.MedicineTypeSpinner;
 import id.smartin.org.homecaretimedic.config.VarConst;
+import id.smartin.org.homecaretimedic.customuicompt.InputFilterMinMax;
 import id.smartin.org.homecaretimedic.model.MedicineType;
 import id.smartin.org.homecaretimedic.model.utilitymodel.AlarmModel;
 import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
@@ -129,6 +131,8 @@ public class AddReminderItemActivity extends AppCompatActivity {
                 }
             }
         });
+
+        times.setFilters(new InputFilter[]{ new InputFilterMinMax("1", "4")});
         setFonts();
     }
 

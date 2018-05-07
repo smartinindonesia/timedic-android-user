@@ -188,7 +188,22 @@
         <activity android:name=".BankTransferPageActivity" />
         <activity android:name=".ChatAdminActivity" />
         <activity android:name=".ThanksPageActivity" />
-        <activity android:name=".AddReminderItemActivity"></activity>
+        <activity android:name=".AddReminderItemActivity" />
+        <activity android:name=".AlarmActivity" />
+
+        <service
+            android:name=".service.AlarmSoundService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <receiver
+            android:name=".receiver.AlarmBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true" />
+
+        <service
+            android:name=".service.AlarmNotificationService"
+            android:exported="false"></service>
     </application>
 
 </manifest>
