@@ -31,6 +31,8 @@ public class UserProfile {
     private Float longitude;
     @SerializedName("gender")
     private String gender;
+    @SerializedName("religion")
+    private String religion;
 
     public Long getId() {
         return id;
@@ -131,5 +133,13 @@ public class UserProfile {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public String getReligion() {
+        return religion;
+    }
+
+    public void setReligion(String religion) {
+        this.religion = religion;
     }
 }

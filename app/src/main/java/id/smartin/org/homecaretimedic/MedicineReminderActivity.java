@@ -1,6 +1,9 @@
 package id.smartin.org.homecaretimedic;
 
+import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
+import android.content.Intent;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -23,26 +26,20 @@ import butterknife.ButterKnife;
 import id.smartin.org.homecaretimedic.adapter.ReminderAdapter;
 import id.smartin.org.homecaretimedic.customuicompt.RecyclerTouchListener;
 import id.smartin.org.homecaretimedic.model.Reminder;
+import id.smartin.org.homecaretimedic.model.utilitymodel.AlarmModel;
+import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
 
 public class MedicineReminderActivity extends AppCompatActivity {
 
     public static String TAG = "[MedicineReminderActivity]";
 
-    ReminderAdapter reminderAdapter ;
-    List<Reminder> reminderList = new ArrayList<>();
+    ReminderAdapter reminderAdapter;
+    List<AlarmModel> reminderList = new ArrayList<>();
 
     @BindView(R.id.reminder_list)
     RecyclerView recyclerView;
-    @BindView(R.id.addReminder)
-    Button addReminderTime;
     @BindView(R.id.addReminderItem)
     Button addReminderItem;
-    @BindView(R.id.time_reminder)
-    EditText textReminder;
-    @BindView(R.id.medicineType)
-    EditText medicineType;
-    @BindView(R.id.dosis)
-    EditText dose;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -51,32 +48,16 @@ public class MedicineReminderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_medicine_reminder);
         ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
+        createTitleBar();
         createReminderItem();
-        addReminderTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Calendar mcurrentTime = Calendar.getInstance();
-                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-                int minute = mcurrentTime.get(Calendar.MINUTE);
-                TimePickerDialog mTimePicker;
-                mTimePicker = new TimePickerDialog(MedicineReminderActivity.this, new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                        textReminder.setText( selectedHour + ":" + selectedMinute);
-                    }
-                }, hour, minute, true);//Yes 24 hour time
-                mTimePicker.setTitle("Select Time");
-                mTimePicker.show();
-            }
-        });
         addReminderItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addReminderItem();
+                Intent intent = new Intent(MedicineReminderActivity.this, AddReminderItemActivity.class);
+                startActivity(intent);
             }
         });
-        reminderAdapter = new ReminderAdapter(getApplicationContext(), reminderList);
+        reminderAdapter = new ReminderAdapter(getApplicationContext(), this, reminderList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
@@ -85,8 +66,8 @@ public class MedicineReminderActivity extends AppCompatActivity {
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                Reminder reminder = reminderList.get(position);
-                Toast.makeText(getApplicationContext(), reminder.getJenisObat(), Toast.LENGTH_LONG).show();
+                AlarmModel reminder = reminderList.get(position);
+                Toast.makeText(getApplicationContext(), reminder.getMedicineName(), Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -95,18 +76,36 @@ public class MedicineReminderActivity extends AppCompatActivity {
             }
         }));
         reminderAdapter.notifyDataSetChanged();
+        setFonts();
     }
 
-    public void createReminderItem(){
-        Reminder reminder1 = new Reminder("Obat A", "1 tablet per minum", "06:00");
-        Reminder reminder2 = new Reminder("Obat B", "1 tablet per minum", "06:00");
-        reminderList.add(reminder1);
-        reminderList.add(reminder2);
+    public void createReminderItem() {
+
     }
 
-    public void addReminderItem(){
-        Reminder newReminder = new Reminder(medicineType.getText().toString(),dose.getText().toString(),textReminder.getText().toString());
-        reminderList.add(newReminder);
-        reminderAdapter.notifyDataSetChanged();
+    public void addReminderItem() {
+
+    }
+
+    @SuppressLint("RestrictedApi")
+    public void createTitleBar() {
+        setSupportActionBar(toolbar);
+        ViewFaceUtility.changeToolbarFont(toolbar, this, "fonts/BalooBhaina-Regular.ttf", R.color.theme_black);
+        ActionBar mActionbar = getSupportActionBar();
+        mActionbar.setDisplayHomeAsUpEnabled(true);
+        mActionbar.setDefaultDisplayHomeAsUpEnabled(true);
+        mActionbar.setDisplayShowHomeEnabled(true);
+        mActionbar.setDisplayShowTitleEnabled(true);
+        mActionbar.setDisplayShowCustomEnabled(true);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    private void setFonts(){
+        ViewFaceUtility.applyFont(addReminderItem, this, "fonts/Dosis-Medium.otf");
     }
 }

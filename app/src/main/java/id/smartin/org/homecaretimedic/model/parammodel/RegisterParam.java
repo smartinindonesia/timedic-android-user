@@ -15,11 +15,11 @@ public class RegisterParam {
     private String username;
     @SerializedName("password")
     private String password;
-    @SerializedName("firstname")
+    @SerializedName("frontName")
     private String firstname;
-    @SerializedName("middlename")
+    @SerializedName("middleName")
     private String middlename;
-    @SerializedName("lastname")
+    @SerializedName("lastName")
     private String lastname;
     @SerializedName("phoneNumber")
     private String phone;
@@ -33,6 +33,8 @@ public class RegisterParam {
     private String firebaseIdGoogle;
     @SerializedName("gender")
     private String gender;
+    @SerializedName("religion")
+    private String religion;
 
     public String getUsername() {
         return username;
@@ -165,5 +167,13 @@ public class RegisterParam {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public String getReligion() {
+        return religion;
+    }
+
+    public void setReligion(String religion) {
+        this.religion = religion;
     }
 }

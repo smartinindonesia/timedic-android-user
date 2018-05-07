@@ -62,6 +62,10 @@ public class Constants {
     public static final String ROUTE_RATE_POST = "/api/caregiverRate";
     public static final String ROUTE_RATE_GET = "/api/getCaregiverRateByIdCaregiver/";
 
+    //LOCAL DB SETTING
+    public static final String LOCALDB_NAME = "";
+    public static final Integer LOCALDB_VERSION = 1;
+
     //API managing
     public static final String YOUTUBE_API_KEY = "AIzaSyCs06OoysZqT-UN1-er9Ob7q6cXzVPnViY";
     public static final String YOUTUBE_CHANNEL = "UCjDX29cI6EMpGwAIOER4vvg";

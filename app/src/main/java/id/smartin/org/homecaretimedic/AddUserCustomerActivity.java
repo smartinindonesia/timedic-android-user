@@ -24,8 +24,13 @@ import java.util.Calendar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import id.smartin.org.homecaretimedic.adapter.GenderSpinnerAdapter;
+import id.smartin.org.homecaretimedic.adapter.ReligionAdapter;
+import id.smartin.org.homecaretimedic.config.VarConst;
 import id.smartin.org.homecaretimedic.manager.HomecareSessionManager;
+import id.smartin.org.homecaretimedic.model.GenderOption;
 import id.smartin.org.homecaretimedic.model.Patient;
+import id.smartin.org.homecaretimedic.model.Religion;
 import id.smartin.org.homecaretimedic.model.parammodel.RegPatientParam;
 import id.smartin.org.homecaretimedic.model.submitmodel.PickedDateTime;
 import id.smartin.org.homecaretimedic.tools.ConverterUtility;
@@ -76,9 +81,8 @@ public class AddUserCustomerActivity extends AppCompatActivity {
     @BindView(R.id.dateOfBirthTitle)
     TextView dateOfBirthTitle;
 
-
-
-    ArrayAdapter<CharSequence> adapterGender, adapterReligion;
+    GenderSpinnerAdapter adapterGender;
+    ReligionAdapter adapterReligion;
 
     private DatePickerDialog datePickerDialog;
     private PickedDateTime pickedDateTime;
@@ -101,12 +105,10 @@ public class AddUserCustomerActivity extends AppCompatActivity {
         homecareSessionManager = new HomecareSessionManager(this, getApplicationContext());
         patientAPIInterface = APIClient.getClientWithToken(homecareSessionManager, getApplicationContext()).create(PatientAPIInterface.class);
 
-        adapterReligion = ArrayAdapter.createFromResource(this, R.array.religion, android.R.layout.simple_spinner_item);
-        adapterReligion.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapterReligion = new ReligionAdapter(this, this, VarConst.getReligionList());
         religionsSpinner.setAdapter(adapterReligion);
 
-        adapterGender = ArrayAdapter.createFromResource(this, R.array.gender, android.R.layout.simple_spinner_item);
-        adapterGender.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapterGender = new GenderSpinnerAdapter(this, this, VarConst.getGenders());
         genderSpinner.setAdapter(adapterGender);
 
         selectDob.setOnClickListener(new View.OnClickListener() {
@@ -152,10 +154,12 @@ public class AddUserCustomerActivity extends AppCompatActivity {
         patient.setWeight(Double.parseDouble(weight.getText().toString()));
         Long dobs = ConverterUtility.getTimeStamp(dob.getText().toString(), "dd-MM-yyyy");
         patient.setDateOfBirth(dobs);
-        patient.setGender(genderSpinner.getSelectedItem().toString());
         patient.setIdAppUser(homecareSessionManager.getUserDetail().getId());
         patient.setName(patientsName.getText().toString());
         patient.setPlaceOfBirth(pob.getText().toString());
+        patient.setGender(((GenderOption) genderSpinner.getAdapter().getItem(genderSpinner.getSelectedItemPosition())).getGender());
+        patient.setReligion(((Religion) religionsSpinner.getAdapter().getItem(religionsSpinner.getSelectedItemPosition())).getReligion());
+
         showProgressDialog("Menyimpan data pasien");
         Call<ResponseBody> services = patientAPIInterface.editUser(patientP.getId(), patient);
         services.enqueue(new Callback<ResponseBody>() {
@@ -199,7 +203,8 @@ public class AddUserCustomerActivity extends AppCompatActivity {
         patient.setWeight(Double.parseDouble(weight.getText().toString()));
         patient.setDateOfBirth(ConverterUtility.getTimeStamp(dob.getText().toString(), "dd-MM-yyyy"));
         //patient.setDateOfBirth(dob.getText().toString());
-        patient.setGender(genderSpinner.getSelectedItem().toString());
+        patient.setGender(((GenderOption) genderSpinner.getAdapter().getItem(genderSpinner.getSelectedItemPosition())).getGender());
+        patient.setReligion(((Religion) religionsSpinner.getAdapter().getItem(religionsSpinner.getSelectedItemPosition())).getReligion());
         patient.setIdAppUser(homecareSessionManager.getUserDetail().getId());
         patient.setName(patientsName.getText().toString());
         patient.setPlaceOfBirth(pob.getText().toString());
@@ -234,11 +239,45 @@ public class AddUserCustomerActivity extends AppCompatActivity {
         });
     }
 
+    private void setGenderSelection(Patient user) {
+        if (user.getGender() != null) {
+            if (user.getGender().equals("Laki-Laki")) {
+                genderSpinner.setSelection(0);
+            } else {
+                genderSpinner.setSelection(1);
+            }
+        } else {
+            genderSpinner.setSelection(0);
+        }
+    }
+
+    private void setSelectionOfPatient(Patient user) {
+        if (user.getReligion() != null) {
+            if (user.getReligion().equals("Islam")) {
+                religionsSpinner.setSelection(0);
+            } else if (user.getReligion().equals("Kristen")) {
+                religionsSpinner.setSelection(1);
+            } else if (user.getReligion().equals("Katolik")) {
+                religionsSpinner.setSelection(2);
+            } else if (user.getReligion().equals("Hindu")) {
+                religionsSpinner.setSelection(3);
+            } else if (user.getReligion().equals("Budha")) {
+                religionsSpinner.setSelection(4);
+            } else if (user.getReligion().equals("Kong Hu Cu")) {
+                religionsSpinner.setSelection(5);
+            } else {
+                religionsSpinner.setSelection(6);
+            }
+        } else {
+            religionsSpinner.setSelection(6);
+        }
+    }
+
     public void openEditForm() {
         patientP = (Patient) getIntent().getSerializableExtra("patient_data");
         if (patientP != null) {
-            religionsSpinner.setSelection(adapterReligion.getPosition(patientP.getReligion()));
-            genderSpinner.setSelection(adapterGender.getPosition(patientP.getGender()));
+            setGenderSelection(patientP);
+            setSelectionOfPatient(patientP);
             patientsName.setText(patientP.getName());
             height.setText(String.valueOf(patientP.getHeight()));
             weight.setText(String.valueOf(patientP.getWeight()));
@@ -291,7 +330,7 @@ public class AddUserCustomerActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
-    private void setFonts(){
+    private void setFonts() {
         ArrayList<TextView> arrayList = new ArrayList<>();
         arrayList.add(patientsNameTitle);
         arrayList.add(religionTitle);

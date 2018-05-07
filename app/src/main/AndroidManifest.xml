@@ -32,6 +32,7 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCs06OoysZqT-UN1-er9Ob7q6cXzVPnViY" />
+
         <!-- AIzaSyCgeY-IX8PcKisRf7KqiRcUTJqlNOX2bGM -->
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -186,7 +187,8 @@
             android:label="@string/act_billing_method" />
         <activity android:name=".BankTransferPageActivity" />
         <activity android:name=".ChatAdminActivity" />
-        <activity android:name=".ThanksPageActivity"></activity>
+        <activity android:name=".ThanksPageActivity" />
+        <activity android:name=".AddReminderItemActivity"></activity>
     </application>
 
 </manifest>

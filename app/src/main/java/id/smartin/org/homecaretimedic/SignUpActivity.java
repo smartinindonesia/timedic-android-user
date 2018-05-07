@@ -37,8 +37,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.smartin.org.homecaretimedic.adapter.GenderSpinnerAdapter;
+import id.smartin.org.homecaretimedic.adapter.ReligionAdapter;
 import id.smartin.org.homecaretimedic.config.Constants;
+import id.smartin.org.homecaretimedic.config.VarConst;
 import id.smartin.org.homecaretimedic.model.GenderOption;
+import id.smartin.org.homecaretimedic.model.Religion;
 import id.smartin.org.homecaretimedic.model.parammodel.RegisterParam;
 import id.smartin.org.homecaretimedic.tools.AesUtil;
 import id.smartin.org.homecaretimedic.tools.ConverterUtility;
@@ -85,6 +88,8 @@ public class SignUpActivity extends AppCompatActivity {
     ImageButton selectDob;
     @BindView(R.id.genderSpin)
     Spinner genderSpin;
+    @BindView(R.id.religionName)
+    Spinner religionName;
 
     @BindView(R.id.usernameTitle)
     TextView usernameTitle;
@@ -106,9 +111,14 @@ public class SignUpActivity extends AppCompatActivity {
     TextView genderSpinTitle;
     @BindView(R.id.dateOfBirthTitle)
     TextView dobTitle;
+    @BindView(R.id.religionNameText)
+    TextView religionNameTitle;
 
     GenderSpinnerAdapter adapterGender;
     List<GenderOption> genderOptions;
+
+    ReligionAdapter adapterReligion;
+    List<Religion> religionList;
 
     private DatePickerDialog datePickerDialog;
     private UserAPIInterface userAPIInterface;
@@ -245,9 +255,11 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
-        genderOptions = new ArrayList<>();
-        genderOptions.add(new GenderOption(R.drawable.btn_laki_laki, "Laki-Laki"));
-        genderOptions.add(new GenderOption(R.drawable.btn__perempuan, "Perempuan"));
+        religionList = VarConst.getReligionList();
+        adapterReligion = new ReligionAdapter(this,this, religionList);
+        religionName.setAdapter(adapterReligion);
+
+        genderOptions = VarConst.getGenders();
         adapterGender = new GenderSpinnerAdapter(this, this, genderOptions);
         genderSpin.setAdapter(adapterGender);
 
@@ -285,7 +297,8 @@ public class SignUpActivity extends AppCompatActivity {
         registerParam.setEmail(emailAddress.getText().toString());
         Long dobs = ConverterUtility.getTimeStamp(dob.getText().toString(), "dd-MM-yyyy");
         registerParam.setDateOfBirth(dobs);
-        registerParam.setGender(genderSpin.getSelectedItem().toString());
+        registerParam.setGender(((GenderOption) genderSpin.getAdapter().getItem(genderSpin.getSelectedItemPosition())).getGender());
+        registerParam.setReligion(((Religion) religionName.getAdapter().getItem(religionName.getSelectedItemPosition())).getReligion());
         if (retypePassword.getText().toString().equals(password.getText().toString())) {
             if (registerParam.isValidUsername()) {
                 if (!registerParam.isUsernameContainSpace()) {
@@ -373,6 +386,7 @@ public class SignUpActivity extends AppCompatActivity {
         arrayList.add(checkAgreement);
         arrayList.add(agreementLink);
         arrayList.add(signUP);
+        arrayList.add(religionNameTitle);
         ViewFaceUtility.applyFonts(arrayList, this, "fonts/Dosis-Medium.otf");
     }
 }

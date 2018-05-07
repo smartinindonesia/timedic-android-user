@@ -53,7 +53,10 @@ import butterknife.ButterKnife;
 import cn.pedant.SweetAlert.Constants;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import id.smartin.org.homecaretimedic.adapter.GenderSpinnerAdapter;
+import id.smartin.org.homecaretimedic.adapter.ReligionAdapter;
+import id.smartin.org.homecaretimedic.config.VarConst;
 import id.smartin.org.homecaretimedic.model.GenderOption;
+import id.smartin.org.homecaretimedic.model.Religion;
 import id.smartin.org.homecaretimedic.model.User;
 import id.smartin.org.homecaretimedic.model.parammodel.RegisterParam;
 import id.smartin.org.homecaretimedic.tools.AesUtil;
@@ -101,6 +104,8 @@ public class FUserSignUpActivity extends AppCompatActivity {
     ImageButton selectDob;
     @BindView(R.id.genderSpin)
     Spinner genderSpin;
+    @BindView(R.id.religionName)
+    Spinner religionName;
 
     @BindView(R.id.usernameTitle)
     TextView usernameTitle;
@@ -122,6 +127,8 @@ public class FUserSignUpActivity extends AppCompatActivity {
     TextView genderSpinTitle;
     @BindView(R.id.dateOfBirthTitle)
     TextView dobTitle;
+    @BindView(R.id.religionNameText)
+    TextView religionNameTitle;
 
     private DatePickerDialog datePickerDialog;
     private UserAPIInterface userAPIInterface;
@@ -129,6 +136,9 @@ public class FUserSignUpActivity extends AppCompatActivity {
 
     GenderSpinnerAdapter adapterGender;
     List<GenderOption> genderOptions;
+
+    ReligionAdapter adapterReligion;
+    List<Religion> religionList;
 
     private GoogleSignInOptions gso;
     private GoogleApiClient mGoogleApiClient;
@@ -276,9 +286,11 @@ public class FUserSignUpActivity extends AppCompatActivity {
             }
         });
 
-        genderOptions = new ArrayList<>();
-        genderOptions.add(new GenderOption(R.drawable.btn_laki_laki, "Laki-Laki"));
-        genderOptions.add(new GenderOption(R.drawable.btn__perempuan, "Perempuan"));
+        religionList = VarConst.getReligionList();
+        adapterReligion = new ReligionAdapter(this,this, religionList);
+        religionName.setAdapter(adapterReligion);
+
+        genderOptions = VarConst.getGenders();
         adapterGender = new GenderSpinnerAdapter(this, this, genderOptions);
         genderSpin.setAdapter(adapterGender);
 
@@ -329,7 +341,8 @@ public class FUserSignUpActivity extends AppCompatActivity {
         Long dobs = ConverterUtility.getTimeStamp(dob.getText().toString(), "dd-MM-yyyy");
         registerParam.setDateOfBirth(dobs);
         registerParam.setFirebaseIdGoogle(user.getFirebaseIdGoogle());
-        registerParam.setGender(genderSpin.getSelectedItem().toString());
+        registerParam.setGender(((GenderOption) genderSpin.getAdapter().getItem(genderSpin.getSelectedItemPosition())).getGender());
+        registerParam.setReligion(((Religion) religionName.getAdapter().getItem(religionName.getSelectedItemPosition())).getReligion());
         Log.i(TAG, user.getFirebaseIdGoogle());
         if (retypePassword.getText().toString().equals(password.getText().toString())) {
             if (registerParam.isValidUsername()) {

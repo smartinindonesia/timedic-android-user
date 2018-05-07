@@ -71,12 +71,8 @@
                     android:id="@+id/religion"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/calculator_input_height"
-                    android:layout_gravity="center"
                     android:layout_weight="0.6"
-                    android:background="@drawable/edittext_border"
-                    android:drawableLeft="@drawable/ic_click_date"
-                    android:hint="Agama"
-                    android:padding="4dp" />
+                    android:background="@drawable/bg_blue_rounded_field" />
 
             </LinearLayout>
 
@@ -99,12 +95,8 @@
                     android:id="@+id/genderSelector"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/calculator_input_height"
-                    android:layout_gravity="center"
                     android:layout_weight="0.6"
-                    android:background="@drawable/edittext_border"
-                    android:drawableLeft="@drawable/ic_click_date"
-                    android:hint="Jenis Kelamin"
-                    android:padding="4dp" />
+                    android:background="@drawable/bg_blue_rounded_field" />
 
             </LinearLayout>
 

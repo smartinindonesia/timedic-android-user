@@ -141,7 +141,7 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        btnMedicineRemind.setEnabled(false);
+        btnMedicineRemind.setEnabled(true);
         // Inflate the layout for this fragment
         return vwInflater;
     }

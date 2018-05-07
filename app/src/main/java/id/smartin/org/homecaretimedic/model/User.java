@@ -26,6 +26,8 @@ public class User implements Serializable{
     private String lastName;
     @SerializedName("middleName")
     private String middleName;
+    @SerializedName("religion")
+    private String religion;
     @SerializedName("password")
     private String password;
     @SerializedName("phoneNumber")
@@ -241,6 +243,14 @@ public class User implements Serializable{
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public String getReligion() {
+        return religion;
+    }
+
+    public void setReligion(String religion) {
+        this.religion = religion;
     }
 
     @Override

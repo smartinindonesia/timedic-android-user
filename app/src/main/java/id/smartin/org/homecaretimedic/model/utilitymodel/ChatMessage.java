@@ -1,4 +1,4 @@
-package id.smartin.org.homecaretimedic.model;
+package id.smartin.org.homecaretimedic.model.utilitymodel;
 
 import java.util.Date;
 

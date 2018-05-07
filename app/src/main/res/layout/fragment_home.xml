@@ -163,8 +163,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
-                        android:layout_alignParentRight="true"
-                        android:src="@drawable/upcoming"/>
+                        android:layout_alignParentRight="true"/>
 
                     <ImageButton
                         android:id="@+id/btnMedicineReminder"
@@ -172,7 +171,6 @@
                         android:layout_height="wrap_content"
                         android:background="?attr/selectableItemBackground"
                         android:scaleType="fitCenter"
-                        android:clickable="false"
                         android:src="@drawable/btn_health_reminder" />
 
                 </RelativeLayout>

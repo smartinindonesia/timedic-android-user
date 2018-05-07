@@ -36,8 +36,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.smartin.org.homecaretimedic.adapter.GenderSpinnerAdapter;
+import id.smartin.org.homecaretimedic.adapter.ReligionAdapter;
+import id.smartin.org.homecaretimedic.config.VarConst;
 import id.smartin.org.homecaretimedic.manager.HomecareSessionManager;
 import id.smartin.org.homecaretimedic.model.GenderOption;
+import id.smartin.org.homecaretimedic.model.Patient;
+import id.smartin.org.homecaretimedic.model.Religion;
 import id.smartin.org.homecaretimedic.model.User;
 import id.smartin.org.homecaretimedic.model.parammodel.RegisterParam;
 import id.smartin.org.homecaretimedic.model.parammodel.UserProfile;
@@ -78,6 +82,8 @@ public class AccountSettingActivity extends AppCompatActivity {
     EditText dob;
     @BindView(R.id.genderSpin)
     Spinner genderSpin;
+    @BindView(R.id.religionName)
+    Spinner religionName;
     @BindView(R.id.profPic)
     ImageView profPic;
 
@@ -97,12 +103,16 @@ public class AccountSettingActivity extends AppCompatActivity {
     TextView dateOfBirthTitle;
     @BindView(R.id.genderSpinTitle)
     TextView genderSpinTitle;
+    @BindView(R.id.religionNameText)
+    TextView religionNameTitle;
 
     private DatePickerDialog datePickerDialog;
-    private PickedDateTime pickedDateTime;
     private UserAPIInterface userAPIInterface;
     private HomecareSessionManager homecareSessionManager;
     private User user;
+
+    ReligionAdapter adapterReligion;
+    List<Religion> religionList;
 
     GenderSpinnerAdapter adapterGender;
     List<GenderOption> genderOptions;
@@ -205,11 +215,13 @@ public class AccountSettingActivity extends AppCompatActivity {
             }
         });
 
-        genderOptions = new ArrayList<>();
-        genderOptions.add(new GenderOption(R.drawable.btn_laki_laki, "Laki-Laki"));
-        genderOptions.add(new GenderOption(R.drawable.btn__perempuan, "Perempuan"));
+        genderOptions = VarConst.getGenders();
         adapterGender = new GenderSpinnerAdapter(this, this, genderOptions);
         genderSpin.setAdapter(adapterGender);
+
+        religionList = VarConst.getReligionList();
+        adapterReligion = new ReligionAdapter(this,this, religionList);
+        religionName.setAdapter(adapterReligion);
 
         getUserDetail();
         setFonts();
@@ -240,6 +252,7 @@ public class AccountSettingActivity extends AppCompatActivity {
         lastName.setText(user.getLastName());
         phone.setText(user.getPhoneNumber());
         emailAddress.setText(user.getEmail());
+        setSelectionOfPatient(user);
         dob.setText(ConverterUtility.getDateString(user.getDateBirth()));
         if (user.getGender() != null) {
             if (user.getGender().equals("Laki-Laki")) {
@@ -266,6 +279,28 @@ public class AccountSettingActivity extends AppCompatActivity {
     public void onBackPressed() {
         this.finish();
         super.onBackPressed();
+    }
+
+    private void setSelectionOfPatient(User user) {
+        if (user.getReligion() != null) {
+            if (user.getReligion().equals("Islam")) {
+                religionName.setSelection(0);
+            } else if (user.getReligion().equals("Kristen")) {
+                religionName.setSelection(1);
+            } else if (user.getReligion().equals("Katolik")) {
+                religionName.setSelection(2);
+            } else if (user.getReligion().equals("Hindu")) {
+                religionName.setSelection(3);
+            } else if (user.getReligion().equals("Budha")) {
+                religionName.setSelection(4);
+            } else if (user.getReligion().equals("Kong Hu Cu")) {
+                religionName.setSelection(5);
+            } else {
+                religionName.setSelection(6);
+            }
+        } else {
+            religionName.setSelection(6);
+        }
     }
 
     @SuppressLint("RestrictedApi")
@@ -298,7 +333,8 @@ public class AccountSettingActivity extends AppCompatActivity {
         Long dobs = ConverterUtility.getTimeStamp(dob.getText().toString(), "dd-MM-yyyy");
         registerParam.setDateBirth(dobs);
         registerParam.setGender(genderSpin.getSelectedItem().toString());
-
+        registerParam.setGender(((GenderOption) genderSpin.getAdapter().getItem(genderSpin.getSelectedItemPosition())).getGender());
+        registerParam.setReligion(((Religion) religionName.getAdapter().getItem(religionName.getSelectedItemPosition())).getReligion());
         if (registerParam.isValidPhone()) {
             try {
                 postData(registerParam);
@@ -351,6 +387,7 @@ public class AccountSettingActivity extends AppCompatActivity {
         arrayList.add(dob);
         arrayList.add(genderSpinTitle);
         arrayList.add(btnEdit);
+        arrayList.add(religionNameTitle);
         ViewFaceUtility.applyFonts(arrayList, this, "fonts/Dosis-Medium.otf");
     }
 }
