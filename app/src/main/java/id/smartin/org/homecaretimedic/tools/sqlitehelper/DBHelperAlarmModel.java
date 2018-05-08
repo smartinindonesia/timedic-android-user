@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,7 @@ import id.smartin.org.homecaretimedic.model.utilitymodel.AlarmModel;
  */
 
 public class DBHelperAlarmModel extends SQLiteOpenHelper {
+    public static final String TAG = "[DBHelperAlarmModel]";
 
     private AlarmModel alarmModel;
     private DBHelperTime timeListTable;
@@ -62,6 +64,12 @@ public class DBHelperAlarmModel extends SQLiteOpenHelper {
         contentValues.put(AlarmModel.T_STARTING_DATE, newData.getStartingDate());
         contentValues.put(AlarmModel.T_STATUS, newData.getStatus().getId());
         int numrow = db.update(AlarmModel.T_ALARM_MODEL, contentValues, "id = ? ", new String[]{newData.getId().toString()});
+        if (newData.getTime() != null) {
+            for (int i = 0; i < newData.getTime().size(); i++) {
+                AlarmModel.AlarmTime at = newData.getTime().get(i);
+                timeListTable.updateTime(at.getId(), at.getTime());
+            }
+        }
         return numrow;
     }
 
@@ -124,6 +132,8 @@ public class DBHelperAlarmModel extends SQLiteOpenHelper {
         alMod.setStatus(idStatus);
         cursor.close();
 
+        alMod.setTime(timeListTable.getAllTime());
+
         return alMod;
     }
 
@@ -157,6 +167,10 @@ public class DBHelperAlarmModel extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
         db.close();
+        for (int i = 0; i < alMods.size(); i++){
+            AlarmModel alMod = alMods.get(i);
+            alMod.setTime(timeListTable.getTimeByAlmModelId(alMod.getId()));
+        }
         return alMods;
     }
 
@@ -208,21 +222,27 @@ public class DBHelperAlarmModel extends SQLiteOpenHelper {
             onCreate(sqLiteDatabase);
         }
 
-        public boolean updateTime(Long timeId, String time) {
+        public long updateTime(Long timeId, String time) {
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues contentValues = new ContentValues();
             contentValues.put(AlarmModel.AlarmTime.T_TIME_ADDED, time);
-            db.update("contacts", contentValues, "id = ? ", new String[]{timeId.toString()});
-            return true;
+            return db.update("contacts", contentValues, "id = ? ", new String[]{timeId.toString()});
         }
 
-        public boolean insertTime(AlarmModel.AlarmTime time) {
+        public long insertTime(AlarmModel.AlarmTime time) {
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues contentValues = new ContentValues();
             contentValues.put(AlarmModel.AlarmTime.T_TIME_ADDED, time.getTime());
             contentValues.put(AlarmModel.AlarmTime.T_ALARM_ID, almModel.getId());
-            db.insert(AlarmModel.T_ALARM_MODEL, null, contentValues);
-            return true;
+            return db.insert(AlarmModel.T_ALARM_MODEL, null, contentValues);
+        }
+
+        public long insertTime(Long alarm_id, AlarmModel.AlarmTime time) {
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(AlarmModel.AlarmTime.T_TIME_ADDED, time.getTime());
+            contentValues.put(AlarmModel.AlarmTime.T_ALARM_ID, alarm_id);
+            return db.insert(AlarmModel.T_ALARM_MODEL, null, contentValues);
         }
 
         public Integer deleteTime(AlarmModel.AlarmTime alarm) {
@@ -270,6 +290,31 @@ public class DBHelperAlarmModel extends SQLiteOpenHelper {
             String selectQuery = "SELECT  * FROM " + AlarmModel.AlarmTime.T_TIME_LIST +
                     " WHERE " +
                     AlarmModel.AlarmTime.T_ALARM_ID + " = " + almModel.getId() + " " +
+                    " ORDER BY " +
+                    AlarmModel.AlarmTime.T_TIME_ID + " DESC";
+
+            SQLiteDatabase db = this.getWritableDatabase();
+            Cursor cursor = db.rawQuery(selectQuery, null);
+
+            if (cursor.moveToFirst()) {
+                do {
+                    AlarmModel.AlarmTime timeMod = new AlarmModel.AlarmTime();
+                    timeMod.setId(cursor.getLong(cursor.getColumnIndex(AlarmModel.AlarmTime.T_TIME_ID)));
+                    timeMod.setAlarmId(cursor.getLong(cursor.getColumnIndex(AlarmModel.AlarmTime.T_ALARM_ID)));
+                    timeMod.setTime(cursor.getString(cursor.getColumnIndex(AlarmModel.AlarmTime.T_TIME_ADDED)));
+
+                    alTimes.add(timeMod);
+                } while (cursor.moveToNext());
+            }
+            db.close();
+            return alTimes;
+        }
+
+        public List<AlarmModel.AlarmTime> getTimeByAlmModelId(Long almModelId) {
+            List<AlarmModel.AlarmTime> alTimes = new ArrayList<>();
+            String selectQuery = "SELECT  * FROM " + AlarmModel.AlarmTime.T_TIME_LIST +
+                    " WHERE " +
+                    AlarmModel.AlarmTime.T_ALARM_ID + " = " + almModelId.toString() + " " +
                     " ORDER BY " +
                     AlarmModel.AlarmTime.T_TIME_ID + " DESC";
 
