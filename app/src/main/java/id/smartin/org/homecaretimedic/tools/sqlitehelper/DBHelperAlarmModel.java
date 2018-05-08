@@ -51,7 +51,7 @@ public class DBHelperAlarmModel extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    public boolean updateAlarm(AlarmModel newData) {
+    public Integer updateAlarm(AlarmModel newData) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(AlarmModel.T_INTERVAL_DAY, newData.getIntervalDay());
@@ -61,8 +61,8 @@ public class DBHelperAlarmModel extends SQLiteOpenHelper {
         contentValues.put(AlarmModel.T_NUM_OF_MEDICINE, newData.getNumOfMedicine());
         contentValues.put(AlarmModel.T_STARTING_DATE, newData.getStartingDate());
         contentValues.put(AlarmModel.T_STATUS, newData.getStatus().getId());
-        db.update(AlarmModel.T_ALARM_MODEL, contentValues, "id = ? ", new String[]{newData.getId().toString()});
-        return true;
+        int numrow = db.update(AlarmModel.T_ALARM_MODEL, contentValues, "id = ? ", new String[]{newData.getId().toString()});
+        return numrow;
     }
 
     public long insertAlarm(AlarmModel newData) {

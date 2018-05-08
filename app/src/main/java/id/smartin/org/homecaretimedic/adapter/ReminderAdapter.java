@@ -2,6 +2,7 @@ package id.smartin.org.homecaretimedic.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import id.smartin.org.homecaretimedic.AddReminderItemActivity;
 import id.smartin.org.homecaretimedic.R;
 import id.smartin.org.homecaretimedic.model.Reminder;
 import id.smartin.org.homecaretimedic.model.utilitymodel.AlarmModel;
@@ -55,7 +57,10 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.MyView
         final DBHelperAlarmModel dbHelperAlarmModel = new DBHelperAlarmModel(context, remind);
         holder.medicineName.setText(remind.getMedicineName());
         holder.dose.setText(remind.getNumOfMedicine() + "x" + remind.getIntervalTime() + " " + remind.getMedicineShape() + "/" + remind.getIntervalDay() + " hari");
-        holder.treatmentDate.setText("Dimulai tanggal " + remind.getStartingDate());
+        String inputPattern = "yyyy-MM-dd HH:mm:ss";
+        String outputPattern = "dd-MMM-yyyy";
+        String dateSet = ConverterUtility.convertDate(remind.getStartingDate(), inputPattern, outputPattern);
+        holder.treatmentDate.setText("Dimulai tanggal " + dateSet);
         String status = "";
         if (remind.getStatus().getId() == 1) {
             holder.status.setText("Alarm aktif");
@@ -65,7 +70,10 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.MyView
         holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(activity, AddReminderItemActivity.class);
+                intent.putExtra("alarm_object", remind);
+                intent.putExtra("iseditmode", true);
+                activity.startActivity(intent);
             }
         });
         holder.delete.setOnClickListener(new View.OnClickListener() {

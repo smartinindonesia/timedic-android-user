@@ -55,4 +55,27 @@ public class ConverterUtility {
             return "-";
         }
     }
+
+    /**
+     * example:
+     * time : String date input
+     * In : yyyy-MM-dd HH:mm:ss
+     * out : dd-MMM-yyyy h:mm a
+     */
+
+    public static String convertDate(String time, String inputPattern, String outputPattern) {
+        SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern);
+        SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
+
+        Date date = null;
+        String str = null;
+
+        try {
+            date = inputFormat.parse(time);
+            str = outputFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return str;
+    }
 }

@@ -40,4 +40,14 @@ public class VarConst {
         types.add(new MedicineType(3,"Sendok",0));
         return types;
     }
+
+    public static Integer getMedicineTypeIndex(String input){
+        List<MedicineType> mTypes = VarConst.getMedType();
+        for (int i = 0; i < mTypes.size(); i++){
+            if (input.equals(mTypes.get(i).getMedicineType())){
+                return i;
+            }
+        }
+        return 0;
+    }
 }

@@ -57,6 +57,7 @@ public class MedicineReminderActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MedicineReminderActivity.this, AddReminderItemActivity.class);
+                intent.putExtra("iseditmode", false);
                 startActivity(intent);
             }
         });

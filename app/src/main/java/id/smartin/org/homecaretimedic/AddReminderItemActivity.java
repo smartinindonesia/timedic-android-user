@@ -33,6 +33,7 @@ import id.smartin.org.homecaretimedic.config.VarConst;
 import id.smartin.org.homecaretimedic.customuicompt.InputFilterMinMax;
 import id.smartin.org.homecaretimedic.model.MedicineType;
 import id.smartin.org.homecaretimedic.model.utilitymodel.AlarmModel;
+import id.smartin.org.homecaretimedic.tools.ConverterUtility;
 import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
 import id.smartin.org.homecaretimedic.tools.sqlitehelper.DBHelperAlarmModel;
 
@@ -99,6 +100,8 @@ public class AddReminderItemActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         createTitleBar();
 
+        editmode = getIntent().getBooleanExtra("iseditmode", false);
+
         medicineTypeSpinner = new MedicineTypeSpinner(this, this, VarConst.getMedType());
         unitMeasure.setAdapter(medicineTypeSpinner);
 
@@ -124,7 +127,7 @@ public class AddReminderItemActivity extends AppCompatActivity {
         btnSetAlarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!editmode){
+                if (!editmode) {
                     onClickNewForm();
                 } else {
                     onClickEditForm();
@@ -132,12 +135,30 @@ public class AddReminderItemActivity extends AppCompatActivity {
             }
         });
 
-        times.setFilters(new InputFilter[]{ new InputFilterMinMax("1", "4")});
+        times.setFilters(new InputFilter[]{new InputFilterMinMax("1", "4")});
+        if (editmode) {
+            openEditForm();
+        }
+
         setFonts();
     }
 
     private void openEditForm() {
-
+        alarmModel = (AlarmModel) getIntent().getSerializableExtra("alarm_object");
+        medicineName.setText(alarmModel.getMedicineName());
+        //interval.setText(alarmModel.getNumOfMedicine());
+        //times.setText(alarmModel.getIntervalTime());
+        //unitMeasure.setSelection(VarConst.getMedicineTypeIndex(alarmModel.getMedicineShape()));
+        numOfDays.setText(alarmModel.getIntervalDay());
+        String inputPattern = "yyyy-MM-dd HH:mm:ss";
+        String outputPattern = "dd-MMM-yyyy";
+        dateSet = ConverterUtility.convertDate(alarmModel.getStartingDate(), inputPattern, outputPattern);
+        datePick.setText(dateSet);
+        if (alarmModel.getStatus().getId() == 1) {
+            onStatus.setChecked(true);
+        } else if (alarmModel.getStatus().getId() == 2) {
+            offStatus.setChecked(true);
+        }
     }
 
     private void onClickNewForm() {
@@ -165,7 +186,26 @@ public class AddReminderItemActivity extends AppCompatActivity {
     }
 
     private void onClickEditForm() {
-
+        alarmModel.setMedicineName(medicineName.getText().toString());
+        alarmModel.setNumOfMedicine(Integer.parseInt(interval.getText().toString()));
+        alarmModel.setIntervalTime(Integer.parseInt(times.getText().toString()));
+        alarmModel.setMedicineShape(((MedicineType) unitMeasure.getAdapter().getItem(unitMeasure.getSelectedItemPosition())).getMedicineType());
+        alarmModel.setIntervalDay(Integer.parseInt(numOfDays.getText().toString()));
+        alarmModel.setStartingDate(dateSet);
+        if (onStatus.isChecked()) {
+            alarmModel.setActive();
+        }
+        if (offStatus.isChecked()) {
+            alarmModel.setInactive();
+        }
+        dbHelperAlarmModel = new DBHelperAlarmModel(this, alarmModel);
+        int num = dbHelperAlarmModel.updateAlarm(alarmModel);
+        if (num > 0) {
+            Toast.makeText(this, "Pengaturan alarm telah berhasil disimpan!", Toast.LENGTH_LONG).show();
+            finish();
+        } else {
+            Snackbar.make(mainLayout, "Pengaturan alarm gagal disimpan!", Snackbar.LENGTH_LONG).show();
+        }
     }
 
     @SuppressLint("RestrictedApi")
