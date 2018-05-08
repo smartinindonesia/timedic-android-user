@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -286,13 +287,15 @@ public class AddReminderItemActivity extends AppCompatActivity {
         unitMeasure.setSelection(VarConst.getMedicineTypeIndex(alarmModel.getMedicineShape()));
         numOfDays.setText(alarmModel.getIntervalDay().toString());
         String inputPattern = "yyyy-MM-dd HH:mm:ss";
-        String outputPattern = "dd-MM-yyyy";
+        String outputPattern = "yyyy-MM-dd";
         String outputPattern2 = "dd-MMM-yyyy";
         for (int i = 0; i < alarmModel.getIntervalTime() ; i++){
             AlarmModel.AlarmTime alarmTime = alarmModel.getTime().get(i);
             timeButtons.get(i).setHint(alarmTime.getTime());
+            alarmTimes[i] = new AlarmModel.AlarmTime();
+            alarmTimes[i].setTime(alarmTime.getTime());
         }
-        dateSet = ConverterUtility.convertDate(alarmModel.getStartingDate(), inputPattern, outputPattern);
+        dateSet = alarmModel.getStartingDate();
         datePick.setText(ConverterUtility.convertDate(alarmModel.getStartingDate(), inputPattern, outputPattern2));
         if (alarmModel.getStatus().getId() == 1) {
             onStatus.setChecked(true);
@@ -373,6 +376,9 @@ public class AddReminderItemActivity extends AppCompatActivity {
              * if no changes in alarm time just update, vice versa clear related alarm time then recreate again
              */
             if (alarmModel.getTime().size() == Integer.parseInt(times.getText().toString())) {
+                for (int i = 0 ; i < alarmModel.getTime().size(); i++){
+                    alarmModel.getTime().get(i).setTime(alarmTimes[i].getTime());
+                }
                 int num = dbHelperAlarmModel.updateAlarm(alarmModel);
                 if (num > 0) {
                     Toast.makeText(this, "Pengaturan alarm telah berhasil disimpan!", Toast.LENGTH_LONG).show();
@@ -381,7 +387,7 @@ public class AddReminderItemActivity extends AppCompatActivity {
                     Snackbar.make(mainLayout, "Pengaturan alarm gagal disimpan!", Snackbar.LENGTH_LONG).show();
                 }
             } else {
-                dbHelperAlarmModel.getTimeListTable().deleteAll();
+                int delete_num = dbHelperAlarmModel.getTimeListTable().deleteAll();
                 alarmModel.getTime().clear();
                 int num = dbHelperAlarmModel.updateAlarm(alarmModel);
                 if (makeSureFilledTime()) {

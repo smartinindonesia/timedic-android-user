@@ -226,7 +226,7 @@ public class DBHelperAlarmModel extends SQLiteOpenHelper {
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues contentValues = new ContentValues();
             contentValues.put(AlarmModel.AlarmTime.T_TIME_ADDED, time);
-            return db.update("contacts", contentValues, "id = ? ", new String[]{timeId.toString()});
+            return db.update(AlarmModel.AlarmTime.T_TIME_LIST, contentValues, "id = ? ", new String[]{timeId.toString()});
         }
 
         public long insertTime(AlarmModel.AlarmTime time) {
@@ -234,7 +234,7 @@ public class DBHelperAlarmModel extends SQLiteOpenHelper {
             ContentValues contentValues = new ContentValues();
             contentValues.put(AlarmModel.AlarmTime.T_TIME_ADDED, time.getTime());
             contentValues.put(AlarmModel.AlarmTime.T_ALARM_ID, almModel.getId());
-            return db.insert(AlarmModel.T_ALARM_MODEL, null, contentValues);
+            return db.insert(AlarmModel.AlarmTime.T_TIME_LIST, null, contentValues);
         }
 
         public long insertTime(Long alarm_id, AlarmModel.AlarmTime time) {
@@ -242,7 +242,7 @@ public class DBHelperAlarmModel extends SQLiteOpenHelper {
             ContentValues contentValues = new ContentValues();
             contentValues.put(AlarmModel.AlarmTime.T_TIME_ADDED, time.getTime());
             contentValues.put(AlarmModel.AlarmTime.T_ALARM_ID, alarm_id);
-            return db.insert(AlarmModel.T_ALARM_MODEL, null, contentValues);
+            return db.insert(AlarmModel.AlarmTime.T_TIME_LIST, null, contentValues);
         }
 
         public Integer deleteTime(AlarmModel.AlarmTime alarm) {
