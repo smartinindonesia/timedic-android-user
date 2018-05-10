@@ -46,6 +46,17 @@ public class ConverterUtility {
         }
     }
 
+    public static String getTimeOnly(Long timeStamp){
+        String timePattern = "HH:mm";
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat(timePattern);
+            Date netDate = (new Date(timeStamp));
+            return sdf.format(netDate);
+        } catch (Exception ex) {
+            return "-";
+        }
+    }
+
     public static String getDateStringCustomPattern(Long timeStamp, String pattern) {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat(pattern);

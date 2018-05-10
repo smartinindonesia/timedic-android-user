@@ -203,7 +203,14 @@
 
         <service
             android:name=".service.AlarmNotificationService"
-            android:exported="false"></service>
+            android:exported="false" />
+
+        <activity android:name=".AdminListActivity" />
+
+        <service
+            android:name=".FirebaseChatReceiver"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

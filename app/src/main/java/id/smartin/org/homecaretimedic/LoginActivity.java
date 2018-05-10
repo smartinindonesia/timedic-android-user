@@ -45,8 +45,14 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.UserInfo;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.shaishavgandhi.loginbuttons.FacebookButton;
@@ -68,6 +74,7 @@ import id.smartin.org.homecaretimedic.config.RequestCode;
 import id.smartin.org.homecaretimedic.manager.HomecareSessionManager;
 import id.smartin.org.homecaretimedic.model.User;
 import id.smartin.org.homecaretimedic.model.responsemodel.LoginResponse;
+import id.smartin.org.homecaretimedic.model.utilitymodel.ChatUser;
 import id.smartin.org.homecaretimedic.tools.AesUtil;
 import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
 import id.smartin.org.homecaretimedic.tools.restservice.APIClient;
@@ -110,6 +117,8 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private CallbackManager callbackManager;
+    private DatabaseReference mUsersDBref;
+
 
     private static final int MY_PERMISSIONS_REQUEST = 999;
 
@@ -461,6 +470,22 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    public void getFirebaseToken(){
+        FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
+        mUser.getIdToken(true)
+                .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                    public void onComplete(@NonNull Task<GetTokenResult> task) {
+                        if (task.isSuccessful()) {
+                            String idToken = task.getResult().getToken();
+                            // Send token to your backend via HTTPS
+                            // ...
+                        } else {
+                            // Handle error -> task.getException();
+                        }
+                    }
+                });
+    }
+
     public void doLoginFirebase(final FirebaseUser user, final String type) {
         openProgress("Loading...", "Proses Login!");
 
@@ -505,11 +530,55 @@ public class LoginActivity extends AppCompatActivity {
             String provider = user.getProviders().get(0);
             Log.i(TAG, "USER LOGIN WITH " + provider);
             // User is signed in
+            ArrayList<String> defaultRoom = new ArrayList<String>();
+            defaultRoom.add("home");
+            AdminListActivity.user = new ChatUser();
+            AdminListActivity.user.setEmail(user.getEmail());
+            AdminListActivity.user.setId(user.getUid());
+            AdminListActivity.user.setNickname(user.getDisplayName());
+            AdminListActivity.user.setOnline(true);
+            AdminListActivity.user.setUserType(Constants.CHAT_ROLE_ME);
+            AdminListActivity.user.setRoom(defaultRoom);
+            isExistOnFirebaseDB(AdminListActivity.user);
             doLoginFirebase(user, provider.replace(".com", ""));
             Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
         } else {
             // User is signed out
             Log.d(TAG, "onAuthStateChanged:signed_out");
         }
+    }
+
+    private void isExistOnFirebaseDB(final ChatUser user){
+        mUsersDBref = FirebaseDatabase.getInstance().getReference().child("Users");
+        DatabaseReference userNameRef = mUsersDBref.child(user.getId());
+        ValueEventListener eventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(!dataSnapshot.exists()) {
+                    createUserInDb(user);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        };
+        userNameRef.addListenerForSingleValueEvent(eventListener);
+
+    }
+
+    private void createUserInDb(ChatUser user){
+        mUsersDBref = FirebaseDatabase.getInstance().getReference().child("Users");
+        mUsersDBref.child(user.getId()).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(!task.isSuccessful()){
+                    //error
+                    Log.i(TAG, "ERROR ");
+                    //Toast.makeText(SignUpActivity.this, "Error " + task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.i(TAG, "SIGNING OK");
+                }
+            }
+        });
     }
 }

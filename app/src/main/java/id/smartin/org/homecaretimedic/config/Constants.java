@@ -81,6 +81,17 @@ public class Constants {
     public static final String SECRET_KEY_FACTORY = "PBKDF2WithHmacSHA1";
     public static final String SECURITY_ALGO = "AES";
 
+    //Firebase Chat
+    public static final String CHAT_SINGLE_REFERENCE = "OneToOneMsg";
+    public static final String CHAT_ROLE_ADMIN = "chat_admin";
+    public static final String CHAT_ROLE_USER = "app_user";
+
+    //public static final String CHAT_ROLE_ME = CHAT_ROLE_ADMIN;
+    //public static final String CHAT_ROLE_BUDDY = CHAT_ROLE_USER;
+
+    public static final String CHAT_ROLE_ME = CHAT_ROLE_USER;
+    public static final String CHAT_ROLE_BUDDY = CHAT_ROLE_ADMIN;
+
     //WEB
     public static final String TERM_AND_COND = "https://timedic.id/#privacyAndPolicy";
     public static final String PRIVACY_STATEMENT = "https://timedic.id/#privacyAndPolicy";

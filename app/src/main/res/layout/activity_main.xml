@@ -50,6 +50,7 @@
         android:weightSum="4">
 
         <ImageButton
+            android:id="@+id/chatAdminBtn"
             android:layout_gravity="center"
             android:layout_width="0dp"
             android:layout_height="20dp"

@@ -1,6 +1,7 @@
 package id.smartin.org.homecaretimedic;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -50,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
     TextView point;
     @BindView(R.id.pointTitle)
     TextView pointTitle;
+    @BindView(R.id.chatAdminBtn)
+    ImageButton btnChatAdmin;
 
     private int[] tabIcons = {
             R.drawable.ic_tab_home,
@@ -68,11 +72,22 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         createTitleBar();
+        btnChatAdmin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                gotoChatAdminPage();
+            }
+        });
         setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcons();
         sendFCMTokenToServer();
         setFonts();
+    }
+
+    private void gotoChatAdminPage(){
+        Intent intent = new Intent(this, AdminListActivity.class);
+        startActivity(intent);
     }
 
     private void sendFCMTokenToServer(){
