@@ -65,6 +65,7 @@ public class AdminListActivity extends AppCompatActivity {
         createTitleBar();
 
         updateUserStatus(true);
+        updateUserRole(Constants.CHAT_ROLE_ME);
         setFonts();
     }
 
@@ -80,6 +81,23 @@ public class AdminListActivity extends AppCompatActivity {
                     //Toast.makeText(SignUpActivity.this, "Error " + task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                 } else {
                     Log.i(TAG, "SIGNING OK");
+                }
+            }
+        });
+    }
+
+    private void updateUserRole(String usertype) {
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+        database = FirebaseDatabase.getInstance().getReference().child("Users");
+        database.child(user.getId()).child("userType").setValue(usertype).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (!task.isSuccessful()) {
+                    //error
+                    Log.i(TAG, "UserType not Changed ");
+                    //Toast.makeText(SignUpActivity.this, "Error " + task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.i(TAG, "UserType changed");
                 }
             }
         });
