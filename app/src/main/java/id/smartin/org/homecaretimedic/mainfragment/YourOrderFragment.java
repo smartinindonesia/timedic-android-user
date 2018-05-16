@@ -69,8 +69,8 @@ public class YourOrderFragment extends Fragment {
 
     private void setupViewPager(ViewPager viewPager) {
         YourOrderFragment.ViewPagerAdapter adapter = new YourOrderFragment.ViewPagerAdapter(getChildFragmentManager());
-        adapter.addFragment(new ActiveOrder(), "Active Order");
-        adapter.addFragment(new HistoryOrder(), "History Order");
+        adapter.addFragment(new ActiveOrder(), "Pemesanan Aktif");
+        adapter.addFragment(new HistoryOrder(), "Riwayat Pemesanan");
         viewPager.setAdapter(adapter);
     }
 

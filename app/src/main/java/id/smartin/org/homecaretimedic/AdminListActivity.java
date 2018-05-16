@@ -27,14 +27,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.smartin.org.homecaretimedic.adapter.ChatUserAdapter;
 import id.smartin.org.homecaretimedic.config.Constants;
-import id.smartin.org.homecaretimedic.model.utilitymodel.ChatMessage;
+import id.smartin.org.homecaretimedic.model.utilitymodel.ChatUserStats;
 import id.smartin.org.homecaretimedic.model.utilitymodel.ChatUser;
 import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
 
@@ -50,12 +48,15 @@ public class AdminListActivity extends AppCompatActivity {
     /**
      * The Chat list.
      */
-    private ArrayList<ChatUser> uList;
+    private ArrayList<ChatUser> uList = new ArrayList<ChatUser>();
 
     /**
      * The user.
      */
     public static ChatUser user;
+
+    private ChatUserAdapter chatUserAdapter;
+    FirebaseUser fuser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +64,20 @@ public class AdminListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_admin_list);
         ButterKnife.bind(this);
         createTitleBar();
+        fuser = FirebaseAuth.getInstance().getCurrentUser();
+        chatUserAdapter = new ChatUserAdapter(getApplicationContext(), AdminListActivity.this, uList);
+        listAdmin.setAdapter(chatUserAdapter);
+        listAdmin.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
+            @Override
+            public void onItemClick(AdapterView<?> arg0,
+                                    View arg1, int pos, long arg3) {
+                Intent intent = new Intent(AdminListActivity.this,
+                        ChatAdminActivity.class);
+                intent.putExtra("selected_admin", chatUserAdapter.getChatUser(pos));
+                startActivity(intent);
+            }
+        });
         updateUserStatus(true);
         updateUserRole(Constants.CHAT_ROLE_ME);
         setFonts();
@@ -71,8 +85,9 @@ public class AdminListActivity extends AppCompatActivity {
 
     private void updateUserStatus(boolean online) {
         DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+
         database = FirebaseDatabase.getInstance().getReference().child("Users");
-        database.child(user.getId()).child("online").setValue(online).addOnCompleteListener(new OnCompleteListener<Void>() {
+        database.child(fuser.getUid()).child("online").setValue(online).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (!task.isSuccessful()) {
@@ -89,7 +104,7 @@ public class AdminListActivity extends AppCompatActivity {
     private void updateUserRole(String usertype) {
         DatabaseReference database = FirebaseDatabase.getInstance().getReference();
         database = FirebaseDatabase.getInstance().getReference().child("Users");
-        database.child(user.getId()).child("userType").setValue(usertype).addOnCompleteListener(new OnCompleteListener<Void>() {
+        database.child(fuser.getUid()).child("userType").setValue(usertype).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (!task.isSuccessful()) {
@@ -101,6 +116,12 @@ public class AdminListActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //chatUserAdapter.destroyAllListener();
     }
 
     @Override
@@ -128,24 +149,14 @@ public class AdminListActivity extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
                             return;
                         }
-                        uList = new ArrayList<ChatUser>();
+                        uList.clear();
                         for (DataSnapshot ds : dataSnapshot.getChildren()) {
                             ChatUser user = ds.getValue(ChatUser.class);
+                            ChatUserStats chatUserStats = new ChatUserStats(user, 0);
                             if (!user.getId().contentEquals(FirebaseAuth.getInstance().getCurrentUser().getUid()))
-                                uList.add(user);
+                                uList.add(chatUserStats);
                         }
-                        listAdmin.setAdapter(new ChatUserAdapter(getApplicationContext(), AdminListActivity.this, uList));
-                        listAdmin.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-                            @Override
-                            public void onItemClick(AdapterView<?> arg0,
-                                                    View arg1, int pos, long arg3) {
-                                Intent intent = new Intent(AdminListActivity.this,
-                                        ChatAdminActivity.class);
-                                intent.putExtra("selected_admin", uList.get(pos));
-                                startActivity(intent);
-                            }
-                        });
+                        chatUserAdapter.notifyDataSetChanged();
                     }
 
                     @Override
@@ -180,20 +191,20 @@ public class AdminListActivity extends AppCompatActivity {
                 .child("Users")
                 .equalTo(userfb.getUid())
                 .addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                        Log.i(TAG, "incoming snapshot data");
-                        AdminListActivity.user = ds.getValue(ChatUser.class);
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                                Log.i(TAG, "incoming snapshot data");
+                                AdminListActivity.user = ds.getValue(ChatUser.class);
+                            }
+                        }
                     }
-                }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
     }
 
     @Override

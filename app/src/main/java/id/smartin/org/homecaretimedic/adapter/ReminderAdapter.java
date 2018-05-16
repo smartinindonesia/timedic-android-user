@@ -1,9 +1,12 @@
 package id.smartin.org.homecaretimedic.adapter;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +14,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -19,11 +26,15 @@ import butterknife.ButterKnife;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import id.smartin.org.homecaretimedic.AddReminderItemActivity;
 import id.smartin.org.homecaretimedic.R;
+import id.smartin.org.homecaretimedic.config.Action;
 import id.smartin.org.homecaretimedic.model.Reminder;
 import id.smartin.org.homecaretimedic.model.utilitymodel.AlarmModel;
+import id.smartin.org.homecaretimedic.receiver.AlarmBroadcastReceiver;
 import id.smartin.org.homecaretimedic.tools.ConverterUtility;
 import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
 import id.smartin.org.homecaretimedic.tools.sqlitehelper.DBHelperAlarmModel;
+
+import static android.content.Context.ALARM_SERVICE;
 
 /**
  * Created by Hafid on 8/23/2017.
@@ -35,6 +46,7 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.MyView
     private List<AlarmModel> reminderList;
     private Activity activity;
     private Context context;
+    private AlarmManager mgrAlarm;
     private ReminderAdapter adapter;
 
     public ReminderAdapter(Context context, Activity activity, List<AlarmModel> reminderList) {
@@ -42,6 +54,7 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.MyView
         this.activity = activity;
         this.context = context;
         this.adapter = this;
+        this.mgrAlarm = (AlarmManager) context.getSystemService(ALARM_SERVICE);
     }
 
     @Override
@@ -88,6 +101,16 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.MyView
                     public void onClick(SweetAlertDialog sDialog) {
                         sDialog.dismiss();
                         int result = dbHelperAlarmModel.deleteAlarm();
+                        for (int i = 0; i < remind.getTime().size(); i++) {
+                            try {
+                                long timeAdded = addTime(remind.getStartingDate(), remind.getTime().get(i).getTime());
+                                PendingIntent pi = createAlarmPendingIntent(remind.getTime().get(i).getId(), timeAdded, remind.getIntervalDay(), remind);
+                                cancelAlarmPendingIntent(pi);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
                         if (result > 0) {
                             resetData();
                         }
@@ -142,6 +165,34 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.MyView
             ViewFaceUtility.applyFonts(arrayList, activity, "fonts/Dosis-Medium.otf");
         }
 
+    }
+
+    private PendingIntent createAlarmPendingIntent(long index, long date, int dayInterval, AlarmModel alarmModel) {
+        Intent intent = new Intent(context, AlarmBroadcastReceiver.class);
+        intent.putExtra(Action.ACTION_ALARM_OBJECT_TRANSFER, alarmModel);
+        // Loop counter `i` is used as a `requestCode`
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, (int) index, intent, 0);
+        // Single alarms in 1, 2, ..., 10 minutes (in `i` minutes)
+        long intervalRepeater = 24 * 60 * 60 * 1000 * dayInterval;
+        mgrAlarm.set(AlarmManager.RTC_WAKEUP,
+                date,
+                pendingIntent);
+        return pendingIntent;
+    }
+
+    private void cancelAlarmPendingIntent(PendingIntent intent) {
+        mgrAlarm.cancel(intent);
+    }
+
+    private long addTime(String inDate, String inTime) throws ParseException {
+        String inputPatternDate = "yyyy-MM-dd HH:mm:ss";
+        DateFormat formatterDate = new SimpleDateFormat(inputPatternDate);
+        String[] date = inDate.split(" ");
+        String dateNewInStr = date[0] + " " + inTime;
+        Date dateNew = (Date) formatterDate.parse(dateNewInStr);
+
+        Log.i(TAG, dateNew.getTime() + " " + dateNewInStr);
+        return dateNew.getTime();
     }
 }
 

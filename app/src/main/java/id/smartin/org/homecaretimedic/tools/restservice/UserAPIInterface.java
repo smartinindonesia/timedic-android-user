@@ -20,11 +20,15 @@ import retrofit2.http.Query;
  */
 
 public interface UserAPIInterface {
-    @POST(Constants.ROUTE_LOGIN)
-    Call<LoginResponse> loginUser(@Query("username") String username, @Query("password") String password);
 
     @POST(Constants.ROUTE_LOGIN_FIREBASE)
     Call<LoginResponse> loginUserWithFirebase(@Query("firebaseId") String firebaseId, @Query("type") String type);
+
+    @POST(Constants.ROUTE_LOGIN_FIREBASE_TOKEN)
+    Call<ResponseBody> loginUserWithFirebaseToken(@Query("firebaseToken") String firebaseId, @Query("type") String type);
+
+    @POST(Constants.ROUTE_LOGIN)
+    Call<LoginResponse> loginUser(@Query("username") String username, @Query("password") String password);
 
     @POST(Constants.ROUTE_RESGISTER)
     Call<ResponseBody> registerUser(@Body RegisterParam param);

@@ -16,7 +16,10 @@
     <string name="act_rate_caregiver">Rating Perawat</string>
     <string name="act_billing_pages">Pembayaran</string>
     <string name="act_billing_method">Pembayaran</string>
-
+    <string name="act_add_reminder">Detail Alarm</string>
+    <string name="act_contact_us">Hubungi Kami</string>
+    <string name="act_admin_list">Daftar Admin</string>
+    <string name="act_chat_admin">Chat Admin</string>
     <string name="act_medical_record">Medical Record</string>
 
     <string name="act_heatlh_calculator">Health Calculator</string>
@@ -75,6 +78,7 @@ setelah kami melakukan kunjungan kerumah anda
     <string name="cek_lab_notification2">Upload gambar jika anda memiliki rujukan dokter</string>
 
     <string name="billing_notifsign">Demi keamanan transaksi Anda, pastikan untuk tidak menginformasikan bukti dan data pembayaran kepada pihak manapun.</string>
+    <string name="contact_us">Silahkan hubungi kami melalui nomor berikut:</string>
 
     <!-- Youtube Message -->
     <string name="player_error">Error initializing YouTube player: %s</string>

@@ -114,9 +114,9 @@ public class MainActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new HomeFragment(), "Home");
-        adapter.addFragment(new YourOrderFragment(), "Your Order");
-        adapter.addFragment(new RedeemPointFragment(), "Redeem Point");
-        adapter.addFragment(new AccountFragment(), "Account");
+        adapter.addFragment(new YourOrderFragment(), "Pemesanan");
+        adapter.addFragment(new RedeemPointFragment(), "Tukar Point");
+        adapter.addFragment(new AccountFragment(), "Akun");
         viewPager.setAdapter(adapter);
     }
 

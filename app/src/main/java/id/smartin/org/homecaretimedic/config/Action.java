@@ -6,4 +6,5 @@ package id.smartin.org.homecaretimedic.config;
 
 public class Action {
     public static final String BROADCAST_DELETE_LAYANAN_EVENT = "broadcast_delete_layananitem";
+    public static final String ACTION_ALARM_OBJECT_TRANSFER = "id.smartin.org.homecaretimedic.alarm_action";
 }

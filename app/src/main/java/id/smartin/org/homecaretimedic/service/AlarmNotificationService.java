@@ -41,15 +41,14 @@ public class AlarmNotificationService extends IntentService {
                 .getSystemService(Context.NOTIFICATION_SERVICE);
 
         //get pending intent
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                new Intent(this, AlarmActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+        //PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, AlarmActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
 
         //Create notification
         NotificationCompat.Builder alamNotificationBuilder = new NotificationCompat.Builder(
                 this).setContentTitle("Alarm").setSmallIcon(R.mipmap.ic_launcher)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(msg))
                 .setContentText(msg).setAutoCancel(true);
-        alamNotificationBuilder.setContentIntent(contentIntent);
+        //alamNotificationBuilder.setContentIntent(contentIntent);
 
         //notiy notification manager about new notification
         alarmNotificationManager.notify(NOTIFICATION_ID, alamNotificationBuilder.build());

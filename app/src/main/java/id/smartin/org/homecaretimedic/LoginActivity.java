@@ -488,8 +488,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void doLoginFirebase(final FirebaseUser user, final String type) {
         openProgress("Loading...", "Proses Login!");
-
-        Call<LoginResponse> responseCall = userAPIInterface.loginUserWithFirebase(user.getUid().toString(), type);
+        Call<LoginResponse> responseCall = userAPIInterface.loginUserWithFirebase(user.getUid(), type);
         responseCall.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {

@@ -20,6 +20,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import id.smartin.org.homecaretimedic.AlarmActivity;
 import id.smartin.org.homecaretimedic.HealthCalculatorActivity;
 import id.smartin.org.homecaretimedic.HealthProductActivity;
 import id.smartin.org.homecaretimedic.HealthVideoActivity;

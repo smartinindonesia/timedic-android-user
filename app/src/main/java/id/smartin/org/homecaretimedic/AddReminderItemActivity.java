@@ -2,10 +2,14 @@ package id.smartin.org.homecaretimedic;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.media.Image;
 import android.os.Build;
+import android.os.SystemClock;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
@@ -29,18 +33,25 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindDimen;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.smartin.org.homecaretimedic.adapter.MedicineTypeSpinner;
+import id.smartin.org.homecaretimedic.config.Action;
+import id.smartin.org.homecaretimedic.config.Constants;
 import id.smartin.org.homecaretimedic.config.VarConst;
 import id.smartin.org.homecaretimedic.customuicompt.InputFilterMinMax;
 import id.smartin.org.homecaretimedic.model.MedicineType;
 import id.smartin.org.homecaretimedic.model.utilitymodel.AlarmModel;
+import id.smartin.org.homecaretimedic.receiver.AlarmBroadcastReceiver;
 import id.smartin.org.homecaretimedic.tools.ConverterUtility;
 import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
 import id.smartin.org.homecaretimedic.tools.sqlitehelper.DBHelperAlarmModel;
@@ -111,8 +122,11 @@ public class AddReminderItemActivity extends AppCompatActivity {
     private AlarmModel alarmModel = new AlarmModel();
     private AlarmModel.AlarmTime[] alarmTimes = new AlarmModel.AlarmTime[5];
     private DBHelperAlarmModel dbHelperAlarmModel;
-    private String dateSet;
+    private String dateSet, dateSetWithoutTime;
     private boolean editmode = false;
+
+    AlarmManager mgrAlarm;
+    ArrayList<PendingIntent> intentArray = new ArrayList<PendingIntent>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,6 +135,7 @@ public class AddReminderItemActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         createTitleBar();
 
+        mgrAlarm = (AlarmManager) getApplicationContext().getSystemService(ALARM_SERVICE);
         editmode = getIntent().getBooleanExtra("iseditmode", false);
 
         medicineTypeSpinner = new MedicineTypeSpinner(this, this, VarConst.getMedType());
@@ -180,7 +195,9 @@ public class AddReminderItemActivity extends AppCompatActivity {
                         String indate = year + "-" + (month + 1) + "-" + dayOfMonth;
                         String resultPattern = ConverterUtility.convertDate(indate, inputPattern, outputPattern2);
                         datePick.setText(resultPattern);
-                        dateSet = year + "-" + (month + 1) + "-" + dayOfMonth + " 00:00:00";
+                        dateSetWithoutTime = year + "-" + (month + 1) + "-" + dayOfMonth;
+                        dateSet = dateSetWithoutTime + " 00:00:00";
+
                     }
                 }, mcurrentTime.get(Calendar.YEAR), mcurrentTime.get(Calendar.MONTH), mcurrentTime.get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.setTitle("Pilih tanggal pelayanan");
@@ -289,7 +306,7 @@ public class AddReminderItemActivity extends AppCompatActivity {
         String inputPattern = "yyyy-MM-dd HH:mm:ss";
         String outputPattern = "yyyy-MM-dd";
         String outputPattern2 = "dd-MMM-yyyy";
-        for (int i = 0; i < alarmModel.getIntervalTime() ; i++){
+        for (int i = 0; i < alarmModel.getIntervalTime(); i++) {
             AlarmModel.AlarmTime alarmTime = alarmModel.getTime().get(i);
             timeButtons.get(i).setHint(alarmTime.getTime());
             alarmTimes[i] = new AlarmModel.AlarmTime();
@@ -341,7 +358,19 @@ public class AddReminderItemActivity extends AppCompatActivity {
             if (makeSureFilledTime()) {
                 long row_alm_id = dbHelperAlarmModel.insertAlarm(alarmModel);
                 for (int i = 0; i < Integer.parseInt(times.getText().toString()); i++) {
-                    dbHelperAlarmModel.getTimeListTable().insertTime(row_alm_id, alarmTimes[i]);
+                    try {
+                        long timeAdded = addTime(alarmModel.getStartingDate(), alarmTimes[i].getTime());
+                        long time_id = dbHelperAlarmModel.getTimeListTable().insertTime(row_alm_id, alarmTimes[i]);
+                        if (onStatus.isChecked()) {
+                            PendingIntent pi = createAlarmPendingIntent(time_id, timeAdded, alarmModel.getIntervalDay(), alarmModel);
+                        }
+                        if (offStatus.isChecked()) {
+                            PendingIntent pi = createAlarmPendingIntent(time_id, timeAdded, alarmModel.getIntervalDay(), alarmModel);
+                            cancelAlarmPendingIntent(pi);
+                        }
+                    } catch (ParseException e) {
+                        Snackbar.make(mainLayout, "Gagal membuat alarm!", Snackbar.LENGTH_LONG).show();
+                    }
                 }
                 if (row_alm_id > 0) {
                     Toast.makeText(this, "Pengaturan alarm telah berhasil disimpan!", Toast.LENGTH_LONG).show();
@@ -376,8 +405,22 @@ public class AddReminderItemActivity extends AppCompatActivity {
              * if no changes in alarm time just update, vice versa clear related alarm time then recreate again
              */
             if (alarmModel.getTime().size() == Integer.parseInt(times.getText().toString())) {
-                for (int i = 0 ; i < alarmModel.getTime().size(); i++){
-                    alarmModel.getTime().get(i).setTime(alarmTimes[i].getTime());
+                intentArray.clear();
+                for (int i = 0; i < alarmModel.getTime().size(); i++) {
+                    try {
+                        AlarmModel.AlarmTime alarmTime = alarmModel.getTime().get(i);
+                        alarmTime.setTime(alarmTimes[i].getTime());
+                        long timeAdded = addTime(alarmModel.getStartingDate(), alarmTime.getTime());
+                        if (onStatus.isChecked()) {
+                            PendingIntent pi = createAlarmPendingIntent(alarmTime.getId(), timeAdded, alarmModel.getIntervalDay(), alarmModel);
+                        }
+                        if (offStatus.isChecked()) {
+                            PendingIntent pi = createAlarmPendingIntent(alarmTime.getId(), timeAdded, alarmModel.getIntervalDay(), alarmModel);
+                            cancelAlarmPendingIntent(pi);
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                 }
                 int num = dbHelperAlarmModel.updateAlarm(alarmModel);
                 if (num > 0) {
@@ -388,11 +431,33 @@ public class AddReminderItemActivity extends AppCompatActivity {
                 }
             } else {
                 int delete_num = dbHelperAlarmModel.getTimeListTable().deleteAll();
+                for (int i = 0; i < alarmModel.getTime().size(); i++) {
+                    try {
+                        AlarmModel.AlarmTime alarmTime = alarmModel.getTime().get(i);
+                        long timeAdded = addTime(alarmModel.getStartingDate(), alarmTime.getTime());
+                        PendingIntent pi = createAlarmPendingIntent(alarmTime.getId(), timeAdded, alarmModel.getIntervalDay(), alarmModel);
+                        cancelAlarmPendingIntent(pi);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
                 alarmModel.getTime().clear();
                 int num = dbHelperAlarmModel.updateAlarm(alarmModel);
                 if (makeSureFilledTime()) {
                     for (int i = 0; i < Integer.parseInt(times.getText().toString()); i++) {
-                        dbHelperAlarmModel.getTimeListTable().insertTime(alarmTimes[i]);
+                        try {
+                            long alarmId = dbHelperAlarmModel.getTimeListTable().insertTime(alarmTimes[i]);
+                            long timeAdded = addTime(alarmModel.getStartingDate(), alarmTimes[i].getTime());
+                            if (onStatus.isChecked()) {
+                                PendingIntent pi = createAlarmPendingIntent(alarmId, timeAdded, alarmModel.getIntervalDay(), alarmModel);
+                            }
+                            if (offStatus.isChecked()) {
+                                PendingIntent pi = createAlarmPendingIntent(alarmId, timeAdded, alarmModel.getIntervalDay(), alarmModel);
+                                cancelAlarmPendingIntent(pi);
+                            }
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
                     }
                     if (num > 0) {
                         Toast.makeText(this, "Pengaturan alarm telah berhasil disimpan!", Toast.LENGTH_LONG).show();
@@ -407,6 +472,41 @@ public class AddReminderItemActivity extends AppCompatActivity {
         } else {
             Snackbar.make(mainLayout, "Mohon isi form dengan benar!", Snackbar.LENGTH_LONG).show();
         }
+    }
+
+    private void createAlarm(long index, long date, int dayInterval, AlarmModel alarmModel) {
+
+        Intent intent = new Intent(getApplicationContext(), AlarmBroadcastReceiver.class);
+        intent.putExtra(Action.ACTION_ALARM_OBJECT_TRANSFER, alarmModel);
+        // Loop counter `i` is used as a `requestCode`
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), (int) index, intent, 0);
+        // Single alarms in 1, 2, ..., 10 minutes (in `i` minutes)
+        long intervalRepeater = 24 * 60 * 60 * 1000 * dayInterval;
+        mgrAlarm.set(AlarmManager.RTC_WAKEUP,
+                date,
+                pendingIntent);
+        intentArray.add(pendingIntent);
+    }
+
+    private PendingIntent createAlarmPendingIntent(long index, long date, int dayInterval, AlarmModel alarmModel) {
+        Intent intent = new Intent(getApplicationContext(), AlarmBroadcastReceiver.class);
+        intent.putExtra(Action.ACTION_ALARM_OBJECT_TRANSFER, alarmModel);
+        // Loop counter `i` is used as a `requestCode`
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), (int) index, intent, 0);
+        // Single alarms in 1, 2, ..., 10 minutes (in `i` minutes)
+        long intervalRepeater = 24 * 60 * 60 * 1000 * dayInterval;
+        mgrAlarm.set(AlarmManager.RTC_WAKEUP,
+                date,
+                pendingIntent);
+        return pendingIntent;
+    }
+
+    private void cancelAlarmPendingIntent(PendingIntent intent){
+        mgrAlarm.cancel(intent);
+    }
+
+    private void cancelAlarm(int index) {
+        if (index < intentArray.size()) mgrAlarm.cancel(intentArray.get(index));
     }
 
     private boolean makeSureFilledTime() {
@@ -439,6 +539,17 @@ public class AddReminderItemActivity extends AppCompatActivity {
             return false;
         }
         return true;
+    }
+
+    private long addTime(String inDate, String inTime) throws ParseException {
+        String inputPatternDate = "yyyy-MM-dd HH:mm:ss";
+        DateFormat formatterDate = new SimpleDateFormat(inputPatternDate);
+        String[] date = inDate.split(" ");
+        String dateNewInStr = date[0] + " " + inTime;
+        Date dateNew = (Date) formatterDate.parse(dateNewInStr);
+
+        Log.i(TAG, dateNew.getTime() + " " + dateNewInStr);
+        return dateNew.getTime();
     }
 
     @SuppressLint("RestrictedApi")

@@ -34,6 +34,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.smartin.org.homecaretimedic.AccountSettingActivity;
 import id.smartin.org.homecaretimedic.ChangePasswordActivity;
+import id.smartin.org.homecaretimedic.ContactUsActivity;
 import id.smartin.org.homecaretimedic.R;
 import id.smartin.org.homecaretimedic.config.Constants;
 import id.smartin.org.homecaretimedic.manager.HomecareSessionManager;
@@ -63,27 +64,31 @@ public class AccountFragment extends Fragment {
     RelativeLayout btnPushNotif;
     @BindView(R.id.turnNotification)
     Switch notifToggle;
-    @BindView(R.id.btnPrivacy)
-    LinearLayout btnPrivacy;
+    //@BindView(R.id.btnPrivacy)
+    //LinearLayout btnPrivacy;
     @BindView(R.id.btnTermAndCond)
     LinearLayout btnTermAndCond;
+    @BindView(R.id.btnContactUs)
+    LinearLayout btnContactUs;
 
     @BindView(R.id.accountSetting)
     TextView accountSetting;
     @BindView(R.id.changePasswordText)
     TextView changePasswordText;
-    @BindView(R.id.languageText)
-    TextView languageText;
+    //@BindView(R.id.languageText)
+    //TextView languageText;
     @BindView(R.id.pushNotifText)
     TextView pushNotifText;
     @BindView(R.id.termAndCondText)
     TextView termAndCondText;
-    @BindView(R.id.policyAndPrivacyText)
-    TextView policyAndPrivacyText;
+    //@BindView(R.id.policyAndPrivacyText)
+    //TextView policyAndPrivacyText;
     @BindView(R.id.rateAppText)
     TextView rateAppText;
     @BindView(R.id.logoutText)
     TextView logoutText;
+    @BindView(R.id.contactUsText)
+    TextView contactUsText;
 
     private HomecareSessionManager homecareSessionManager;
     private AppSetting appSetting;
@@ -152,17 +157,27 @@ public class AccountFragment extends Fragment {
                 gotoMarketPlace();
             }
         });
+
+        /*
         btnPrivacy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openUrl(Constants.PRIVACY_STATEMENT);
             }
         });
+        */
 
         btnTermAndCond.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openUrl(Constants.PRIVACY_STATEMENT);
+            }
+        });
+        btnContactUs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ContactUsActivity.class);
+                startActivity(intent);
             }
         });
         setFonts();
@@ -252,12 +267,13 @@ public class AccountFragment extends Fragment {
         ArrayList<TextView> arrayList = new ArrayList<>();
         arrayList.add(accountSetting);
         arrayList.add(changePasswordText);
-        arrayList.add(languageText);
+        //arrayList.add(languageText);
         arrayList.add(pushNotifText);
         arrayList.add(termAndCondText);
-        arrayList.add(policyAndPrivacyText);
+        //arrayList.add(policyAndPrivacyText);
         arrayList.add(rateAppText);
         arrayList.add(logoutText);
+        arrayList.add(contactUsText);
         ViewFaceUtility.applyFonts(arrayList, getActivity(), "fonts/Dosis-Medium.otf");
     }
 }

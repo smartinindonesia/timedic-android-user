@@ -71,6 +71,7 @@
         <activity android:name=".ScreenSlideActivity" />
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".MedicalRecordActivity"
@@ -186,9 +187,13 @@
             android:name=".BillingMethodActivity"
             android:label="@string/act_billing_method" />
         <activity android:name=".BankTransferPageActivity" />
-        <activity android:name=".ChatAdminActivity" />
+        <activity android:name=".ChatAdminActivity"
+            android:label="@string/act_chat_admin"/>
         <activity android:name=".ThanksPageActivity" />
-        <activity android:name=".AddReminderItemActivity" />
+        <activity
+            android:name=".AddReminderItemActivity"
+            android:label="@string/act_add_reminder" />
+
         <activity android:name=".AlarmActivity" />
 
         <service
@@ -205,12 +210,16 @@
             android:name=".service.AlarmNotificationService"
             android:exported="false" />
 
-        <activity android:name=".AdminListActivity" />
+        <activity android:name=".AdminListActivity"
+            android:label="@string/act_admin_list"/>
 
         <service
             android:name=".FirebaseChatReceiver"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+
+        <activity android:name=".ContactUsActivity"
+            android:label="@string/act_contact_us"></activity>
     </application>
 
 </manifest>

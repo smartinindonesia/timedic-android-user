@@ -31,12 +31,14 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.smartin.org.homecaretimedic.adapter.MessageListAdapter;
 import id.smartin.org.homecaretimedic.config.Constants;
+import id.smartin.org.homecaretimedic.model.utilitymodel.ChatBuddy;
 import id.smartin.org.homecaretimedic.model.utilitymodel.ChatMessage;
 import id.smartin.org.homecaretimedic.model.utilitymodel.ChatUser;
 import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
@@ -161,11 +163,22 @@ public class ChatAdminActivity extends AppCompatActivity {
     private void isExistOnBuddyList() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final String me = user.getUid();
-        FirebaseDatabase.getInstance().getReference().child("Users").child(buddy.getId()).child("connectedWithId").child(me)
+        FirebaseDatabase.getInstance().getReference().child("Users").child(buddy.getId()).child("connectedWithId")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (!dataSnapshot.exists()) {
+                        if (dataSnapshot.exists()) {
+                            boolean exist = false;
+                            for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                                ChatBuddy cb = ds.getValue(ChatBuddy.class);
+                                if (cb.getId().contentEquals(me)) {
+                                    exist = true;
+                                }
+                            }
+                            if (!exist) {
+                                addMe(me);
+                            }
+                        } else {
                             addMe(me);
                         }
                     }
@@ -178,16 +191,19 @@ public class ChatAdminActivity extends AppCompatActivity {
 
     private void addMe(final String me) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        List<String> flist = buddy.getConnectedWithId();
-        if (flist == null){
-            flist = new ArrayList<>();
-        }
-        flist.add(me);
+        final String key = FirebaseDatabase.getInstance()
+                .getReference(Constants.CHAT_SINGLE_REFERENCE)
+                .child("Users")
+                .child(buddy.getId())
+                .child("connectedWithId")
+                .push().getKey();
         FirebaseDatabase.getInstance()
                 .getReference()
                 .child("Users")
                 .child(buddy.getId())
-                .child("connectedWithId").setValue(flist)
+                .child("connectedWithId")
+                .child(key)
+                .setValue(new ChatBuddy(me))
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {

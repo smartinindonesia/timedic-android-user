@@ -17,6 +17,7 @@ public class Constants {
     //USER
     public static final String ROUTE_LOGIN = "/authenticate/user?";
     public static final String ROUTE_LOGIN_FIREBASE = "/authenticateBySocial/user?";
+    public static final String ROUTE_LOGIN_FIREBASE_TOKEN = "/authenticateBySocialToken/user?";
     public static final String ROUTE_RESGISTER = "/register/user";
     public static final String ROUTE_USER_POST = "api/user";
     public static final String ROUTE_USER_BY_ID = "api/user/";
@@ -62,6 +63,9 @@ public class Constants {
     public static final String ROUTE_RATE_POST = "/api/caregiverRate";
     public static final String ROUTE_RATE_GET = "/api/getCaregiverRateByIdCaregiver/";
 
+    //CONTACT
+    public static final String ROUTE_CONTACT = "api/getContactUsForNurse/";
+
     //LOCAL DB SETTING
     public static final String LOCALDB_NAME = "id.smartin.org.homecaretimedic.timedicalarm";
     public static final Integer LOCALDB_VERSION = 1;
@@ -85,6 +89,7 @@ public class Constants {
     public static final String CHAT_SINGLE_REFERENCE = "OneToOneMsg";
     public static final String CHAT_ROLE_ADMIN = "chat_admin";
     public static final String CHAT_ROLE_USER = "app_user";
+
 
     //public static final String CHAT_ROLE_ME = CHAT_ROLE_ADMIN;
     //public static final String CHAT_ROLE_BUDDY = CHAT_ROLE_USER;

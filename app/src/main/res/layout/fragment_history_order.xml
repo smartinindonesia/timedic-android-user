@@ -27,8 +27,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clickable="true"
+        android:scrollbars="vertical"
         app:layout_constraintBottom_toTopOf="@+id/loadingBar"
-        android:scrollbars="vertical" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="10dp" />
 
     <ProgressBar
         android:id="@+id/loadingBar"
