@@ -200,6 +200,7 @@ public class AddReminderItemActivity extends AppCompatActivity {
 
                     }
                 }, mcurrentTime.get(Calendar.YEAR), mcurrentTime.get(Calendar.MONTH), mcurrentTime.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
                 datePickerDialog.setTitle("Pilih tanggal pelayanan");
                 datePickerDialog.show();
                 datePick.setText(resultPattern);
@@ -490,13 +491,21 @@ public class AddReminderItemActivity extends AppCompatActivity {
 
     private PendingIntent createAlarmPendingIntent(long index, long date, int dayInterval, AlarmModel alarmModel) {
         Intent intent = new Intent(getApplicationContext(), AlarmBroadcastReceiver.class);
-        intent.putExtra(Action.ACTION_ALARM_OBJECT_TRANSFER, alarmModel);
+        Bundle b = new Bundle();
+        b.putInt(AlarmModel.ACTION_INTERVAL_DAY, alarmModel.getIntervalDay());
+        b.putInt(AlarmModel.ACTION_INTERVAL_TIME, alarmModel.getIntervalTime());
+        b.putString(AlarmModel.ACTION_MEDICINE_NAME, alarmModel.getMedicineName());
+        b.putInt(AlarmModel.ACTION_NUM_OF_MEDICINE, alarmModel.getNumOfMedicine());
+        b.putString(AlarmModel.ACTION_STARTING_DATE, alarmModel.getStartingDate());
+        b.putString(AlarmModel.ACTION_MEDICINE_SHAPE, alarmModel.getMedicineShape());
+        intent.putExtras(b);
         // Loop counter `i` is used as a `requestCode`
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), (int) index, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), (int) index, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         // Single alarms in 1, 2, ..., 10 minutes (in `i` minutes)
         long intervalRepeater = 24 * 60 * 60 * 1000 * dayInterval;
-        mgrAlarm.set(AlarmManager.RTC_WAKEUP,
+        mgrAlarm.setRepeating(AlarmManager.RTC_WAKEUP,
                 date,
+                intervalRepeater,
                 pendingIntent);
         return pendingIntent;
     }

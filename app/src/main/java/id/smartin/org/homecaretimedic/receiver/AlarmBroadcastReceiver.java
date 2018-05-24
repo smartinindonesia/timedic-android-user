@@ -5,8 +5,10 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.util.Log;
 import android.widget.Toast;
 
 import id.smartin.org.homecaretimedic.AlarmActivity;
@@ -19,30 +21,20 @@ import id.smartin.org.homecaretimedic.service.AlarmSoundService;
 import static android.support.v4.content.WakefulBroadcastReceiver.startWakefulService;
 
 public class AlarmBroadcastReceiver extends BroadcastReceiver {
+    public static final String TAG = "[AlarmBroadcastRcvr]";
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        AlarmModel alarmModel = (AlarmModel) intent.getSerializableExtra(Action.ACTION_ALARM_OBJECT_TRANSFER);
-        Toast.makeText(context, "ALARM!! ALARM!!", Toast.LENGTH_SHORT).show();
-        Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-        // Vibrate for 500 milliseconds
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            v.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
-        } else {
-            //deprecated in API 26
-            v.vibrate(500);
-        }
-        Intent a = new Intent(context, AlarmActivity.class);
-        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        a.putExtra(Action.ACTION_ALARM_OBJECT_TRANSFER, alarmModel);
+        Bundle b = intent.getExtras();
+        String medicineName = b.getString(AlarmModel.ACTION_MEDICINE_NAME);
+        Intent a = new Intent(context, AlarmActivity.class).putExtras(b);
+        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         context.startActivity(a);
-        //Stop sound service to play sound for alarm
-        //context.startService(new Intent(context, AlarmSoundService.class));
 
         //This will send a notification message and show notification in notification tray
+
         ComponentName comp = new ComponentName(context.getPackageName(),
                 AlarmNotificationService.class.getName());
         startWakefulService(context, (intent.setComponent(comp)));
-
     }
 }

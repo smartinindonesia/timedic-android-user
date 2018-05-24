@@ -6,6 +6,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
@@ -27,6 +28,16 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.ProviderQueryResult;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.gson.Gson;
 
 import java.io.UnsupportedEncodingException;
@@ -56,8 +67,6 @@ import retrofit2.Response;
 public class SignUpActivity extends AppCompatActivity {
     public static final String TAG = "[SignUpActivity]";
 
-    @BindView(R.id.username)
-    EditText username;
     @BindView(R.id.password)
     EditText password;
     @BindView(R.id.rePassword)
@@ -91,8 +100,6 @@ public class SignUpActivity extends AppCompatActivity {
     @BindView(R.id.religionName)
     Spinner religionName;
 
-    @BindView(R.id.usernameTitle)
-    TextView usernameTitle;
     @BindView(R.id.passwordTitle)
     TextView passwordTitle;
     @BindView(R.id.rePasswordTitle)
@@ -122,6 +129,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     private DatePickerDialog datePickerDialog;
     private UserAPIInterface userAPIInterface;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,11 +137,12 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
         ButterKnife.bind(this);
         userAPIInterface = APIClient.getClient().create(UserAPIInterface.class);
+        mAuth = FirebaseAuth.getInstance();
         createTitleBar();
         signUP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                doSignUp();
+                doSignUpEmailFirebase();
             }
         });
         agreementLink.setOnClickListener(new View.OnClickListener() {
@@ -256,7 +265,7 @@ public class SignUpActivity extends AppCompatActivity {
         });
 
         religionList = VarConst.getReligionList();
-        adapterReligion = new ReligionAdapter(this,this, religionList);
+        adapterReligion = new ReligionAdapter(this, this, religionList);
         religionName.setAdapter(adapterReligion);
 
         genderOptions = VarConst.getGenders();
@@ -281,57 +290,84 @@ public class SignUpActivity extends AppCompatActivity {
     @Override
     public boolean onSupportNavigateUp() {
         finish();
+        signOut();
         onBackPressed();
         return true;
     }
 
-    private void doSignUp() {
-        RegisterParam registerParam = new RegisterParam();
+    private void signOut() {
+        FirebaseAuth.getInstance().signOut();
+        LoginManager.getInstance().logOut();
+    }
+
+    private void doSignUpEmailFirebase() {
+        final RegisterParam registerParam = new RegisterParam();
         registerParam.setFirstname(firstName.getText().toString());
         registerParam.setLastname(lastName.getText().toString());
         registerParam.setMiddlename(middleName.getText().toString());
-        String shahex = AesUtil.Encrypt(password.getText().toString());
-        registerParam.setPassword(shahex);
-        registerParam.setUsername(username.getText().toString());
+        registerParam.setPassword(null);
         registerParam.setPhone(phone.getText().toString());
         registerParam.setEmail(emailAddress.getText().toString());
         Long dobs = ConverterUtility.getTimeStamp(dob.getText().toString(), "dd-MM-yyyy");
         registerParam.setDateOfBirth(dobs);
         registerParam.setGender(((GenderOption) genderSpin.getAdapter().getItem(genderSpin.getSelectedItemPosition())).getGender());
         registerParam.setReligion(((Religion) religionName.getAdapter().getItem(religionName.getSelectedItemPosition())).getReligion());
-        if (retypePassword.getText().toString().equals(password.getText().toString())) {
-            if (registerParam.isValidUsername()) {
-                if (!registerParam.isUsernameContainSpace()) {
-                    if (!registerParam.isFirstNameEmpty()) {
-                        if (registerParam.isValidPhone()) {
-                            if (registerParam.isValidEmail()) {
-                                if (checkAgreement.isChecked()) {
-                                    try {
-                                        postData(registerParam);
-                                    } catch (UnsupportedEncodingException e) {
-                                        Toast.makeText(getApplicationContext(), "Parameter tidak benar!", Toast.LENGTH_LONG).show();
-                                    }
-                                } else {
-                                    Toast.makeText(getApplicationContext(), "Anda belum menyetujui pernyataan persetujuan!", Toast.LENGTH_LONG).show();
-                                }
+        if (doSignUpValidation(registerParam)) {
+            mAuth.createUserWithEmailAndPassword(registerParam.getEmail(), password.getText().toString())
+                    .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                Log.d(TAG, "createUserWithEmail:success");
+                                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                        .setDisplayName(registerParam.getFirstname()).build();
+                                mAuth.getCurrentUser().updateProfile(profileUpdates);
+                                registerParam.setFirebaseIdByEmail(mAuth.getCurrentUser().getUid());
+                                doSignUp(registerParam);
                             } else {
-                                Toast.makeText(getApplicationContext(), "Email tidak valid!", Toast.LENGTH_LONG).show();
+                                // If sign in fails, display a message to the user.
+                                Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                                Snackbar.make(mainLayout, "Pendaftaran user gagal dilakukan!", Snackbar.LENGTH_LONG).show();
                             }
+                        }
+                    });
+
+        }
+    }
+
+
+    private void doSignUp(RegisterParam registerParam) {
+        try {
+            postData(registerParam);
+        } catch (UnsupportedEncodingException e) {
+            Toast.makeText(getApplicationContext(), "Parameter tidak benar!", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private boolean doSignUpValidation(RegisterParam registerParam) {
+        if (retypePassword.getText().toString().equals(password.getText().toString())) {
+            if (!registerParam.isFirstNameEmpty()) {
+                if (registerParam.isValidPhone()) {
+                    if (registerParam.isValidEmail()) {
+                        if (checkAgreement.isChecked()) {
+                            return true;
                         } else {
-                            Toast.makeText(getApplicationContext(), "Nomor HP tidak valid!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Anda belum menyetujui pernyataan persetujuan!", Toast.LENGTH_LONG).show();
                         }
                     } else {
-                        Toast.makeText(getApplicationContext(), "Nama depan tidak boleh kosong!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Email tidak valid!", Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    Toast.makeText(getApplicationContext(), "Username tidak boleh mengandung spasi!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Nomor HP tidak valid!", Toast.LENGTH_LONG).show();
                 }
             } else {
-                Toast.makeText(getApplicationContext(), "Username tidak boleh kosong!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Nama depan tidak boleh kosong!", Toast.LENGTH_LONG).show();
             }
         } else {
             Toast.makeText(getApplicationContext(), "Pastikan password anda benar!", Toast.LENGTH_LONG).show();
         }
+        return false;
     }
 
     private void postData(RegisterParam registerParam) throws UnsupportedEncodingException {
@@ -362,10 +398,8 @@ public class SignUpActivity extends AppCompatActivity {
         startActivity(i);
     }
 
-    private void setFonts(){
+    private void setFonts() {
         ArrayList<TextView> arrayList = new ArrayList<>();
-        arrayList.add(usernameTitle);
-        arrayList.add(username);
         arrayList.add(passwordTitle);
         arrayList.add(password);
         arrayList.add(rePasswordTitle);

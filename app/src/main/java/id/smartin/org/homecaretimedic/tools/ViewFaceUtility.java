@@ -1,10 +1,13 @@
 package id.smartin.org.homecaretimedic.tools;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Typeface;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -47,6 +50,17 @@ public class ViewFaceUtility {
     public static void applyFonts(ArrayList<TextView> tvs, Activity context, String path) {
         for (int i = 0; i < tvs.size();i++) {
             tvs.get(i).setTypeface(Typeface.createFromAsset(context.getAssets(), path));
+        }
+    }
+
+    public static void hideKeyboard(Activity activity, EditText editText) {
+        try {
+            View view = activity.getCurrentFocus();
+            if (view != null) {
+                InputMethodManager inputMgr = (InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMgr.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+            }
+        } catch (Exception e) {
         }
     }
 }

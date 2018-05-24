@@ -18,6 +18,14 @@ public class AlarmModel implements Serializable {
     private String startingDate;
     private IDStatus status;
 
+    public static final String ACTION_ID = "id.smartin.org.homecaretimedic.model.utilitymodel.AlarmModel.id";
+    public static final String ACTION_MEDICINE_NAME = "id.smartin.org.homecaretimedic.model.utilitymodel.AlarmModel.medicineName";
+    public static final String ACTION_NUM_OF_MEDICINE = "id.smartin.org.homecaretimedic.model.utilitymodel.AlarmModel.numOfMedicine";
+    public static final String ACTION_INTERVAL_TIME = "id.smartin.org.homecaretimedic.model.utilitymodel.AlarmModel.intervalTime";
+    public static final String ACTION_INTERVAL_DAY = "id.smartin.org.homecaretimedic.model.utilitymodel.AlarmModel.intervalDay";
+    public static final String ACTION_STARTING_DATE = "id.smartin.org.homecaretimedic.model.utilitymodel.AlarmModel.startingDate";
+    public static final String ACTION_MEDICINE_SHAPE = "id.smartin.org.homecaretimedic.model.utilitymodel.AlarmModel.medicineShape";
+
     public static final String T_ALARM_MODEL = "AlarmModel";
     public static final String T_ALARM_ID = "id";
     public static final String T_MEDICINE_NAME = "medicineName";

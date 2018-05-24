@@ -25,7 +25,10 @@ public interface UserAPIInterface {
     Call<LoginResponse> loginUserWithFirebase(@Query("firebaseId") String firebaseId, @Query("type") String type);
 
     @POST(Constants.ROUTE_LOGIN_FIREBASE_TOKEN)
-    Call<ResponseBody> loginUserWithFirebaseToken(@Query("firebaseToken") String firebaseId, @Query("type") String type);
+    Call<LoginResponse> loginUserWithFirebaseToken(@Query("firebaseToken") String firebaseId, @Query("type") String type);
+
+    @POST(Constants.ROUTE_CHECK_PASSWORD_IS_NULL_OR_NOT)
+    Call<ResponseBody> checkCaregiverPasswordIsNullOrNot(@Query("email") String email);
 
     @POST(Constants.ROUTE_LOGIN)
     Call<LoginResponse> loginUser(@Query("username") String username, @Query("password") String password);

@@ -3,6 +3,8 @@ package id.smartin.org.homecaretimedic;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +19,13 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -67,7 +76,20 @@ public class ChangePasswordActivity extends AppCompatActivity {
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                doUpdatePassword();
+                ViewFaceUtility.hideKeyboard(ChangePasswordActivity.this, password);
+                ViewFaceUtility.hideKeyboard(ChangePasswordActivity.this, retypePassword);
+                ViewFaceUtility.hideKeyboard(ChangePasswordActivity.this, oldPassword);
+
+                FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
+                if (usr != null) {
+                    if (usr.getProviders().get(0).equals("password")) {
+                        changePasswordFirebase();
+                    } else {
+                        doUpdatePassword();
+                    }
+                } else {
+                    doUpdatePassword();
+                }
             }
         });
         retypePassword.addTextChangedListener(new TextWatcher() {
@@ -127,6 +149,51 @@ public class ChangePasswordActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    private void changePasswordFirebase() {
+        PasswordProfile registerParam = new PasswordProfile();
+        registerParam.setPassword(password.getText().toString());
+        if (!password.getText().toString().trim().equals("")) {
+            if (password.getText().toString().equals(retypePassword.getText().toString())) {
+                final FirebaseUser fuser = FirebaseAuth.getInstance().getCurrentUser();
+                final String newpassword = password.getText().toString();
+                AuthCredential credential = EmailAuthProvider
+                        .getCredential(fuser.getEmail(), oldPassword.getText().toString());
+
+// Prompt the user to re-provide their sign-in credentials
+                fuser.reauthenticate(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            fuser.updatePassword(newpassword)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                Snackbar.make(mainLayout, "Password berhasil diganti !", Snackbar.LENGTH_LONG).show();
+                                            } else {
+                                                if (task.getException().getLocalizedMessage().equals("Password should be at least 6 characters")) {
+                                                    Snackbar.make(mainLayout, "Password minimal terdiri dari 6 karakter!", Snackbar.LENGTH_LONG).show();
+                                                } else {
+                                                    Snackbar.make(mainLayout, "Password gagal diubah!", Snackbar.LENGTH_LONG).show();
+                                                }
+                                            }
+                                        }
+                                    });
+                        } else {
+                            Snackbar.make(mainLayout, "Authentikasi gagal !", Snackbar.LENGTH_LONG).show();
+                        }
+                    }
+                });
+
+            } else {
+                Toast.makeText(getApplicationContext(), "Password tidak sesuai, harap diulang kembali!", Toast.LENGTH_LONG).show();
+            }
+        } else {
+            Toast.makeText(getApplicationContext(), "Password tidak boleh kosong!", Toast.LENGTH_LONG).show();
+        }
+
     }
 
     public void doUpdatePassword() {

@@ -35,6 +35,8 @@ public class RegisterParam {
     private String gender;
     @SerializedName("religion")
     private String religion;
+    @SerializedName("firebaseIdByEmail")
+    private String firebaseIdByEmail;
 
     public String getUsername() {
         return username;
@@ -176,4 +178,13 @@ public class RegisterParam {
     public void setReligion(String religion) {
         this.religion = religion;
     }
+
+    public String getFirebaseIdByEmail() {
+        return firebaseIdByEmail;
+    }
+
+    public void setFirebaseIdByEmail(String firebaseIdByEmail) {
+        this.firebaseIdByEmail = firebaseIdByEmail;
+    }
+
 }

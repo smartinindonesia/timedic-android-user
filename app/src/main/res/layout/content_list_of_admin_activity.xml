@@ -1,0 +1,17 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="?attr/actionBarSize"
+    android:orientation="vertical" >
+
+    <ListView
+        android:id="@+id/listAdmin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@color/theme_blue"
+        android:dividerHeight="1dp"
+        tools:listitem="@layout/item_admin_chat" >
+    </ListView>
+
+</LinearLayout>

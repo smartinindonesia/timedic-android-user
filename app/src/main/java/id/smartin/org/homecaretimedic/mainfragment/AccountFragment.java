@@ -104,6 +104,7 @@ public class AccountFragment extends Fragment {
         homecareSessionManager = new HomecareSessionManager(getActivity(), getContext());
         appSetting = homecareSessionManager.getSetting();
         googleLoginInit();
+        mAuth = FirebaseAuth.getInstance();
     }
 
     @Override
@@ -134,8 +135,20 @@ public class AccountFragment extends Fragment {
         btnChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), ChangePasswordActivity.class);
-                startActivity(intent);
+                FirebaseUser user = mAuth.getCurrentUser();
+                if (user != null) {
+                    String provider = user.getProviders().get(0);
+                    String providerStr = provider.replace(".com", "");
+                    if (!providerStr.equalsIgnoreCase("google") && !providerStr.equalsIgnoreCase("facebook")) {
+                        provider = "email";
+                    }
+                    if (provider.equals("email")) {
+                        Intent intent = new Intent(getActivity(), ChangePasswordActivity.class);
+                        startActivity(intent);
+                    } else {
+                        Snackbar.make(accountLayout, "Hanya berlaku untuk pengguna yang login menggunakan email!", Snackbar.LENGTH_LONG).show();
+                    }
+                }
             }
         });
 

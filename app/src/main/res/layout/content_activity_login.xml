@@ -42,7 +42,7 @@
                 android:layout_marginTop="6dp"
                 android:background="@drawable/edittext_border"
                 android:drawableLeft="@drawable/ic_login_email"
-                android:hint="Username"
+                android:hint="Email"
                 android:inputType="textEmailAddress"
                 android:padding="4dp" />
 
@@ -67,11 +67,12 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/lupaPassword"
+                    android:id="@+id/forgotPassword"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
+                    android:textColor="@color/black_link_color"
                     android:text="Lupa kata sandi?" />
 
                 <Button
@@ -110,29 +111,58 @@
                 android:layout_width="match_parent"
                 android:layout_height="4dp" />
 
-            <ImageButton
-                android:id="@+id/btnGoogleSignIn"
-                android:padding="15dp"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/btn_google_login_selector"/>
+                android:layout_height="wrap_content">
 
-            <ImageButton
-                android:id="@+id/btnFacebookSignIn"
-                android:padding="15dp"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/btn_facebook_login_selector"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/shadow_clr"
+                    android:layout_centerInParent="true"/>
 
-            <TextView
-                android:id="@+id/forgotPassword"
+                <TextView
+                    android:id="@+id/orWithText"
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:background="@color/colorPrimary"
+                    android:text="atau dengan"/>
+
+            </RelativeLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Forgot password"
-                android:textAlignment="center"
-                android:textColor="@android:color/white" />
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+
+                <ImageButton
+                    android:id="@+id/btnFacebookSignIn"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="0.475"
+                    android:padding="15dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/btn_facebook_login_selector" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight="0.05"
+                    android:layout_height="0dp"/>
+
+                <ImageButton
+                    android:id="@+id/btnGoogleSignIn"
+                    android:padding="15dp"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="0.475"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/btn_google_login_selector"/>
+
+            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"

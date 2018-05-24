@@ -1,6 +1,7 @@
 package id.smartin.org.homecaretimedic;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -48,6 +49,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.UserInfo;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -61,6 +63,7 @@ import com.shaishavgandhi.loginbuttons.GooglePlusButton;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -79,6 +82,7 @@ import id.smartin.org.homecaretimedic.tools.AesUtil;
 import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
 import id.smartin.org.homecaretimedic.tools.restservice.APIClient;
 import id.smartin.org.homecaretimedic.tools.restservice.UserAPIInterface;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -104,6 +108,8 @@ public class LoginActivity extends AppCompatActivity {
     Button signUp;
     @BindView(R.id.forgotPassword)
     TextView forgotPassword;
+    @BindView(R.id.orWithText)
+    TextView orWithText;
 
     private UserAPIInterface userAPIInterface;
 
@@ -119,7 +125,6 @@ public class LoginActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
     private DatabaseReference mUsersDBref;
 
-
     private static final int MY_PERMISSIONS_REQUEST = 999;
 
     @Override
@@ -130,26 +135,42 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
-        InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(mainLayout.getWindowToken(), 0);
+        //InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //imm.hideSoftInputFromWindow(mainLayout.getWindowToken(), 0);
 
         userAPIInterface = APIClient.getClient().create(UserAPIInterface.class);
         homecareSessionManager = new HomecareSessionManager(this, getApplicationContext());
+        /*
         if (homecareSessionManager.isLogin()) {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
         }
+        */
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ViewFaceUtility.hideKeyboard(LoginActivity.this, username);
+                ViewFaceUtility.hideKeyboard(LoginActivity.this, password);
                 Log.e(TAG, "Sudah pencet tombol sign in");
-                doLogin();
+                if(password.getText().toString().equals("") && username.getText().toString().equals("")){
+                    Snackbar.make(mainLayout, "Silahkan isi email dan password akun anda", Snackbar.LENGTH_LONG).show();
+                }
+                else{
+                    cekMethod(username.getText().toString());
+                }
             }
         });
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent newinten = new Intent(LoginActivity.this, SignUpActivity.class);
+                startActivity(newinten);
+            }
+        });
+        forgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent newinten = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
                 startActivity(newinten);
             }
         });
@@ -163,6 +184,7 @@ public class LoginActivity extends AppCompatActivity {
         ArrayList<TextView> tvs = new ArrayList<>();
         tvs.add(signIn);
         tvs.add(username);
+        tvs.add(orWithText);
         tvs.add(signUp);
         tvs.add(password);
         tvs.add(forgotPassword);
@@ -438,6 +460,71 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.dismiss();
     }
 
+    public void doLoginWithEmail() {
+        String emailStr = username.getText().toString();
+        String passwordStr = password.getText().toString();
+        if (emailStr.isEmpty() || emailStr.equals("") || emailStr.equals(null)) {
+            Snackbar.make(mainLayout, "Email kosong. Harap diisi!", Snackbar.LENGTH_LONG).show();
+        } else {
+            if (passwordStr.isEmpty() || passwordStr.equals("") || passwordStr.equals(null)) {
+                Snackbar.make(mainLayout, "Password kosong. Harap diisi!", Snackbar.LENGTH_LONG).show();
+            } else {
+                mAuth.signInWithEmailAndPassword(emailStr, passwordStr)
+                        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    // Sign in success, update UI with the signed-in user's information
+                                    Log.d(TAG, "signInWithEmail:success");
+                                    FirebaseUser user = mAuth.getCurrentUser();
+                                    doLoginFirebase(user, "email");
+                                } else {
+                                    // If sign in fails, display a message to the user.
+                                    Log.w(TAG, "signInWithEmail:failure", task.getException());
+
+                                }
+                                // ...
+                            }
+                        });
+            }
+        }
+    }
+
+    private void cekMethod(String email){
+        Call<ResponseBody> responseCall = userAPIInterface.checkCaregiverPasswordIsNullOrNot(email);
+
+        responseCall.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.code() == 200) {
+                    try {
+                        String password = response.body().string();
+                        if(password.equals("false")){
+                            doLoginWithEmail();
+                        }
+                        else{
+                            if (password.equals("true,g")){
+                                signIn();
+                            } else {
+                                signInFb();
+                            }
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else {
+                    Snackbar.make(mainLayout, "Login gagal", Snackbar.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Snackbar.make(mainLayout, getResources().getString(R.string.network_problem), Snackbar.LENGTH_LONG).show();
+            }
+        });
+    }
+
     public void doLogin() {
         openProgress("Loading...", "Proses Login!");
 
@@ -445,9 +532,44 @@ public class LoginActivity extends AppCompatActivity {
         Call<LoginResponse> responseCall = userAPIInterface.loginUser(username.getText().toString(), shahex);
         responseCall.enqueue(new Callback<LoginResponse>() {
             @Override
-            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+            public void onResponse(Call<LoginResponse> call, final Response<LoginResponse> response) {
                 closeProgress();
                 if (response.code() == 200) {
+                    mAuth.signInAnonymously()
+                            .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        FirebaseUser user = mAuth.getCurrentUser();
+                                        if (user != null) {
+                                            String provider = user.getProviders().get(0);
+                                            Log.i(TAG, "USER LOGIN WITH " + provider);
+                                            // User is signed in
+                                            ArrayList<String> defaultRoom = new ArrayList<String>();
+                                            defaultRoom.add("home");
+                                            AdminListActivity.user = new ChatUser();
+                                            AdminListActivity.user.setEmail(user.getEmail());
+                                            AdminListActivity.user.setId(user.getUid());
+                                            AdminListActivity.user.setNickname(user.getDisplayName());
+                                            AdminListActivity.user.setOnline(true);
+                                            AdminListActivity.user.setUserType(Constants.CHAT_ROLE_ME);
+                                            AdminListActivity.user.setRoom(defaultRoom);
+                                            isExistOnFirebaseDB(AdminListActivity.user);
+                                            Log.i(TAG, response.body().getUser().toString());
+                                            Log.i(TAG, "NEW TOKEN " + response.body().getToken());
+                                            gotoMainPage(response.body().getUser(), response.body().getToken());
+                                        }
+                                        // Sign in success, update UI with the signed-in user's information
+                                        Log.d(TAG, "signInAnonymously:success");
+
+                                    } else {
+                                        Log.d(TAG, "signInAnonymously:success");
+                                        // If sign in fails, display a message to the user.
+                                    }
+
+                                    // ...
+                                }
+                            });
                     Log.i(TAG, response.body().getUser().toString());
                     Log.i(TAG, "NEW TOKEN " + response.body().getToken());
                     gotoMainPage(response.body().getUser(), response.body().getToken());
@@ -459,6 +581,7 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     Snackbar.make(mainLayout, getResources().getString(R.string.login_err_unknown), Snackbar.LENGTH_LONG).show();
                 }
+
             }
 
             @Override
@@ -470,51 +593,54 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public void getFirebaseToken(){
+    public void doLoginFirebase(final FirebaseUser user, final String type) {
+        openProgress("Loading...", "Proses Login!");
         FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
         mUser.getIdToken(true)
                 .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
                     public void onComplete(@NonNull Task<GetTokenResult> task) {
                         if (task.isSuccessful()) {
                             String idToken = task.getResult().getToken();
+                            Log.i(TAG, "idToken : " + idToken);
                             // Send token to your backend via HTTPS
-                            // ...
+                            Call<LoginResponse> responseCall = userAPIInterface.loginUserWithFirebaseToken(idToken, type);
+                            responseCall.enqueue(new Callback<LoginResponse>() {
+                                @Override
+                                public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                                    closeProgress();
+
+                                    Log.i(TAG, response.message());
+                                    if (response.code() == 200) {
+                                        Log.i(TAG, response.body().getUser().toString());
+                                        Log.i(TAG, "NEW TOKEN " + response.body().getToken());
+                                        gotoMainPage(response.body().getUser(), response.body().getToken());
+                                    } else if (response.code() == 401) {
+                                        Log.i(TAG, response.raw().toString());
+                                        gotoFirebaseSignUpPage(user, type);
+                                        Snackbar.make(mainLayout, getResources().getString(R.string.login_failed_unauthorized), Snackbar.LENGTH_LONG).show();
+                                    } else if (response.code() == 404) {
+                                        Snackbar.make(mainLayout, getResources().getString(R.string.login_failed_user_not_found), Snackbar.LENGTH_LONG).show();
+                                    } else {
+                                        Snackbar.make(mainLayout, getResources().getString(R.string.login_err_unknown), Snackbar.LENGTH_LONG).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<LoginResponse> call, Throwable t) {
+                                    progressDialog.dismiss();
+                                    t.printStackTrace();
+                                    Snackbar.make(mainLayout, getResources().getString(R.string.network_problem), Snackbar.LENGTH_LONG).show();
+                                    call.cancel();
+                                }
+
+                            });
                         } else {
                             // Handle error -> task.getException();
+
                         }
                     }
                 });
-    }
 
-    public void doLoginFirebase(final FirebaseUser user, final String type) {
-        openProgress("Loading...", "Proses Login!");
-        Call<LoginResponse> responseCall = userAPIInterface.loginUserWithFirebase(user.getUid(), type);
-        responseCall.enqueue(new Callback<LoginResponse>() {
-            @Override
-            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                closeProgress();
-                if (response.code() == 200) {
-                    Log.i(TAG, response.body().getUser().toString());
-                    Log.i(TAG, "NEW TOKEN " + response.body().getToken());
-                    gotoMainPage(response.body().getUser(), response.body().getToken());
-                } else if (response.code() == 401) {
-                    Log.i(TAG, response.raw().toString());
-                    gotoFirebaseSignUpPage(user, type);
-                    Snackbar.make(mainLayout, getResources().getString(R.string.login_failed_unauthorized), Snackbar.LENGTH_LONG).show();
-                } else if (response.code() == 404) {
-                    Snackbar.make(mainLayout, getResources().getString(R.string.login_failed_user_not_found), Snackbar.LENGTH_LONG).show();
-                } else {
-                    Snackbar.make(mainLayout, getResources().getString(R.string.login_err_unknown), Snackbar.LENGTH_LONG).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<LoginResponse> call, Throwable t) {
-                progressDialog.dismiss();
-                Snackbar.make(mainLayout, getResources().getString(R.string.network_problem), Snackbar.LENGTH_LONG).show();
-                call.cancel();
-            }
-        });
     }
 
     public void gotoMainPage(User usr, String token) {
@@ -539,7 +665,11 @@ public class LoginActivity extends AppCompatActivity {
             AdminListActivity.user.setUserType(Constants.CHAT_ROLE_ME);
             AdminListActivity.user.setRoom(defaultRoom);
             isExistOnFirebaseDB(AdminListActivity.user);
-            doLoginFirebase(user, provider.replace(".com", ""));
+            String providerStr = provider.replace(".com", "");
+            if (!providerStr.equalsIgnoreCase("google") && !providerStr.equalsIgnoreCase("facebook")) {
+                providerStr = "email";
+            }
+            doLoginFirebase(user, providerStr);
             Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
         } else {
             // User is signed out
@@ -547,30 +677,31 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void isExistOnFirebaseDB(final ChatUser user){
+    private void isExistOnFirebaseDB(final ChatUser user) {
         mUsersDBref = FirebaseDatabase.getInstance().getReference().child("Users");
         DatabaseReference userNameRef = mUsersDBref.child(user.getId());
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(!dataSnapshot.exists()) {
+                if (!dataSnapshot.exists()) {
                     createUserInDb(user);
                 }
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {}
+            public void onCancelled(DatabaseError databaseError) {
+            }
         };
         userNameRef.addListenerForSingleValueEvent(eventListener);
 
     }
 
-    private void createUserInDb(ChatUser user){
+    private void createUserInDb(ChatUser user) {
         mUsersDBref = FirebaseDatabase.getInstance().getReference().child("Users");
         mUsersDBref.child(user.getId()).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if(!task.isSuccessful()){
+                if (!task.isSuccessful()) {
                     //error
                     Log.i(TAG, "ERROR ");
                     //Toast.makeText(SignUpActivity.this, "Error " + task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
@@ -580,4 +711,5 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
 }

@@ -187,13 +187,13 @@
             android:name=".BillingMethodActivity"
             android:label="@string/act_billing_method" />
         <activity android:name=".BankTransferPageActivity" />
-        <activity android:name=".ChatAdminActivity"
-            android:label="@string/act_chat_admin"/>
+        <activity
+            android:name=".ChatAdminActivity"
+            android:label="@string/act_chat_admin" />
         <activity android:name=".ThanksPageActivity" />
         <activity
             android:name=".AddReminderItemActivity"
             android:label="@string/act_add_reminder" />
-
         <activity android:name=".AlarmActivity" />
 
         <service
@@ -210,16 +210,26 @@
             android:name=".service.AlarmNotificationService"
             android:exported="false" />
 
-        <activity android:name=".AdminListActivity"
-            android:label="@string/act_admin_list"/>
+        <activity
+            android:name=".AdminListActivity"
+            android:label="@string/act_admin_list" />
 
         <service
             android:name=".FirebaseChatReceiver"
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".ContactUsActivity"
-            android:label="@string/act_contact_us"></activity>
+        <activity
+            android:name=".ContactUsActivity"
+            android:label="@string/act_contact_us" />
+        <activity android:name=".ListOfAdminActivity" />
+
+        <activity
+            android:name=".ForgotPasswordActivity"
+            android:label="@string/act_forgot_password"
+            android:windowSoftInputMode="stateHidden"/>
+
+        <activity android:name=".ListOfChatActivity"></activity>
     </application>
 
 </manifest>

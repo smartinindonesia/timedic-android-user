@@ -21,6 +21,7 @@ public class Constants {
     public static final String ROUTE_RESGISTER = "/register/user";
     public static final String ROUTE_USER_POST = "api/user";
     public static final String ROUTE_USER_BY_ID = "api/user/";
+    public static final String ROUTE_CHECK_PASSWORD_IS_NULL_OR_NOT = "checkUserPasswordIsNullOrNot?";
 
     //AUTH CAREGIVER
     public static final String ROUTE_LOGIN_CAREGIVER = "/authenticate/caregiver";
@@ -89,6 +90,12 @@ public class Constants {
     public static final String CHAT_SINGLE_REFERENCE = "OneToOneMsg";
     public static final String CHAT_ROLE_ADMIN = "chat_admin";
     public static final String CHAT_ROLE_USER = "app_user";
+
+    public static final String CHAT_NODE_PROPERTY_REF = "chats";
+    public static final String CHAT_NODE_MESSAGE_THREAD = "messageThread";
+    public static final String CHAT_NODE_MESSAGE_THREAD_META = "messageThreadMetaData";
+    public static final String CHAT_NODE_MESSAGES_REF = "chatMessages";
+    public static final String CHAT_NODE_USER_REF = "chatUsers";
 
 
     //public static final String CHAT_ROLE_ME = CHAT_ROLE_ADMIN;
