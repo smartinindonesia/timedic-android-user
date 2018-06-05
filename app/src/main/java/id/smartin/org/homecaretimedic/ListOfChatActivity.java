@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.EventLog;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -23,12 +24,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -38,6 +41,8 @@ import id.smartin.org.homecaretimedic.adapter.MessageListAdapterFst;
 import id.smartin.org.homecaretimedic.config.Constants;
 import id.smartin.org.homecaretimedic.model.chatcompmodel.ChatID;
 import id.smartin.org.homecaretimedic.model.chatcompmodel.ChatUserFst;
+import id.smartin.org.homecaretimedic.model.chatcompmodel.ChatUserRef;
+import id.smartin.org.homecaretimedic.model.chatcompmodel.ConnectedWith;
 import id.smartin.org.homecaretimedic.model.chatcompmodel.ThreadIDProperty;
 import id.smartin.org.homecaretimedic.tools.ViewFaceUtility;
 
@@ -55,11 +60,21 @@ public class ListOfChatActivity extends AppCompatActivity {
     @BindView(R.id.button_chatbox_send)
     Button btnSend;
 
+    private Query queryNodeMeta;
+    private ValueEventListener nodeMetaListener;
+
+    private DatabaseReference detectNewMessages;
+    private ValueEventListener detectNewMessageListener;
+
+    private DatabaseReference metaDatabase;
+    private ValueEventListener metaListener;
+
+    private boolean recentlyOpen = false;
+
     private MessageListAdapterFst mMessageAdapter;
     private List<ChatID> chatMessageList = new ArrayList<ChatID>() {
         @Override
         public int indexOf(Object o) {
-
             if (o instanceof ChatID) {
                 for (int i = 0; i < this.size(); i++) {
                     ChatID c = (ChatID) o;
@@ -76,7 +91,8 @@ public class ListOfChatActivity extends AppCompatActivity {
     public static ChatUserFst buddy, appuser;
     private Date lastMsgDate;
     private String chatNode;
-    private ValueEventListener detectNewMessage;
+    private ThreadIDProperty threadIDProperty;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,8 +103,13 @@ public class ListOfChatActivity extends AppCompatActivity {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        buddy = (ChatUserFst) getIntent().getSerializableExtra("selected_admin");
-        appuser = (ChatUserFst) getIntent().getSerializableExtra("selected_app_user");
+        if (Constants.CHAT_ROLE_ME.equals(Constants.CHAT_ROLE_USER)) {
+            buddy = (ChatUserFst) getIntent().getSerializableExtra("selected_admin");
+            appuser = (ChatUserFst) getIntent().getSerializableExtra("selected_app_user");
+        } else {
+            appuser = (ChatUserFst) getIntent().getSerializableExtra("selected_admin");
+            buddy = (ChatUserFst) getIntent().getSerializableExtra("selected_app_user");
+        }
 
         if (buddy.getUserType().equals(Constants.CHAT_ROLE_ADMIN)) {
             chatNode = buddy.getId() + "-" + user.getUid();
@@ -109,9 +130,44 @@ public class ListOfChatActivity extends AppCompatActivity {
                 sendMessage();
             }
         });
+        checkIfThreadNodeMetaExist(chatNode);
+        listenToMeta(chatNode);
     }
 
-    private void sendMessage(){
+    @Override
+    protected void onResume() {
+        recentlyOpen = true;
+        super.onResume();
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        super.onBackPressed();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        updateStatusMeta(chatNode, false);
+        if (nodeMetaListener != null) {
+            queryNodeMeta.removeEventListener(nodeMetaListener);
+        }
+        if (detectNewMessageListener != null) {
+            detectNewMessages.removeEventListener(detectNewMessageListener);
+        }
+        if (metaListener != null) {
+            metaDatabase.removeEventListener(metaListener);
+        }
+    }
+
+    private void sendMessage() {
         if (edittext_chatbox.length() == 0)
             return;
 
@@ -133,14 +189,13 @@ public class ListOfChatActivity extends AppCompatActivity {
         edittext_chatbox.setText(null);
     }
 
-    private void checkIfThreadNodeMetaExist(final String node){
-
-        Query query = FirebaseDatabase.getInstance()
+    private void checkIfThreadNodeMetaExist(final String node) {
+        queryNodeMeta = FirebaseDatabase.getInstance()
                 .getReference(Constants.CHAT_NODE_MESSAGE_THREAD_META).orderByChild("threadId").equalTo(node);
-        query.addValueEventListener(new ValueEventListener() {
+        nodeMetaListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(!dataSnapshot.exists()) {
+                if (!dataSnapshot.exists()) {
                     createThreadNodeMeta(node);
                 } else {
                     updateStatusMeta(node, true);
@@ -152,10 +207,11 @@ public class ListOfChatActivity extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });
+        };
+        queryNodeMeta.addValueEventListener(nodeMetaListener);
     }
 
-    private void createThreadNodeMeta(String node){
+    private void createThreadNodeMeta(String node) {
         ThreadIDProperty threadIDProperty = new ThreadIDProperty();
         if (buddy.getUserType().equals(Constants.CHAT_ROLE_ADMIN)) {
             threadIDProperty.setAdminChat(buddy);
@@ -176,17 +232,19 @@ public class ListOfChatActivity extends AppCompatActivity {
         }
         FirebaseDatabase.getInstance()
                 .getReference(Constants.CHAT_NODE_MESSAGE_THREAD_META).child(node)
-                .setValue(threadIDProperty).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()){
-
-                }
-            }
-        });
+                .setValue(threadIDProperty)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            pushActiveThread(appuser, chatNode);
+                            pushActiveThread(buddy, chatNode);
+                        }
+                    }
+                });
     }
 
-    private void updateStatusMeta(String node, Boolean online){
+    private void updateStatusMeta(String node, Boolean online) {
         if (Constants.CHAT_ROLE_ME.equals(Constants.CHAT_ROLE_USER)) {
             FirebaseDatabase.getInstance()
                     .getReference(Constants.CHAT_NODE_MESSAGE_THREAD_META)
@@ -195,13 +253,13 @@ public class ListOfChatActivity extends AppCompatActivity {
                     .child("online")
                     .setValue(online)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if (task.isSuccessful()) {
-
-                    }
-                }
-            });
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Log.i(TAG, "updated status user");
+                            }
+                        }
+                    });
         } else {
             FirebaseDatabase.getInstance()
                     .getReference(Constants.CHAT_NODE_MESSAGE_THREAD_META)
@@ -210,53 +268,50 @@ public class ListOfChatActivity extends AppCompatActivity {
                     .child("online")
                     .setValue(online)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if (task.isSuccessful()) {
-
-                    }
-                }
-            });
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Log.i(TAG, "updated status admin");
+                            }
+                        }
+                    });
         }
     }
 
-    private void loadMessages(final String node){
+    private void loadMessages(final String node) {
         chatMessageList.clear();
         mMessageAdapter.notifyDataSetChanged();
-        detectNewMessage =
-                FirebaseDatabase.getInstance()
-                        .getReference(Constants.CHAT_NODE_MESSAGE_THREAD)
-                        .child(node)
-                        .limitToLast(20)
-                        .addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                                if (user != null) {
-                                    chatMessageList.clear();
-                                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                                        ChatID conversation = ds.getValue(ChatID.class);
-                                        Log.i(TAG, "ADA DATA MASUK");
-                                        if (conversation.getSender().contentEquals(user.getUid()) || conversation.getSender().contentEquals(buddy.getId())) {
-                                            chatMessageList.add(conversation);
-                                            Date dateConv = new Date(conversation.getChatTimeStamp());
-                                            if (lastMsgDate == null || lastMsgDate.before(dateConv))
-                                                lastMsgDate = dateConv;
-                                            mMessageAdapter.notifyDataSetChanged();
-                                            if (conversation.getSender().equals(buddy.getId())) {
-                                                updateMessageStatus(node, ds.getKey());
-                                            }
-                                        }
-                                    }
-                                    mMessageRecycler.scrollToPosition(chatMessageList.size() - 1);
-                                }
-                            }
+        detectNewMessageListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                chatMessageList.clear();
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    ChatID conversation = ds.getValue(ChatID.class);
+                    Log.i(TAG, "ADA DATA MASUK");
+                    if (conversation.getSender().equals(appuser.getId()) || conversation.getSender().equals(buddy.getId())) {
+                        chatMessageList.add(conversation);
+                        Date dateConv = new Date(conversation.getChatTimeStamp());
+                        if (lastMsgDate == null || lastMsgDate.before(dateConv))
+                            lastMsgDate = dateConv;
+                        mMessageAdapter.notifyDataSetChanged();
+                        if (conversation.getSender().equals(buddy.getId())) {
+                            updateMessageStatus(node, ds.getKey());
+                        }
+                    }
+                    mMessageRecycler.scrollToPosition(chatMessageList.size() - 1);
+                }
+            }
 
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-                            }
-                        });
+            }
+        };
+        detectNewMessages = FirebaseDatabase.getInstance()
+                .getReference(Constants.CHAT_NODE_MESSAGE_THREAD)
+                .child(node);
+        detectNewMessages.limitToLast(Constants.CHAT_LIMIT_NUMBER)
+                .addValueEventListener(detectNewMessageListener);
     }
 
     private void updateMessageStatus(String node, String key) {
@@ -312,10 +367,120 @@ public class ListOfChatActivity extends AppCompatActivity {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             mMessageAdapter.notifyDataSetChanged();
+                                            updateMeta(node, chatMessageList.get(isExist));
                                         }
                                     });
                     }
                 });
+
+    }
+
+    private void updateMeta(String node, ChatID lastMessages) {
+        if (threadIDProperty != null) {
+            if (threadIDProperty.getAppUser().getOnline() == null)
+                threadIDProperty.getAppUser().setOnline(false);
+            if (threadIDProperty.getUnseenMessages() == null)
+                threadIDProperty.setUnseenMessages(0);
+            if (threadIDProperty.getAdminChat().getOnline() == null)
+                threadIDProperty.getAdminChat().setOnline(false);
+            updateSenderAndReceiverUid(node, appuser.getId(), buddy.getId());
+            updateLastMessages(node, lastMessages);
+            if (Constants.CHAT_ROLE_ME.equals(Constants.CHAT_ROLE_USER)) {
+                if (threadIDProperty.getAdminChat().getOnline()) {
+                    updateUnseendMessages(node, 0);
+                } else {
+                    updateUnseendMessages(node, threadIDProperty.getUnseenMessages() + 1);
+                }
+            }
+            if (Constants.CHAT_ROLE_ME.equals(Constants.CHAT_ROLE_ADMIN)) {
+                if (threadIDProperty.getAppUser().getOnline()) {
+                    updateUnseendMessages(node, 0);
+                } else {
+                    updateUnseendMessages(node, threadIDProperty.getUnseenMessages() + 1);
+                }
+            }
+        }
+    }
+
+    private void updateLastMessages(String node, ChatID messages) {
+        DatabaseReference metaDatabaseUpdate = FirebaseDatabase.getInstance()
+                .getReference(Constants.CHAT_NODE_MESSAGE_THREAD_META)
+                .child(node)
+                .child("lastChatId");
+        metaDatabaseUpdate.setValue(messages).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Log.i(TAG, "unseenMessagesChanged");
+                }
+            }
+        });
+    }
+
+    private void updateSenderAndReceiverUid(String node, String senderUid, String receiverUid) {
+        DatabaseReference mainReference = FirebaseDatabase.getInstance()
+                .getReference(Constants.CHAT_NODE_MESSAGE_THREAD_META)
+                .child(node);
+        DatabaseReference senderRef = mainReference.child("senderUid");
+        DatabaseReference receiverRef = mainReference.child("receiverUid");
+        senderRef.setValue(senderUid).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Log.i(TAG, "senderUidChanged");
+                }
+            }
+        });
+        receiverRef.setValue(receiverUid).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Log.i(TAG, "receiverUidChanged");
+                }
+            }
+        });
+    }
+
+    private void updateUnseendMessages(String node, Integer numOfUnseen) {
+        DatabaseReference metaDatabaseUpdate = FirebaseDatabase.getInstance()
+                .getReference(Constants.CHAT_NODE_MESSAGE_THREAD_META)
+                .child(node)
+                .child("unseenMessages");
+        metaDatabaseUpdate.setValue(numOfUnseen).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Log.i(TAG, "unseenMessagesChanged");
+                }
+            }
+        });
+    }
+
+    private void listenToMeta(final String node) {
+        metaDatabase = FirebaseDatabase.getInstance()
+                .getReference(Constants.CHAT_NODE_MESSAGE_THREAD_META)
+                .child(node);
+        metaListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    threadIDProperty = dataSnapshot.getValue(ThreadIDProperty.class);
+                    if (recentlyOpen) {
+                        if (threadIDProperty.getSenderUid() != null) {
+                            if (threadIDProperty.getSenderUid().equals(buddy.getId())) {
+                                updateUnseendMessages(node, 0);
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        metaDatabase.addValueEventListener(metaListener);
     }
 
     @SuppressLint("RestrictedApi")
@@ -330,8 +495,25 @@ public class ListOfChatActivity extends AppCompatActivity {
         mActionbar.setDisplayShowCustomEnabled(true);
     }
 
-    private void pushActiveThread(ChatUserFst user, String node){
-
+    private void pushActiveThread(final ChatUserFst udata, final String node) {
+        final String key = FirebaseDatabase.getInstance()
+                .getReference(Constants.CHAT_NODE_USER_REF).child(udata.getId()).child("connectedWithChat")
+                .push().getKey();
+        ConnectedWith conn = new ConnectedWith();
+        conn.setKey(key);
+        conn.setThreadId(node);
+        FirebaseDatabase.getInstance()
+                .getReference(Constants.CHAT_NODE_USER_REF).child(udata.getId()).child("connectedWithChat").child(key)
+                .setValue(conn).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (!task.isSuccessful()){
+                    pushActiveThread(udata, node);
+                } else {
+                    Log.i(TAG, "successfull node insertion");
+                }
+            }
+        });
     }
 
     private void setFonts() {

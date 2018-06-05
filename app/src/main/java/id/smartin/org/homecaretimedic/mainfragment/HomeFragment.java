@@ -17,6 +17,8 @@ import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,6 +59,8 @@ public class HomeFragment extends Fragment {
     TabLayout tabLayout;
 
     private PagerAdapter mPagerAdapter;
+    private Timer repeatTask = new Timer();
+    private int repeatInterval = 10000;
 
     public HomeFragment() {
     }
@@ -72,11 +76,11 @@ public class HomeFragment extends Fragment {
         View vwInflater = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, vwInflater);
         List<Slider> sliders = new ArrayList<>();
-        sliders.add(new Slider(R.drawable.ads_01,""));
-        sliders.add(new Slider(R.drawable.ads_02,""));
-        sliders.add(new Slider(R.drawable.ads_03,""));
-        sliders.add(new Slider(R.drawable.ads_04,""));
-        sliders.add(new Slider(R.drawable.ads_05,""));
+        sliders.add(new Slider(R.drawable.ads_01, ""));
+        sliders.add(new Slider(R.drawable.ads_02, ""));
+        sliders.add(new Slider(R.drawable.ads_03, ""));
+        sliders.add(new Slider(R.drawable.ads_04, ""));
+        sliders.add(new Slider(R.drawable.ads_05, ""));
         mPagerAdapter = new HomeFragment.ScreenSlidePagerAdapter(getChildFragmentManager(), sliders);
         viewPager.setAdapter(mPagerAdapter);
         viewPager.canScrollHorizontally(1);
@@ -143,6 +147,19 @@ public class HomeFragment extends Fragment {
             }
         });
         btnMedicineRemind.setEnabled(true);
+        /*
+        repeatTask.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                if (viewPager.getCurrentItem() != mPagerAdapter.getCount() - 1) {
+                    viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+                } else {
+                    viewPager.setCurrentItem(0);
+                }
+            }
+        }, 0, repeatInterval);
+        */
+        viewPager.setCurrentItem(0);
         // Inflate the layout for this fragment
         return vwInflater;
     }

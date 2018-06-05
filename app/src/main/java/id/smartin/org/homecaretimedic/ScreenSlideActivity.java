@@ -108,7 +108,7 @@ public class ScreenSlideActivity extends FragmentActivity {
             nextAct.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mPager.setCurrentItem(position + 1);
+                    mPager.setCurrentItem(position + 1, true);
                 }
             });
         } else {

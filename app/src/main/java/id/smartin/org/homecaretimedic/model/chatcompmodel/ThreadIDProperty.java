@@ -2,6 +2,8 @@ package id.smartin.org.homecaretimedic.model.chatcompmodel;
 
 import java.util.List;
 
+import id.smartin.org.homecaretimedic.model.utilitymodel.ChatUser;
+
 /**
  * Created by Hafid on 17/05/2018.
  */
@@ -12,8 +14,11 @@ public class ThreadIDProperty {
     private String threadId;
     private ChatUserFst appUser;
     private ChatUserFst adminChat;
+    private String senderUid;
+    private String receiverUid;
     private String threadName;
     private String threadType;// (public/private)
+    private Integer unseenMessages;
     private ChatID lastChatId;// (id for last chat, use this to lookup in messageThread)
 
     public Long getCreatedAt() {
@@ -79,4 +84,29 @@ public class ThreadIDProperty {
     public void setAdminChat(ChatUserFst adminChat) {
         this.adminChat = adminChat;
     }
+
+    public Integer getUnseenMessages() {
+        return unseenMessages;
+    }
+
+    public void setUnseenMessages(Integer unseenMessages) {
+        this.unseenMessages = unseenMessages;
+    }
+
+    public String getSenderUid() {
+        return senderUid;
+    }
+
+    public void setSenderUid(String senderUid) {
+        this.senderUid = senderUid;
+    }
+
+    public String getReceiverUid() {
+        return receiverUid;
+    }
+
+    public void setReceiverUid(String receiverUid) {
+        this.receiverUid = receiverUid;
+    }
+
 }

@@ -76,6 +76,8 @@ import id.smartin.org.homecaretimedic.config.PermissionConst;
 import id.smartin.org.homecaretimedic.config.RequestCode;
 import id.smartin.org.homecaretimedic.manager.HomecareSessionManager;
 import id.smartin.org.homecaretimedic.model.User;
+import id.smartin.org.homecaretimedic.model.chatcompmodel.ChatUserRef;
+import id.smartin.org.homecaretimedic.model.chatcompmodel.ConnectedWith;
 import id.smartin.org.homecaretimedic.model.responsemodel.LoginResponse;
 import id.smartin.org.homecaretimedic.model.utilitymodel.ChatUser;
 import id.smartin.org.homecaretimedic.tools.AesUtil;
@@ -152,10 +154,9 @@ public class LoginActivity extends AppCompatActivity {
                 ViewFaceUtility.hideKeyboard(LoginActivity.this, username);
                 ViewFaceUtility.hideKeyboard(LoginActivity.this, password);
                 Log.e(TAG, "Sudah pencet tombol sign in");
-                if(password.getText().toString().equals("") && username.getText().toString().equals("")){
+                if (password.getText().toString().equals("") && username.getText().toString().equals("")) {
                     Snackbar.make(mainLayout, "Silahkan isi email dan password akun anda", Snackbar.LENGTH_LONG).show();
-                }
-                else{
+                } else {
                     cekMethod(username.getText().toString());
                 }
             }
@@ -477,6 +478,19 @@ public class LoginActivity extends AppCompatActivity {
                                     // Sign in success, update UI with the signed-in user's information
                                     Log.d(TAG, "signInWithEmail:success");
                                     FirebaseUser user = mAuth.getCurrentUser();
+                                    if (user != null) {
+                                        String provider = user.getProviders().get(0);
+                                        Log.i(TAG, "USER LOGIN WITH " + provider);
+                                        // User is signed in
+                                        ChatUserRef cuser = new ChatUserRef();
+                                        cuser.setEmail(user.getEmail());
+                                        cuser.setId(user.getUid());
+                                        cuser.setNickname(user.getDisplayName());
+                                        cuser.setOnline(false);
+                                        cuser.setUserType(Constants.CHAT_ROLE_ME);
+                                        cuser.setConnectedWithChat(null);
+                                        isExistOnFirebaseDB(cuser);
+                                    }
                                     doLoginFirebase(user, "email");
                                 } else {
                                     // If sign in fails, display a message to the user.
@@ -490,7 +504,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void cekMethod(String email){
+    private void cekMethod(String email) {
         Call<ResponseBody> responseCall = userAPIInterface.checkCaregiverPasswordIsNullOrNot(email);
 
         responseCall.enqueue(new Callback<ResponseBody>() {
@@ -499,11 +513,10 @@ public class LoginActivity extends AppCompatActivity {
                 if (response.code() == 200) {
                     try {
                         String password = response.body().string();
-                        if(password.equals("false")){
+                        if (password.equals("false")) {
                             doLoginWithEmail();
-                        }
-                        else{
-                            if (password.equals("true,g")){
+                        } else {
+                            if (password.equals("true,g")) {
                                 signIn();
                             } else {
                                 signInFb();
@@ -512,8 +525,7 @@ public class LoginActivity extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                }
-                else {
+                } else {
                     Snackbar.make(mainLayout, "Login gagal", Snackbar.LENGTH_LONG).show();
                 }
             }
@@ -535,41 +547,30 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<LoginResponse> call, final Response<LoginResponse> response) {
                 closeProgress();
                 if (response.code() == 200) {
-                    mAuth.signInAnonymously()
-                            .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if (task.isSuccessful()) {
-                                        FirebaseUser user = mAuth.getCurrentUser();
-                                        if (user != null) {
-                                            String provider = user.getProviders().get(0);
-                                            Log.i(TAG, "USER LOGIN WITH " + provider);
-                                            // User is signed in
-                                            ArrayList<String> defaultRoom = new ArrayList<String>();
-                                            defaultRoom.add("home");
-                                            AdminListActivity.user = new ChatUser();
-                                            AdminListActivity.user.setEmail(user.getEmail());
-                                            AdminListActivity.user.setId(user.getUid());
-                                            AdminListActivity.user.setNickname(user.getDisplayName());
-                                            AdminListActivity.user.setOnline(true);
-                                            AdminListActivity.user.setUserType(Constants.CHAT_ROLE_ME);
-                                            AdminListActivity.user.setRoom(defaultRoom);
-                                            isExistOnFirebaseDB(AdminListActivity.user);
-                                            Log.i(TAG, response.body().getUser().toString());
-                                            Log.i(TAG, "NEW TOKEN " + response.body().getToken());
-                                            gotoMainPage(response.body().getUser(), response.body().getToken());
-                                        }
-                                        // Sign in success, update UI with the signed-in user's information
-                                        Log.d(TAG, "signInAnonymously:success");
 
-                                    } else {
-                                        Log.d(TAG, "signInAnonymously:success");
-                                        // If sign in fails, display a message to the user.
-                                    }
+                    FirebaseUser fuser = mAuth.getCurrentUser();
+                    if (user != null) {
+                        String provider = fuser.getProviders().get(0);
+                        Log.i(TAG, "USER LOGIN WITH " + provider);
+                        // User is signed in
+                        ArrayList<String> defaultRoom = new ArrayList<String>();
+                        defaultRoom.add("home");
+                        ChatUserRef user = new ChatUserRef();
+                        user.setEmail(user.getEmail());
+                        user.setId(fuser.getUid());
+                        user.setNickname(fuser.getDisplayName());
+                        user.setOnline(false);
+                        user.setUserType(Constants.CHAT_ROLE_ME);
+                        user.setConnectedWithChat(null);
+                        isExistOnFirebaseDB(user);
+                        Log.i(TAG, response.body().getUser().toString());
+                        Log.i(TAG, "NEW TOKEN " + response.body().getToken());
+                        gotoMainPage(response.body().getUser(), response.body().getToken());
+                    }
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d(TAG, "signInAnonymously:success");
 
-                                    // ...
-                                }
-                            });
+
                     Log.i(TAG, response.body().getUser().toString());
                     Log.i(TAG, "NEW TOKEN " + response.body().getToken());
                     gotoMainPage(response.body().getUser(), response.body().getToken());
@@ -595,8 +596,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void doLoginFirebase(final FirebaseUser user, final String type) {
         openProgress("Loading...", "Proses Login!");
-        FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
-        mUser.getIdToken(true)
+        user.getIdToken(true)
                 .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
                     public void onComplete(@NonNull Task<GetTokenResult> task) {
                         if (task.isSuccessful()) {
@@ -611,6 +611,19 @@ public class LoginActivity extends AppCompatActivity {
 
                                     Log.i(TAG, response.message());
                                     if (response.code() == 200) {
+                                        if (user != null) {
+                                            String provider = user.getProviders().get(0);
+                                            Log.i(TAG, "USER LOGIN WITH " + provider);
+                                            // User is signed in
+                                            ChatUserRef cuser = new ChatUserRef();
+                                            cuser.setEmail(user.getEmail());
+                                            cuser.setId(user.getUid());
+                                            cuser.setNickname(user.getDisplayName());
+                                            cuser.setOnline(false);
+                                            cuser.setUserType(Constants.CHAT_ROLE_ME);
+                                            cuser.setConnectedWithChat(null);
+                                            isExistOnFirebaseDB(cuser);
+                                        }
                                         Log.i(TAG, response.body().getUser().toString());
                                         Log.i(TAG, "NEW TOKEN " + response.body().getToken());
                                         gotoMainPage(response.body().getUser(), response.body().getToken());
@@ -636,7 +649,6 @@ public class LoginActivity extends AppCompatActivity {
                             });
                         } else {
                             // Handle error -> task.getException();
-
                         }
                     }
                 });
@@ -650,41 +662,44 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void checkLogin() {
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user != null) {
-            String provider = user.getProviders().get(0);
+        final FirebaseUser fuser = mAuth.getCurrentUser();
+        Log.i(TAG, "CHECK LOGIN CALLED");
+        if (fuser != null) {
+            String provider = fuser.getProviders().get(0);
             Log.i(TAG, "USER LOGIN WITH " + provider);
             // User is signed in
-            ArrayList<String> defaultRoom = new ArrayList<String>();
-            defaultRoom.add("home");
-            AdminListActivity.user = new ChatUser();
-            AdminListActivity.user.setEmail(user.getEmail());
-            AdminListActivity.user.setId(user.getUid());
-            AdminListActivity.user.setNickname(user.getDisplayName());
-            AdminListActivity.user.setOnline(true);
-            AdminListActivity.user.setUserType(Constants.CHAT_ROLE_ME);
-            AdminListActivity.user.setRoom(defaultRoom);
-            isExistOnFirebaseDB(AdminListActivity.user);
+            ChatUserRef user = new ChatUserRef();
+            user.setEmail(user.getEmail());
+            user.setId(fuser.getUid());
+            user.setNickname(fuser.getDisplayName());
+            user.setOnline(false);
+            user.setUserType(Constants.CHAT_ROLE_ME);
+            user.setConnectedWithChat(null);
+            isExistOnFirebaseDB(user);
             String providerStr = provider.replace(".com", "");
             if (!providerStr.equalsIgnoreCase("google") && !providerStr.equalsIgnoreCase("facebook")) {
                 providerStr = "email";
             }
-            doLoginFirebase(user, providerStr);
-            Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+            doLoginFirebase(fuser, providerStr);
+            Log.i(TAG, "onAuthStateChanged:signed_in:" + fuser.getUid());
         } else {
             // User is signed out
-            Log.d(TAG, "onAuthStateChanged:signed_out");
+            Log.i(TAG, "onAuthStateChanged:signed_out");
         }
     }
 
-    private void isExistOnFirebaseDB(final ChatUser user) {
-        mUsersDBref = FirebaseDatabase.getInstance().getReference().child("Users");
+    private void isExistOnFirebaseDB(final ChatUserRef user) {
+        mUsersDBref = FirebaseDatabase.getInstance().getReference().child(Constants.CHAT_NODE_USER_REF);
         DatabaseReference userNameRef = mUsersDBref.child(user.getId());
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (!dataSnapshot.exists()) {
                     createUserInDb(user);
+                    Log.i(TAG, "Doesnt exist "+user.getNickname());
+                } else {
+                    ChatUserRef cf = dataSnapshot.getValue(ChatUserRef.class);
+                    ListOfAdminActivity.user = cf;
                 }
             }
 
@@ -693,18 +708,15 @@ public class LoginActivity extends AppCompatActivity {
             }
         };
         userNameRef.addListenerForSingleValueEvent(eventListener);
-
     }
 
-    private void createUserInDb(ChatUser user) {
-        mUsersDBref = FirebaseDatabase.getInstance().getReference().child("Users");
+    private void createUserInDb(ChatUserRef user) {
+        mUsersDBref = FirebaseDatabase.getInstance().getReference().child(Constants.CHAT_NODE_USER_REF);
         mUsersDBref.child(user.getId()).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (!task.isSuccessful()) {
-                    //error
                     Log.i(TAG, "ERROR ");
-                    //Toast.makeText(SignUpActivity.this, "Error " + task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                 } else {
                     Log.i(TAG, "SIGNING OK");
                 }

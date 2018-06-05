@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void gotoChatAdminPage(){
-        Intent intent = new Intent(this, AdminListActivity.class);
+        Intent intent = new Intent(this, ListOfAdminActivity.class);
         startActivity(intent);
     }
 

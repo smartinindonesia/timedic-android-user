@@ -53,4 +53,9 @@ public class ChatUserFst implements Serializable{
     public void setUserType(String userType) {
         this.userType = userType;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return this.getId() == ((ChatUserFst)obj).getId();
+    }
 }

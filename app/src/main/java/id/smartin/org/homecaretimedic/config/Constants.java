@@ -90,6 +90,7 @@ public class Constants {
     public static final String CHAT_SINGLE_REFERENCE = "OneToOneMsg";
     public static final String CHAT_ROLE_ADMIN = "chat_admin";
     public static final String CHAT_ROLE_USER = "app_user";
+    public static final Integer CHAT_LIMIT_NUMBER = 20;
 
     public static final String CHAT_NODE_PROPERTY_REF = "chats";
     public static final String CHAT_NODE_MESSAGE_THREAD = "messageThread";

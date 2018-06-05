@@ -1,12 +1,15 @@
 package id.smartin.org.homecaretimedic.model.chatcompmodel;
 
+import java.io.Serializable;
 import java.util.HashMap;
+
+import id.smartin.org.homecaretimedic.model.utilitymodel.ChatUser;
 
 /**
  * Created by Hafid on 17/05/2018.
  */
 
-public class ChatUserRef extends ChatUserFst{
+public class ChatUserRef extends ChatUserFst implements Serializable{
     private String profileUrl;
     private String email;
     private HashMap<String, ConnectedWith> connectedWithChat;
@@ -49,6 +52,15 @@ public class ChatUserRef extends ChatUserFst{
 
     public void setConnectedWithChat(HashMap<String, ConnectedWith> connectedWithChat) {
         this.connectedWithChat = connectedWithChat;
+    }
+
+    public ChatUserFst getParent(){
+        ChatUserFst f = new ChatUserFst();
+        f.setOnline(getOnline());
+        f.setId(getId());
+        f.setNickname(getNickname());
+        f.setUserType(getUserType());
+        return f;
     }
 
 }

@@ -14,6 +14,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
@@ -25,6 +26,7 @@ import id.smartin.org.homecaretimedic.R;
 import id.smartin.org.homecaretimedic.config.Constants;
 import id.smartin.org.homecaretimedic.model.chatcompmodel.ChatUserFst;
 import id.smartin.org.homecaretimedic.model.chatcompmodel.ChatUserRef;
+import id.smartin.org.homecaretimedic.model.chatcompmodel.ThreadIDProperty;
 import id.smartin.org.homecaretimedic.model.utilitymodel.ChatMessage;
 import id.smartin.org.homecaretimedic.model.utilitymodel.ChatUser;
 import id.smartin.org.homecaretimedic.model.utilitymodel.ChatUserStats;
@@ -61,7 +63,7 @@ public class ChatUserRefAdapter extends BaseAdapter {
         return uList.get(arg0);
     }
 
-    public ChatUserFst getChatUser(int arg0){
+    public ChatUserFst getChatUser(int arg0) {
         ChatUserFst a = new ChatUserFst();
         //a.setOnline(uList.get(arg0).isOnline());
         //a.setRoom(uList.get(arg0).getRoom());
@@ -95,16 +97,17 @@ public class ChatUserRefAdapter extends BaseAdapter {
         TextView lbl = (TextView) v.findViewById(R.id.textView);
         lbl.setText(c.getNickname());
         String adminUuid, patientUuid, referenceChild;
+        final String me = firebaseUser.getUid();
         if (c.getUserType().equals(Constants.CHAT_ROLE_ADMIN)) {
             adminUuid = c.getId();
-            patientUuid = firebaseUser.getUid();
+            patientUuid = me;
         } else {
-            adminUuid = firebaseUser.getUid();
+            adminUuid = me;
             patientUuid = c.getId();
         }
         referenceChild = adminUuid + "-" + patientUuid;
-        //setListener(pos, referenceChild);
-        TextView messageCounter = (TextView) v.findViewById(R.id.counterMessages);
+
+        final TextView messageCounter = (TextView) v.findViewById(R.id.counterMessages);
         TextView statusOnline = (TextView) v.findViewById(R.id.statusOnline);
         statusOnline.setText(c.getOnline() ? "Online" : "Offline");
         ImageView srcOnline = (ImageView) v.findViewById(R.id.onlineIndicator);
@@ -112,6 +115,32 @@ public class ChatUserRefAdapter extends BaseAdapter {
         ViewFaceUtility.applyFont(statusOnline, activity, "fonts/Dosis-Light.otf");
         ViewFaceUtility.applyFont(messageCounter, activity, "fonts/Dosis-Light.otf");
         ViewFaceUtility.applyFont(lbl, activity, "fonts/Dosis-Bold.otf");
+        DatabaseReference metaDatabase = FirebaseDatabase.getInstance()
+                .getReference(Constants.CHAT_NODE_MESSAGE_THREAD_META)
+                .child(referenceChild);
+        metaDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    ThreadIDProperty tp = dataSnapshot.getValue(ThreadIDProperty.class);
+                    if (tp.getUnseenMessages() == null) tp.setUnseenMessages(0);
+                    if (tp.getSenderUid()!=null) {
+                        if (tp.getSenderUid().equals(me)) {
+                            messageCounter.setText("" + 0);
+                        } else {
+                            messageCounter.setText("" + tp.getUnseenMessages());
+                        }
+                    } else {
+                        messageCounter.setText(""+0);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         return v;
     }
 

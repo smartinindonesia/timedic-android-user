@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -79,20 +80,27 @@ public class ListOfAdminActivity extends AppCompatActivity {
                                     View arg1, int pos, long arg3) {
                 Intent intent = new Intent(ListOfAdminActivity.this,
                         ListOfChatActivity.class);
-                intent.putExtra("selected_admin", chatUserAdapter.getChatUser(pos));
-                intent.putExtra("selected_app_user", user);
-                startActivity(intent);
+                if (user != null) {
+                    if (Constants.CHAT_ROLE_ME.equals(Constants.CHAT_ROLE_USER)) {
+                        intent.putExtra("selected_admin", chatUserAdapter.getChatUser(pos));
+                        intent.putExtra("selected_app_user", user.getParent());
+                    } else {
+                        intent.putExtra("selected_admin", user.getParent());
+                        intent.putExtra("selected_app_user", chatUserAdapter.getChatUser(pos));
+                    }
+                    startActivity(intent);
+                } else {
+                    Snackbar.make(mainLayout, "Profil pengguna tidak ditemukan. Muat ulang halaman ini!", Snackbar.LENGTH_LONG).show();
+                }
             }
         });
-        updateUserStatus(true);
-        updateUserRole(Constants.CHAT_ROLE_ME);
         setFonts();
     }
 
     private void updateUserStatus(boolean online) {
         DatabaseReference database = FirebaseDatabase.getInstance().getReference();
 
-        database = FirebaseDatabase.getInstance().getReference().child("Users");
+        database = FirebaseDatabase.getInstance().getReference().child(Constants.CHAT_NODE_USER_REF);
         database.child(fuser.getUid()).child("online").setValue(online).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -108,8 +116,7 @@ public class ListOfAdminActivity extends AppCompatActivity {
     }
 
     private void updateUserRole(String usertype) {
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-        database = FirebaseDatabase.getInstance().getReference().child("Users");
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference().child(Constants.CHAT_NODE_USER_REF);
         database.child(fuser.getUid()).child("userType").setValue(usertype).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -133,11 +140,11 @@ public class ListOfAdminActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        loadUserList();
+        isExistOnFirebaseDB();
     }
 
     private void loadUserList() {
-        final ProgressDialog dia = ProgressDialog.show(this, null, "Loading");
+        final ProgressDialog dia = ProgressDialog.show(this, "", "Loading");
         DatabaseReference database = FirebaseDatabase.getInstance().getReference();
         if (Constants.CHAT_ROLE_ME.equals(Constants.CHAT_ROLE_USER)) {
             // Pull the users list once no sync required.
@@ -166,21 +173,22 @@ public class ListOfAdminActivity extends AppCompatActivity {
 
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
-
+                            dia.dismiss();
                         }
                     });
         } else {
             database.child(Constants.CHAT_NODE_USER_REF)
+                    .child(fuser.getUid())
                     .child("connectedWithChat")
                     .addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            long size = dataSnapshot.getChildrenCount();
-                            if (size == 0) {
-                                Toast.makeText(ListOfAdminActivity.this,
-                                        "Admin tidak ditemukan",
-                                        Toast.LENGTH_SHORT).show();
-                                return;
+                            dia.dismiss();
+                            //long size = dataSnapshot.getChildrenCount();
+                            if (!dataSnapshot.exists()) {
+                                Snackbar.make(mainLayout,
+                                        "User tidak ditemukan",
+                                        Snackbar.LENGTH_SHORT).show();
                             } else {
                                 uList.clear();
                                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
@@ -192,7 +200,7 @@ public class ListOfAdminActivity extends AppCompatActivity {
 
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
-
+                            dia.dismiss();
                         }
                     });
 
@@ -208,7 +216,12 @@ public class ListOfAdminActivity extends AppCompatActivity {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (dataSnapshot.exists()) {
                             ThreadIDProperty connectedThread = dataSnapshot.getValue(ThreadIDProperty.class);
-                            uList.add(connectedThread.getAppUser());
+                            int index = uList.indexOf(connectedThread.getAppUser());
+                            if (index == -1) {
+                                uList.add(connectedThread.getAppUser());
+                            } else {
+                                uList.set(index, connectedThread.getAppUser());
+                            }
                             chatUserAdapter.notifyDataSetChanged();
                         }
                     }
@@ -231,6 +244,13 @@ public class ListOfAdminActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         ViewFaceUtility.changeToolbarFont(toolbar, this, "fonts/BalooBhaina-Regular.ttf", R.color.theme_black);
         ActionBar mActionbar = getSupportActionBar();
+        String title;
+        if (Constants.CHAT_ROLE_ME.equals(Constants.CHAT_ROLE_USER)) {
+            title = "Daftar Admin";
+        } else {
+            title = "Daftar User";
+        }
+        mActionbar.setTitle(title);
         mActionbar.setDisplayHomeAsUpEnabled(true);
         mActionbar.setDefaultDisplayHomeAsUpEnabled(true);
         mActionbar.setDisplayShowHomeEnabled(true);
@@ -253,5 +273,32 @@ public class ListOfAdminActivity extends AppCompatActivity {
     private void setFonts() {
         ArrayList<TextView> arrayList = new ArrayList<>();
         ViewFaceUtility.applyFonts(arrayList, this, "fonts/Dosis-Regular.otf");
+    }
+
+    private void isExistOnFirebaseDB() {
+        final ProgressDialog dia = ProgressDialog.show(this, "", "Load profil pengguna");
+        DatabaseReference mUsersDBref = FirebaseDatabase.getInstance().getReference().child(Constants.CHAT_NODE_USER_REF);
+        DatabaseReference userNameRef = mUsersDBref.child(fuser.getUid());
+        ValueEventListener eventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                dia.dismiss();
+                if (!dataSnapshot.exists()) {
+                    Log.i(TAG, "Doesnt exist " + user.getNickname());
+                } else {
+                    user = dataSnapshot.getValue(ChatUserRef.class);
+                    loadUserList();
+                    updateUserStatus(true);
+                    updateUserRole(Constants.CHAT_ROLE_ME);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                dia.dismiss();
+            }
+        };
+        userNameRef.addListenerForSingleValueEvent(eventListener);
     }
 }

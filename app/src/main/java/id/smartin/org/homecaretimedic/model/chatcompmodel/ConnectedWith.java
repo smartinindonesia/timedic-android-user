@@ -5,7 +5,16 @@ package id.smartin.org.homecaretimedic.model.chatcompmodel;
  */
 
 public class ConnectedWith {
+    private String key;
     private String threadId;
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
 
     public String getThreadId() {
         return threadId;

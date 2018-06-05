@@ -177,6 +177,13 @@ public class AdminListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         ViewFaceUtility.changeToolbarFont(toolbar, this, "fonts/BalooBhaina-Regular.ttf", R.color.theme_black);
         ActionBar mActionbar = getSupportActionBar();
+        String title;
+        if (Constants.CHAT_ROLE_ME.equals(Constants.CHAT_ROLE_USER)){
+            title = "List Admin";
+        } else {
+            title = "List User";
+        }
+        mActionbar.setTitle(title);
         mActionbar.setDisplayHomeAsUpEnabled(true);
         mActionbar.setDefaultDisplayHomeAsUpEnabled(true);
         mActionbar.setDisplayShowHomeEnabled(true);
